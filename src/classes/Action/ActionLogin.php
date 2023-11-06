@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur;
+namespace touiteur\Action;
 
 class ActionLogin
 {
