@@ -1,0 +1,14 @@
+{
+  "name": "touiteur/code",
+  "description": "on vas touiter",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "touiteur\\": "./src/classes"
+    }
+  },
+  "require": {
+    "codeguy/upload": "^1.3",
+    "ext-pdo": "*"
+  }
+}
