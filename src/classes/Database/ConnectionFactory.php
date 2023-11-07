@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\Connection;
+namespace touiteur\Database;
 
 use PDO;
 
