@@ -22,7 +22,6 @@ class ConnectionFactory
      * charge ce fichier avec parse_ini_file()
      * et stocke le tableau résultat dans une variable statique
      * @param $file
-     * @return
      */
     public static function setConfig($file) : void{
         self::$config = parse_ini_file($file);

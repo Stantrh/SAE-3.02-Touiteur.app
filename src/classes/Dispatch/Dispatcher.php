@@ -2,6 +2,7 @@
 
 namespace touiteur\Dispatch;
 
+use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionSignUp;
 
@@ -20,17 +21,20 @@ class Dispatcher
 
     public function run():void{
         switch($this->action){
-            case 'signup':{
+            case 'signup':
                 $signup = new ActionSignUp();
                 self::renderPage($signup->execute());
                 break;
-        }
-            default:{
-                $action=new ActionDefault();
-                self::renderPage($action->execute());
+            case "afficher-liste-touite":
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
+                $this->renderPage($action->execute());
                 break;
-            }
+            default:
+                $action=new ActionDefault();
+                $this->renderPage($action->execute());
+                break;
         }
+
     }
 
 

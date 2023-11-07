@@ -1,3 +1,4 @@
 *.ini
 *.iml
 .idea
+test.php
