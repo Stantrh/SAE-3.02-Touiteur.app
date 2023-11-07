@@ -6,6 +6,15 @@ use touiteur\Action\ActionDefault;
 
 class Dispatcher
 {
+
+    private string $action;
+
+    public function __construct(){
+        if(!isset($_GET['action']))
+            $_GET['action'] = 'default';
+        $this->action = $_GET['action'];
+
+    }
     /*
     $db = ConnectionFactory::$db;   // a faire a chaque fois qu'on veut se connecter a la base
     $query = "SELECT passwd FROM `User` WHERE email= ?"; //requette sql
@@ -26,14 +35,13 @@ class Dispatcher
     }
     */
 
-    public function run():void
-    {
-    switch($_GET["action"]){
-
-        default:
-        $action=new ActionDefault();
-        $this->renderPage($action->execute());
-    }
+    public function run():void{
+        switch($this->action){
+            default:{
+                $action=new ActionDefault();
+                $this->renderPage($action->execute());
+            }
+        }
     }
 
 
@@ -45,7 +53,7 @@ class Dispatcher
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<title> Projet Web </title>
+		<title>Projet Web</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="../../css/index.css" >
@@ -54,7 +62,6 @@ class Dispatcher
 END;
 
 echo $html;
-
 
 echo <<< END
 

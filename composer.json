@@ -1,6 +1,6 @@
 {
   "name": "touiteur/code",
-  "description": "on vas touiter",
+  "description": "on va touiter",
   "type": "project",
   "autoload": {
     "psr-4": {
