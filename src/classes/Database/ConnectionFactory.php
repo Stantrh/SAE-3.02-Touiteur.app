@@ -43,7 +43,7 @@ class ConnectionFactory
             $dsn = self::$config['driver'].
                 ':host='.self::$config['host'].
                 ';dbname='.self::$config['database'];
-            self::$db = new PDO($dsn, self::$config['username'], self::$config['password'], [
+            self::$db = new PDO($dsn.";unix_socket=/opt/lampp/var/mysql/mysql.sock", self::$config['username'], self::$config['password'], [
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false,

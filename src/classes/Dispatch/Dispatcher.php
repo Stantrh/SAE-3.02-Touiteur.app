@@ -2,6 +2,7 @@
 
 namespace touiteur\Dispatch;
 
+use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionDefault;
 
 class Dispatcher
@@ -37,10 +38,14 @@ class Dispatcher
 
     public function run():void{
         switch($this->action){
-            default:{
+            case "afficher-liste-touite":
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
+                $this->renderPage($action->execute());
+                break;
+            default:
                 $action=new ActionDefault();
                 $this->renderPage($action->execute());
-            }
+                break;
         }
     }
 
