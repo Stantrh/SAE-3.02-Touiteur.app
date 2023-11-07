@@ -3,10 +3,11 @@
 namespace touiteur\Renderer;
 
 use PDO;
-use touiteur\Connection\ConnectionFactory;
+use touiteur\Database\ConnectionFactory;
 
 class TouiteRenderer
 {
+    const LONGUEURTOUITECOURT=50;
 const LONG="long";
 const COURT="court";
     public static function render(int $id, string $option):string{
@@ -16,11 +17,11 @@ const COURT="court";
                 $retour=self::renderLong($id);
                 break;
             case self::COURT:
-                $retour=self::renderCourt();
+                $retour=self::renderCourt($id);
                 break;
 
             default:
-                $retour=self::renderCourt();
+                $retour=self::renderCourt($id);
                 break;
 
 
@@ -76,12 +77,13 @@ const COURT="court";
         $st->execute([$id]);
         $row = $st->fetch();
         if($row){
+            $texte=substr($row["texteTouite"],0,self::LONGUEURTOUITECOURT);
 
             $profile=ProfileRenderer::render($row["idUser"]);
 
             $retour="<div class='touiteCourt'>$profile
 
-<p class ='corpsTouite'> substr({$row["texteTouite"]},0,10) </p>
+<p class ='corpsTouite'> $texte </p>
 
                  </div>";
         }else{
