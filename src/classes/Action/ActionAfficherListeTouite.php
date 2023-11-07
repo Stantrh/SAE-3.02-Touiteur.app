@@ -5,63 +5,75 @@ namespace touiteur\Action;
 use PDO;
 use touiteur\Database\ConnectionFactory;
 
+use touiteur\Renderer\ListeRenderer;
+use touiteur\Renderer\TouiteRenderer;
+
 class ActionAfficherListeTouite extends Action
 {
 
- public const TAG="tag";
- public const UTILISATEUR="utilisateur";
- public const DEFAULT="default";
+    public const TAG = "tag";
+    public const UTILISATEUR = "utilisateur";
+    public const DEFAULT = "default";
 
- private string $option;
- function __construct(String $option) {
-    parent::__construct();
-    $this->option=$option;
+    private string $option;
 
- }
- function execute():string{
-     $retour="";
-     switch ($this->option){
-         case self::TAG:
+    function __construct(string $option)
+    {
+        parent::__construct();
+        $this->option = $option;
 
-             break;
-         case self::UTILISATEUR:
+    }
 
-             break;
+    function execute(): string
+    {
+        $retour = "";
+        switch ($this->option) {
+            case self::TAG:
 
-         default:
-            $retour.= $this->default();
-             break;
-     }
-     return($retour);
- }
+                break;
+            case self::UTILISATEUR:
 
- private function default():string{
-     $retour="";
+                break;
 
-     $db = ConnectionFactory::$db;
-     $query = "SELECT idTouit FROM `TOUITE` order by date desc";
-     $st = $db->prepare($query);
-     $st->execute();
-     $row = $st->fetch();
+            default:
+                $retour .= $this->default();
+                break;
+        }
+        return ($retour);
+    }
 
-     if($row){
-         $listeId=array();
-        var_dump($row);
-         while($row=$st->fetch(PDO::FETCH_ASSOC)) {
+    private function default(): string
+    {
+        $retour = "";
 
-             foreach ($row as $v) {
-                // $listeId.add( $v) ;
-             }
+        $db = ConnectionFactory::$db;
+        $query = "SELECT idTouite FROM `TOUITE` order by date desc";
+        $st = $db->prepare($query);
+        $st->execute();
+        $row = $st->fetch();
 
-         }
+        if ($row) {
+            $listeId = array();
+            $listeId[] =$row[0];
+            while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
 
-     }else{
-         $retour="Pas de touit";
-     }
+                foreach ($row as $v) {
+                    $listeId[] =($v);
+
+                }
+
+            }
+
+            $retour.=ListeRenderer::render($listeId,TouiteRenderer::COURT);
 
 
-     return($retour);
+        } else {
+            $retour = "Pas de touit";
+        }
 
- }
+
+        return ($retour);
+
+    }
 
 }

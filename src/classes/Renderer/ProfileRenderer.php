@@ -2,7 +2,7 @@
 
 namespace touiteur\Renderer;
 
-use touiteur\Connection\ConnectionFactory;
+use touiteur\Database\ConnectionFactory;
 
 class ProfileRenderer
 {

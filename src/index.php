@@ -3,7 +3,10 @@ session_start(); // On aura besoin d'une session
 
 require_once "../vendor/autoload.php";
 use \touiteur\Dispatch\Dispatcher;
-use touiteur\Database\ConnectionFactory;
+
+use \touiteur\Database\ConnectionFactory;
+
+
 
 ConnectionFactory::setConfig(__DIR__.'/../config/config.ini'); //fichier de config pour mysql
 ConnectionFactory::makeConnection(); //debut de la connection pour mysql à ne faire qu'une seule fois dans le projet
