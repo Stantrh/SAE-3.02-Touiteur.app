@@ -1,6 +1,6 @@
 {
   "name": "touiteur/code",
-  "description": "on va touiter",
+  "description": "L'application la plus performante et agréable permettant de consulter les posts de chacuns\n Ainsi que plein d'autres fonctionnalités",
   "type": "project",
   "autoload": {
     "psr-4": {
