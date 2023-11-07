@@ -3,7 +3,7 @@
 namespace touiteur\Action;
 
 use PDO;
-use touiteur\Connection\ConnectionFactory;
+use touiteur\Database\ConnectionFactory;
 
 class ActionAfficherListeTouite extends Action
 {

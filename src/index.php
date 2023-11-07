@@ -5,7 +5,7 @@ require_once "../vendor/autoload.php";
 use \touiteur\Dispatch\Dispatcher;
 use touiteur\Database\ConnectionFactory;
 
-ConnectionFactory::setConfig(__DIR__.'/../config/.ini'); //fichier de config pour mysql
+ConnectionFactory::setConfig(__DIR__.'/../config/config.ini'); //fichier de config pour mysql
 ConnectionFactory::makeConnection(); //debut de la connection pour mysql à ne faire qu'une seule fois dans le projet
 
 
