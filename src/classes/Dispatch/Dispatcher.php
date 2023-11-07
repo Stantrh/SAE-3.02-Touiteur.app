@@ -49,7 +49,7 @@ class Dispatcher
 		<title>Projet Web</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="../../css/index.css" >
+		<link rel="stylesheet" type="text/css" href="../../css/index.css" >
 	</head>
 
 END;
@@ -58,7 +58,6 @@ echo $html;
 
 echo <<< END
 
-<link rel="stylesheet" type="text/css" href="../../css/index.css">
 </html>
 END;
 
