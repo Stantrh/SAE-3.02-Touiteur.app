@@ -10,6 +10,7 @@ use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
 use touiteur\Action\ActionSignUp;
 use touiteur\Action\ActionSignIn;
+use touiteur\Action\ActionSupprimerTouite;
 
 class Dispatcher
 {
@@ -53,6 +54,11 @@ class Dispatcher
             case "publier-touite":
                 $action=new ActionPublierTouite();
                 $this->renderPage($action->execute());
+                break;
+            case "supprimer-touite":
+                $action=new ActionSupprimerTouite();
+                $this->renderPage($action->execute());
+                break;
                 break;
             default:
                 $action=new ActionDefault();

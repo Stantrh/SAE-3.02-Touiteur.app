@@ -7,7 +7,6 @@ use touiteur\Auth\Auth;
 class SupprimerTouite
 {
     /**
-     * ATTENTION AUCUNE VERIFICATION DANS CETTE FONCTION
      * @param int $id id du touite a supprimer
      * @return void
      */
@@ -15,8 +14,8 @@ class SupprimerTouite
         $db = ConnectionFactory::$db;
 
         try {
-            //todo remplacer la query
-            $query="Select idUser from touite where idTouite=?";
+
+            $query="Select idUser from `TOUITE` where idTouite=?";
             $st = $db->prepare($query);
             $st->execute([$id]);
             $row=$st->fetch();
@@ -25,7 +24,7 @@ class SupprimerTouite
 
 
 
-            $query = "DELETE FROM TOUITE WHERE idTouite = ?;";
+            $query = "DELETE FROM `TOUITE` WHERE idTouite = ?;";
             $st = $db->prepare($query);
             $st->execute([$id]);
         }catch (\Exception $e){

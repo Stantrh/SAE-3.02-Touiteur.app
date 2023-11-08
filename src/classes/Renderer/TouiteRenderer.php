@@ -77,7 +77,7 @@ class TouiteRenderer
             try {
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer=<<<END
-<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer={$row["id"]}>
+<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
 Supprimer votre touite
 </a>
 
@@ -98,6 +98,8 @@ $profile
     <div class='score'> {$row["score"]}</div>
 
      $htmlImage
+     
+     $boutonSupprimer 
 </div>\n
 END;
         } else {
