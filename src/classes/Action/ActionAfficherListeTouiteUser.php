@@ -11,10 +11,14 @@ use touiteur\Renderer\TouiteRenderer;
 class ActionAfficherListeTouiteUser extends Action
 {
 
+    /**
+     * @return string liste des touites de l'user dans le GET
+     */
     public function execute(): string
     {
         $retour = "";
 
+        //on verifie si il y a un parametre user dans le GET
         if (isset($_GET["user"])) {
 
             $query = "SELECT idTouite FROM `TOUITE` where idUser= ? order by date desc";
