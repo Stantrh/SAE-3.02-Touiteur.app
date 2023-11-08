@@ -93,8 +93,11 @@ class ActionPublierTouite extends Action
                     foreach ($tab as $value){
                         //si la case du tableau contient un tag
                         if(str_contains($value, "#")){
-                            //on met le tag dans le tableau de résultat
-                            $resTags[] = $value;
+                            //on vérifie que le # se trouve en première position
+                            if(strpos($value, "#") == 0){
+                                //on met le tag dans le tableau de résultat
+                                $resTags[] = $value;
+                            }
                         }
                     }
                     
