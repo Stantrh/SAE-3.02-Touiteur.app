@@ -40,30 +40,22 @@ class ActionPublierTouite extends Action
                     $ext=explode(".",$_FILES['image']['name']);
                     $extAdmissible=["jpg","png","jpeg"];
 
-                    //si t'arrive la c'est
+                    // L'extension du fichier est validée
                     if (in_array($ext[1],$extAdmissible)) {
+                        require __DIR__.'/../../upload.php';
 
-                        //ça c'est les trucs de nathan qui marche pas
-                        $image = $_FILES["image"]["tmp_name"];
-                        $targetDir = "../../../images/";
-                        $targetFile = $targetDir .  $image;
-                        echo $targetFile;
 
-                        //requette pour inserer le chemin de fichier de l'image
+                        $image = '../images/' . $_FILES['image']['name'];
+                        //Requete pour inserer le chemin de fichier de l'image
                         $requeteInsertionImage=<<<END
                         INSERT INTO `IMAGE` (cheminFichier,description) 
-                        VALUES (?,'');
+                        VALUES (?,'Image uploadée par un utilisateur');
                         END;
                         $st = ConnectionFactory::$db->prepare($requeteInsertionImage);
                         $st->execute([$image]); //$image c'est le chemin de fichier de l'image sur le serveur
 
-
-                        //pour bouger le fichier, ça marche pas
-                        move_uploaded_file($image, $targetFile);
-
-
-                        //IL FAUT QU'A LA FIN DE CE IF LE CHEMIN DU FICHIER SUR LE SERVEUR SOIT DANS LA VARIABLE $targetFile
-
+                        // Puis dans targetFile, on met l'id de l'image qui vient d(être insérée pour le retrouver après
+                        $targetFile = ConnectionFactory::$db->lastInsertId();
                     }
                 }
 

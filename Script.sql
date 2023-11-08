@@ -69,6 +69,7 @@ CREATE TABLE LIKE2TOUITE(
 );
 
 
+
 -- Ajout des relations entre tables (clés étrangères)
 ALTER TABLE TOUITE ADD
     FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser);
@@ -93,51 +94,8 @@ ALTER TABLE LIKE2TOUITE ADD
 
 
 
--- Création du trigger qui s'occupe d'ajouter un like/dislike
-DELIMITER //
-CREATE TRIGGER updateTouiteScore
-    AFTER INSERT ON LIKE2TOUITE
-    FOR EACH ROW
-BEGIN
-    DECLARE touiteID INT;
-    DECLARE appreciationValue INT;
 
-    -- On récupère les infos (like et idTouite) du touite
-    SELECT idTouite, appreciation INTO touiteID, appreciationValue
-    FROM LIKE2TOUITE
-    WHERE idTouite = NEW.idTouite
-    ORDER BY idTouite DESC
-    LIMIT 1;
 
-    -- Puis on update le touite
-    UPDATE TOUITE
-    SET score = score + (appreciationValue) -- fera + 1 ou + (-1) donc fonctionne dans tous les cas
-    WHERE idTouite = touiteID;
-END;
-//
-DELIMITER ;
-
--- Trigger quand on enlève ou supprime un like/dislike
-DELIMITER $$
-CREATE TRIGGER updateTouiteScoreSuppression
-    AFTER DELETE ON LIKE2TOUITE
-    FOR EACH ROW
-BEGIN
-    DECLARE touiteID INT;
-    DECLARE appreciationValue INT;
-
-    -- Récupérer l'ID du touite et la valeur d'appréciation
-    SELECT idTouite, appreciation INTO touiteID, appreciationValue
-    FROM OLD
-    LIMIT 1;
-
-    -- Mettre à jour le score du touite en fonction de l'appréciation supprimée
-    UPDATE TOUITE
-    SET score = score - appreciationValue
-    WHERE idTouite = touiteID;
-END;
-$$
-DELIMITER ;
 
 
 
@@ -166,14 +124,14 @@ INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (4,  STR_T
 
 
 -- Pour la table Tag
-INSERT INTO TAG (libelle, description) VALUES ('chat', 'animal mignon');
-INSERT INTO TAG (libelle, description) VALUES ('france', 'meilleur pays');
-INSERT INTO TAG (libelle, description) VALUES ('NancyCentreDuMonde', 'reel selon Annick Thimon');
-INSERT INTO TAG (libelle, description) VALUES ('php', 'langage adoré');
-INSERT INTO TAG (libelle, description) VALUES ('X','réseau social ça a changé');
-INSERT INTO TAG (libelle, description) VALUES ('Légende', 'Zinedine Zidane');
-INSERT INTO TAG (libelle, description) VALUES ('IUTCharlemagne', 'IUT de fou');
-INSERT INTO TAG (libelle, description) VALUES ('gâteaux','pâtisseries appréciées de tous');
+INSERT INTO TAG (libelle, description) VALUES ('#chat', 'animal mignon');
+INSERT INTO TAG (libelle, description) VALUES ('"france', 'meilleur pays');
+INSERT INTO TAG (libelle, description) VALUES ('#NancyCentreDuMonde', 'reel selon Annick Thimon');
+INSERT INTO TAG (libelle, description) VALUES ('"php', 'langage adoré');
+INSERT INTO TAG (libelle, description) VALUES ('#X','réseau social ça a changé');
+INSERT INTO TAG (libelle, description) VALUES ('#Légende', 'Zinedine Zidane');
+INSERT INTO TAG (libelle, description) VALUES ('#IUTCharlemagne', 'IUT de fou');
+INSERT INTO TAG (libelle, description) VALUES ('#gâteaux','pâtisseries appréciées de tous');
 
 -- Pour la table Tag2Touite
 INSERT INTO TAG2TOUITE (idTouite, idTag) VALUES (1, 1);
@@ -195,16 +153,45 @@ INSERT INTO SUIVRETAG (idUser, idTag) VALUES (3, 7);
 INSERT INTO SUIVRETAG (idUser, idTag) VALUES (4, 4);
 INSERT INTO SUIVRETAG (idUser, idTag) VALUES (2, 3);
 
+/**
+ delete from LIKE2TOUITE where idUser > 0;
+ UPDATE TOUITE
+    SET score = 0
+    WHERE score <> 0;
+
+ */
+
 -- Pour la table Like2Touite
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 3, 1);
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 4, 1);
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 5, -1);
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 1, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 1, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 1, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (3, 1, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (4, 1, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 1, -1); -- touite 1 score -3 FINAL
+
+
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 2, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 2, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (3, 2, 1);
 INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (4, 2, -1);
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 3, -1);
-INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 4, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 2, 1); -- touite 2 score -1 FINAL
 
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 3, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 3, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (3, 3, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (4, 3, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 3, -1); -- touite 3 score 3 FINAL
 
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 4, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 4, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (3, 4, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (4, 4, -1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 4, -1); -- touite 4 score -3 FINAL
+
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (1, 5, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (2, 5, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (3, 5, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (4, 5, 1);
+INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 5, -1); -- touite 5 score 4 FINAL MAIS ON OBTIENT QUAND MEME 5
 
 -- On ajoute aux autres membres du groupe les permissions d'accéder à ma base de données
 GRANT ALL PRIVILEGES ON * TO 'pinot33u';
