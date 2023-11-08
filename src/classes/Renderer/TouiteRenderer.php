@@ -77,11 +77,9 @@ class TouiteRenderer
             try {
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer=<<<END
-<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer={$row["id"]}>
+<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
 Supprimer votre touite
 </a>
-
-
 END;
 
             }catch (\Exception $e){
@@ -95,9 +93,16 @@ $profile
 
     <p class ='corpsTouite-long' > {$row["texteTouite"]} </p>
 
-    <div class='score'> {$row["score"]}</div>
 
      $htmlImage
+     
+         <div class='score'>
+        <span id="score">Score : <span id="scoreValue"></span></span>
+        <button id="likeButton">Like</button>
+        <button id="dislikeButton">Dislike</button>
+    </div>
+</div><br>
+     $boutonSupprimer 
 </div>\n
 END;
         } else {
