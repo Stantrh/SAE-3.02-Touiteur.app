@@ -79,6 +79,21 @@ class Auth{
 
     }
 
+
+    /**
+     * @throws AuthException
+     */
+    public static function checkAccountOwner(int $id) : void{
+        $user = unserialize($_SESSION['user']);
+        $role = $user->__get('role');
+        if(!($role === 100)){ // admin a un role 100
+            // Si l'utilisateur n'est pas admin, on vérifie si l'id de l'utilisateur est bien celui de celui qui est en session
+            if(!(($user->__get('id')) === $id)) {
+                throw new AuthException("Vous n'avez pas les droits nécessaires pour effectuer cette action");
+            }
+        }
+    }
+
     /**
      * Permet de retourner si un mot de passe est conforme à la norme de sécurité
      * @param string $pass
@@ -107,7 +122,7 @@ class Auth{
      * confirmer mot de passe = CaFait10Carac*
      * @throws AuthException
      */
-    public static function register(string $username, string $nom, string $prenom, string $email, string $mdpClair, string $mdpClair2): void {
+    public static function register(string $username, string $nom, string $prenom, string $email, string $mdpClair, string $mdpClair2 ="erreur"): void {
         // On vérifie d'abord si l'utilisateur existe dans la BDD
         $requete = "SELECT COUNT(nomUser) FROM UTILISATEUR WHERE nomUser = ?";
         $result = ConnectionFactory::$db->prepare($requete);
@@ -139,7 +154,7 @@ SQL;
                     // Puis on enregistre l'utilisateur dans la session
                     self::loadProfile($username);
                 } else {
-                    throw new AuthException("<h3 id = \"error\">Le mot de passe entré n'est pas assez long</h3>");
+                    throw new AuthException("<h3 id = \"error\">Le mot de passe entré ne respecte pas les normes de sécurité</h3>");
                 }
             } else{
                 throw new AuthException("<h3 id = \"error\">Les deux mots de passe ne correspondent pas</h3>");
