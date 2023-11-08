@@ -288,7 +288,9 @@ class Dispatcher
                             <div class="menu-box">
                                 <p><a href="?">Accueil</a></p>
                                 <p><a href="?action=signup">Inscription</a></p>
+                                <p><a href="?action=publier-touite">Touiter</a></p>
                                 <p><a href="?action=signin">Se connecter</a></p>
+                                <p><a href="?action=afficher-liste-touite-paginer">Touites paginés</a></p>
                             </div>
                         </header>
                         <main>
