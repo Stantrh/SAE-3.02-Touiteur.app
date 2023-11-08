@@ -134,6 +134,9 @@ SQL;
                     $insert->bindParam(4, $username);
                     $insert->bindParam(5, $mdpHashe);
                     $insert->execute();
+
+                    // Puis on enregistre l'utilisateur dans la session
+                    self::loadProfile($username);
                 } else {
                     throw new AuthException("<h3 id = \"error\">Le mot de passe entré n'est pas assez long</h3>");
                 }
