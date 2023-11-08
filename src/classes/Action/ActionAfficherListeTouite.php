@@ -72,8 +72,8 @@ class ActionAfficherListeTouite extends Action
 
         $retour = "";
 
-        //sql
 
+        //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
         $query = "SELECT idTouite FROM `TOUITE` order by date desc";
 
         $resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
