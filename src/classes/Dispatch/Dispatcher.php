@@ -95,6 +95,10 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            .touite-clickable {
+                                text-decoration:none;
+                            }
+                            
                             .touiteCourt {
                                 padding: 10px;
                                 margin: 10px;
@@ -102,9 +106,11 @@ class Dispatcher
                                 background-color: red;
                                 color: #fff;
                                 border-radius: 5px;
+                                text-decoration: none;
+                                
                             }
                             
-                            div:hover {
+                            .touiteCourt:hover {
                                 background-color: #fff;
                                 color: red;
                             }
@@ -112,6 +118,7 @@ class Dispatcher
                             .corpsTouite {
                                 background-color: black;
                                 color: #fff;
+                                padding: 10px;
                             }
                             
                             button {
