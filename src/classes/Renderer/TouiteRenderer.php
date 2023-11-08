@@ -114,11 +114,11 @@ END;
             // on construit le touite court
             $retour .= <<<END
 
-<div class='touiteCourt'>$profile
     <a href=$actionCliqueTouite class='touite-clickable'>
-        <p class ='corpsTouite'> $texte </p>
+        <div class='touiteCourt'>$profile
+            <p class ='corpsTouite'> $texte </p>
+        </div>
     </a>
-</div>
 END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
