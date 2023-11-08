@@ -81,8 +81,8 @@ class ActionPublierTouite extends Action
                     $st->execute([$idUser,$contenuNettoye, $targetFile]);
                     $contenuHTML .= "Touite publié !";
 
-                    //on extrait des tags éventuels dans le contenu du touite pour les ajouter dans la base de données
 
+                    //on extrait des tags éventuels dans le contenu du touite pour les ajouter dans la base de données
                     //on range chaque mot du contenu dans une case d'un tableau
                     $tab = explode(" ", $contenuNettoye);
 
@@ -105,9 +105,9 @@ class ActionPublierTouite extends Action
                     foreach($resTags as $tagAAjouter){
                         //on préprare la requete d'insertion des tags dans la base de données
                         $requeteInsererTag = <<<FIN
-                                        INSERT INTO TAG (libelle, description)
-                                        VALUES (?,?)
-                                    FIN;
+                                                    INSERT INTO TAG (libelle, description)
+                                                    VALUES (?,?)
+                                                FIN;
 
                         //connexion à la base de données
                         $st = ConnectionFactory::$db->prepare($requeteInsererTag);
@@ -121,6 +121,55 @@ class ActionPublierTouite extends Action
 
                         // puis on exécute la requête
                         $st->execute();
+
+                        // on récupère l'id du dernier touite
+                        //requete
+                        $requeteRecupererIdTouite = <<<FIN
+                                                    SELECT MAX(idTouite) FROM TOUITE
+                                                FIN;
+
+                        //connexion à la base de données
+                        $st = ConnectionFactory::$db->prepare($requeteRecupererIdTouite);
+                        $st->execute();
+
+                        // on récupère le résultat de la requete SQL
+                        $row = $st->fetch();
+
+                        // on récupère l'id du dernier touite ajouté
+                        $idTouite = $row[0];
+
+                        // on récupère l'id du dernier tag
+                        //requete
+                        $requeteRecupererIdTag = <<<FIN
+                                                    SELECT MAX(idTag) FROM TAG
+                                                FIN;
+
+                        //connexion à la base de données
+                        $st = ConnectionFactory::$db->prepare($requeteRecupererIdTag);
+                        $st->execute();
+
+                        // on récupère le résultat de la requete SQL
+                        $row = $st->fetch();
+
+                        // on récupère l'id du dernier tag ajouté
+                        $idTag = $row[0];
+
+                        // on insert le touite et le tag dans la table tag2touite
+                        //on préprare la requete d'insertion des tags dans la base de données
+                        $requeteInsererTag2Touite = <<<FIN
+                                                        INSERT INTO TAG2TOUITE (idTouite, idTag)
+                                                        VALUES (?,?)
+                                                    FIN;
+
+                        //connexion à la base de données
+                        $st = ConnectionFactory::$db->prepare($requeteInsererTag2Touite);
+
+                        // on complète la requete SQL
+                        $st->bindParam(1, $idTouite);
+                        $st->bindParam(2, $idTag);
+
+                        // on execute la requete
+                        $st->execute();
                     }
 
                 } catch (Exception $e) {
@@ -130,5 +179,4 @@ class ActionPublierTouite extends Action
         }
         return $contenuHTML;
     }
-
 }
