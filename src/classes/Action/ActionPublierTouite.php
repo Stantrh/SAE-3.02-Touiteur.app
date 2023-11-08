@@ -8,7 +8,7 @@ use touiteur\Database\ConnectionFactory;
 class ActionPublierTouite extends Action
 {
 
-    public function execute(): string
+    public function execute():  string
     {
         // String à construire et à renvoyer
         $contenuHTML = "";
