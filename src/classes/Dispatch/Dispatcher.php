@@ -95,6 +95,25 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            .touiteCourt {
+                                padding: 10px;
+                                margin: 10px;
+                                border: 1px solid green;
+                                background-color: red;
+                                color: #fff;
+                                border-radius: 5px;
+                            }
+                            
+                            div:hover {
+                                background-color: #fff;
+                                color: red;
+                            }
+
+                            .corpsTouite {
+                                background-color: black;
+                                color: #fff;
+                            }
+                            
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;
