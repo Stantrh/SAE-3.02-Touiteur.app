@@ -51,6 +51,10 @@ class Dispatcher
                 $action=new ActionAfficherListeTouitePaginer();
                 $this->renderPage($action->execute());
                 break;
+            case "afficher-liste-tag":
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::TAG);
+                self::renderPage($action->execute());
+                break;
             case "publier-touite":
                 $action=new ActionPublierTouite();
                 $this->renderPage($action->execute());
@@ -59,7 +63,7 @@ class Dispatcher
                 $action=new ActionSupprimerTouite();
                 $this->renderPage($action->execute());
                 break;
-                break;
+
             default:
                 $action=new ActionDefault();
                 self::renderPage($action->execute());
@@ -95,6 +99,10 @@ class Dispatcher
                                 color: #fff;
                                 text-align: center;
                                 padding: 10px;
+                                position: sticky;
+                                top: 0;
+                                z-index: 10;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
                             header h1{
@@ -271,11 +279,6 @@ class Dispatcher
                                 background-color: #ffffff;
                                 border: 3px solid #ffffff;
                                 color: #000;
-                                
-                                
-                                /*border: 3px solid #ffffff;
-                                background-color: #459496;
-                                color: #ffffff;*/
                             }
                         </style>
                         <meta charset="utf-8">

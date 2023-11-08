@@ -51,7 +51,7 @@ class ActionAfficherListeTouite extends Action
         switch ($this->option) {    //en fonction de l'option choisie pendant la construction
             //les touites affichés seront differents
             case self::TAG:
-
+                $retour .= $this->tag();
                 break;
             case self::UTILISATEUR:
 
@@ -83,6 +83,28 @@ class ActionAfficherListeTouite extends Action
 
         return ($retour);
 
+    }
+
+    /**
+     * @return string liste de touite correspondant au tag en GET
+     */
+    private function tag():string{
+        $retour = "";
+
+
+        //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
+        $query = "SELECT TOUITE.idTouite FROM `TOUITE`,`TAG2TOUITE`,`TAG` 
+                WHERE TOUITE.idTouite=TAG2TOUITE.idTouite 
+                  and TAG.idTag=TAG2TOUITE.idTag and TAG.libelle=?";
+
+        $tag="#".$_GET["tag"];
+
+        $resultat = ListeIdTouite::listeTouite($query, [$tag]); //sous traite la requete a une autre classe
+
+        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
+
+
+        return ($retour);
     }
 
 }
