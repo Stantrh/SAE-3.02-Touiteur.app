@@ -29,7 +29,7 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
         }catch (\Exception $e){
-
+            throw $e;
         }
 
     }

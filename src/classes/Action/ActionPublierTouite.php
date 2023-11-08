@@ -58,9 +58,11 @@ class ActionPublierTouite extends Action
                         $st->execute([$image]); //$image c'est le chemin de fichier de l'image sur le serveur
 
 
-                        //pour bouger le fichier, ça marche pas 
+                        //pour bouger le fichier, ça marche pas
                         move_uploaded_file($image, $targetFile);
 
+
+                        //IL FAUT QU'A LA FIN DE CE IF LE CHEMIN DU FICHIER SUR LE SERVEUR SOIT DANS LA VARIABLE $targetFile
 
                     }
                 }
@@ -73,10 +75,6 @@ class ActionPublierTouite extends Action
 
                 //connexion à la base de données
                 $st = ConnectionFactory::$db->prepare($requeteInsertion);
-
-                // complétion de la requete
-
-
 
                 // on exécute l'insertion
                 try {
