@@ -15,7 +15,7 @@ class ActionSignUp extends Action
         // Mettre un script js pour que les deux mots de passe soient les mêmes avant de pouvoir envoyer le form
         if ($this->http_method === 'GET') {
             $contenu_html .= <<<FORM
-<form action="?action=signup" method="post">
+<form class="inscription" action="?action=signup" method="post">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required>
 
@@ -77,7 +77,7 @@ FORM;
             }catch (AuthException $e) {
                 $erreur = $e->getMessage();
                 $contenu_html .= <<<FORMULAIRE
-<form action="?action=signup" method="post">
+<form class="inscription" action="?action=signup" method="post">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required>
 

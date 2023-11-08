@@ -2,21 +2,34 @@
 
 namespace touiteur\Renderer;
 
-use touiteur\Connection\ConnectionFactory;
+use touiteur\Database\ConnectionFactory;
 
 class ProfileRenderer
 {
-    public static function render(int $id):string{
-        $retour="";
+
+    /**
+     * @param int $id id du profile a render
+     * @return string
+     */
+    public static function render(int $id): string
+    {
+        $retour = "";
+
+        //sql
         $db = ConnectionFactory::$db;
         $query = "SELECT * FROM `UTILISATEUR` WHERE idUser=?";
         $st = $db->prepare($query);
         $st->execute([$id]);
         $row = $st->fetch();
-        if($row){
-            $retour.="<div class='user'>".$row["nom"]." ".$row["prenom"]."</div>";
-        }else{
-            $retour="Pas d'utilisateur correspondant a l'id:".$id;
+        if ($row) {
+            $actionCliqueProfile="?action=afficher-touite-user&user=$id";
+            $retour =<<<END
+<a href=$actionCliqueProfile>
+    <div class='user'> {$row["nom"]} {$row["prenom"]}</div>
+</a>
+END;
+        } else {
+            $retour = "Pas d'utilisateur correspondant a l'id:" . $id;
         }
         return $retour;
     }

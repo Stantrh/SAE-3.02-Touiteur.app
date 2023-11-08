@@ -3,11 +3,12 @@ namespace touiteur\Auth;
 
 
 use touiteur\Database\ConnectionFactory;
+use touiteur\Database\User;
 use touiteur\Exception\AuthException;
 
 /**
  * Classe regroupant l'ensemble des méthodes liées à l'authentification
- * L'authentification utilise la table User (qui stocke l'id de l'utilisateur = email)
+ * L'authentification utilise la table UTILISATEUR (qui stocke l'id de l'utilisateur et d'autres infos)
  * et son mdp encodé avec bcrypt (méthode password_hash)
  */
 class Auth{
@@ -16,59 +17,62 @@ class Auth{
     /**
      * Méthode qui reçoit l'email et mdp en clair d'un utilisateur
      * et contrôle la validité des données
-     * @param string $email
+     * @param string $nomUser
      * @param string $mdpClair
      * @return void
      * @throws AuthException
+     *  Utilisateur test :
+     *  nomUser = HelloWorld
+     *  nom = Test
+     *  prenom = Numero1
+     *  email = test@mail.com
+     *  mot de passe = CaFait10Carac*
+     *  confirmer mot de passe = CaFait10Carac*
      */
-    public static function authenticate(string $email, string $mdpClair){
+    public static function authenticate(string $nomUser, string $mdpClair){
         // On va déjà vérifier si l'utilisateur est dans la base de données via son email
-        $requete = "    SELECT COUNT(email) FROM user where email = ?";
-        ConnectionFactory::setConfig(__DIR__ . '/../../../config/config.ini');
-        ConnectionFactory::makeConnection();
+        $requete = "SELECT COUNT(nomUser) FROM UTILISATEUR where nomUser = ?";
 
-        $count = \iutnc\deefy\db\ConnectionFactory::$db->prepare($requete);
-        $count->bindParam(1, $email);
+        $count = ConnectionFactory::$db->prepare($requete);
+        $count->bindParam(1, $nomUser);
 
         $count->execute();
 
         $res = $count->fetchColumn();
-
         if($res === 1){
             // Alors l'utilisateur a un compte
-            // Maintenant on vérifie que le mot de passe associé à cet email est le même que dans la bdd
+            // Maintenant on vérifie que le mot de passe associé à ce nom d'utilisateur est le même que dans la bdd
             // On prépare une autre requête
-            $requeteMdp = "SELECT passwd from user where email = ?";
+            $requeteMdp = "SELECT mdp from UTILISATEUR where nomUser = ?";
             $result = ConnectionFactory::$db->prepare($requeteMdp);
-            $result->bindParam(1, $email);
+            $result->bindParam(1, $nomUser);
             $result->execute();
+
 
             $mdpHashe = $result->fetchColumn();
             if(!password_verify($mdpClair, $mdpHashe)){
                 throw new AuthException('Le mot de passe est invalide');
             }
             // On va ajouter l'utilisateur à la session et donc utiliser la fonction loadProfile
-            self::loadProfile($email);
+            self::loadProfile($nomUser);
         }else{
-            throw new AuthException('Bonjour, vous n\' avez pas de compte dans la base de données.');
+            throw new AuthException('<h4>Bonjour, vous n\' avez pas de compte dans la base de données.</h4>');
         }
     }
 
     /**
      * Permet d'enregistrer un utilisateur en Session
-     * @param string $email
+     * @param string $nomUser
      * @return void
      */
-    public static function loadProfile(string $email) : void{
-        $requete = "select * from user where email = ? ";
-        ConnectionFactory::setConfig(__DIR__ . '/../../../config/config.ini');
-        ConnectionFactory::makeConnection();
-        $u = \iutnc\deefy\db\ConnectionFactory::$db->prepare($requete);
-        $u->bindParam(1, $email);
+    public static function loadProfile(string $nomUser) : void{
+        $requete = "select * from UTILISATEUR where nomUser = ? ";
+        $u = ConnectionFactory::$db->prepare($requete);
+        $u->bindParam(1, $nomUser);
         $u->execute();
         $res = $u->fetch(\PDO::FETCH_ASSOC);
 
-        $profile = new User($res['email'], $res['passwd'], $res['role']);
+        $profile = new User($res['nom'], $res['prenom'], $res['email'], $res['nomUser'], $res['role'], $res['idUser']);
 
         $_SESSION['user'] = serialize($profile);
 
