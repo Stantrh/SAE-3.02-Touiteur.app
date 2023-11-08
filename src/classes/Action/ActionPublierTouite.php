@@ -112,7 +112,8 @@ class ActionPublierTouite extends Action
                         //connexion à la base de données
                         $st = ConnectionFactory::$db->prepare($requeteInsererTag);
 
-                        $descriptionTag = strstr($tagAAjouter, "#");
+                        $tabDescriptionTag = explode("#", $contenuNettoye);
+                        $descriptionTag = $tabDescriptionTag[1];
 
                         // on complète la requete SQL
                         $st->bindParam(1, $tagAAjouter);

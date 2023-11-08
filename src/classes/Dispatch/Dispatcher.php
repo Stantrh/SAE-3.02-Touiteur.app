@@ -95,6 +95,10 @@ class Dispatcher
                                 color: #fff;
                                 text-align: center;
                                 padding: 10px;
+                                position: sticky;
+                                top: 0;
+                                z-index: 10;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
                             header h1{
@@ -271,11 +275,6 @@ class Dispatcher
                                 background-color: #ffffff;
                                 border: 3px solid #ffffff;
                                 color: #000;
-                                
-                                
-                                /*border: 3px solid #ffffff;
-                                background-color: #459496;
-                                color: #ffffff;*/
                             }
                         </style>
                         <meta charset="utf-8">
