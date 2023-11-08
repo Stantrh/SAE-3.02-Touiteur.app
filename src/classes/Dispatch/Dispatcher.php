@@ -7,6 +7,7 @@ use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionSignUp;
+use touiteur\Action\ActionSignIn;
 
 class Dispatcher
 {
@@ -24,24 +25,28 @@ class Dispatcher
     public function run():void{
         switch($this->action){
             case 'signup':
-                $signup = new ActionSignUp();
-                self::renderPage($signup->execute());
+                $action = new ActionSignUp();
+                self::renderPage($action->execute());
+                break;
+            case 'signin':
+                $action= new ActionSignIn();
+                self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite":
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             case "afficher-touite-detail":
                 $action=new ActionAfficherTouiteDetail();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             case "afficher-touite-user":
                 $action=new ActionAfficherListeTouiteUser();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             default:
                 $action=new ActionDefault();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
         }
 

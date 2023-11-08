@@ -3,83 +3,73 @@ DROP TABLE SUIVRETAG;
 DROP TABLE SUIVREUSER;
 DROP TABLE TAG2TOUITE;
 DROP TABLE TAG;
-DROP TABLE IMAGE;
 DROP TABLE TOUITE;
+DROP TABLE IMAGE;
 DROP TABLE UTILISATEUR;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- Création des tables
 CREATE TABLE UTILISATEUR(
-                            idUser int(10) AUTO_INCREMENT,
-                            nom varchar(256),
-                            prenom varchar(256),
-                            email varchar(256),
-                            nomUser varchar(25),
-                            mdp varchar(256),
-                            role int(3),
+                            idUser int(10) AUTO_INCREMENT NOT NULL,
+                            nom varchar(256) NOT NULL,
+                            prenom varchar(256) NOT NULL,
+                            email varchar(256) NOT NULL UNIQUE ,
+                            nomUser varchar(25) NOT NULL UNIQUE ,
+                            mdp varchar(256) NOT NULL,
+                            role int(3) NOT NULL,
                             PRIMARY KEY (idUser)
 );
 
 CREATE TABLE TOUITE(
-                       idTouite INT(12) AUTO_INCREMENT,
-                       idUser INT(10),
-                       date DATE,
-                       texteTouite VARCHAR(256),
+                       idTouite INT(12) AUTO_INCREMENT NOT NULL,
+                       idUser INT(10) NOT NULL,
+                       date DATE NOT NULL,
+                       texteTouite VARCHAR(256) NOT NULL,
                        idImage INT(10),
-                       score INT(10),
+                       score INT(10) NOT NULL DEFAULT 0,
                        PRIMARY KEY (idTouite)
 );
 
 CREATE TABLE IMAGE(
-                      idImage INT(10) AUTO_INCREMENT,
-                      description VARCHAR(256),
-                      cheminFichier VARCHAR(256),
+                      idImage INT(10) AUTO_INCREMENT NOT NULL,
+                      description VARCHAR(256) NOT NULL,
+                      cheminFichier VARCHAR(256) NOT NULL,
                       PRIMARY KEY(idImage)
 );
 
 CREATE TABLE TAG(
-                    idTag INT(10) AUTO_INCREMENT,
-                    libelle VARCHAR(256),
-                    description varchar(256),
+                    idTag INT(10) AUTO_INCREMENT NOT NULL,
+                    libelle VARCHAR(256) NOT NULL,
+                    description varchar(256) NOT NULL,
                     PRIMARY KEY (idTag)
 );
 
 CREATE TABLE TAG2TOUITE(
-                           idTouite INT(12),
-                           idTag INT(10),
+                           idTouite INT(12) NOT NULL,
+                           idTag INT(10) NOT NULL,
                            PRIMARY KEY (idTouite, idTag)
 );
 
 CREATE TABLE SUIVREUSER(
-                           idUser INT(10),
-                           idUserSuivi INT(10),
+                           idUser INT(10) NOT NULL,
+                           idUserSuivi INT(10) NOT NULL,
                            PRIMARY KEY (idUser, idUserSuivi)
 );
 
 CREATE TABLE SUIVRETAG(
-                          idUser INT(10),
-                          idTag INT(10),
+                          idUser INT(10) NOT NULL,
+                          idTag INT(10) NOT NULL,
                           PRIMARY KEY (idUser, IdTag)
 );
 
 CREATE TABLE LIKE2TOUITE(
-                            idUser INT(10),
-                            idTouite INT(12),
-                            appreciation int(1),
+                            idUser INT(10) NOT NULL,
+                            idTouite INT(12) NOT NULL,
+                            appreciation int(1) NOT NULL,
                             PRIMARY KEY (idUser, IdTouite)
 );
 
+
+-- Ajout des relations entre tables (clés étrangères)
 ALTER TABLE TOUITE ADD
     FOREIGN KEY (idUser) REFERENCES UTILISATEUR(idUser);
 ALTER TABLE TOUITE ADD
@@ -123,11 +113,11 @@ INSERT INTO IMAGE(description, cheminFichier) VALUES ('ekip ekip so le flem', '.
 INSERT INTO IMAGE(description, cheminFichier) VALUES ('ekip ekip so le flem', '../ekip/667tah/667ekipekip.jpeg');
 
 -- Pour la table Touite
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'J aime bien les chats, c est cool, surtout les chats français #chat #france' , -1, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'il fait super beau aujourdhui ' , -1, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (2,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'j ai fait un site en php pour voir des images de chat #php #chat' , -1, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (3,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'nancy c est la plus belle ville du monde' , -1, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (4,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), ' j ai bien mangé ce midi ' , -1, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'J aime bien les chats, c est cool, surtout les chats français #chat #france' , null, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'il fait super beau aujourdhui ' , null, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (2,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'j ai fait un site en php pour voir des images de chat #php #chat' , null, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (3,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'nancy c est la plus belle ville du monde' , null, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (4,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), ' j ai bien mangé ce midi ' , -null, 0);
 
 
 -- Pour la table Tag
@@ -171,17 +161,10 @@ INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 4, 1);
 
 
 
-
-
-
 -- On ajoute aux autres membres du groupe les permissions d'accéder à ma base de données
 GRANT ALL PRIVILEGES ON * TO 'pinot33u';
 GRANT ALL PRIVILEGES ON * TO 'pierrot67u';
 GRANT ALL PRIVILEGES ON * TO 'sassiweb2u';
-
-
-
-
 
 
 
