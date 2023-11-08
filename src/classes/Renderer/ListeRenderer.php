@@ -13,13 +13,15 @@ class ListeRenderer
     {
         $retour = "<div class='listeTouite'>";
 
+        if (count($listeId) === 0) {
+            $retour.="Pas de touite";
+        } else {
+            foreach ($listeId as $touite) {
+                //on fait le rendu des touites un par un et on les ajoutes au retour
 
-        foreach ($listeId as $touite) {
-            //on fait le rendu des touites un par un et on les ajoutes au retour
-
-            $retour .= TouiteRenderer::render($touite, $option);
+                $retour .= TouiteRenderer::render($touite, $option);
+            }
         }
-
         return ($retour . "</div>");
     }
 

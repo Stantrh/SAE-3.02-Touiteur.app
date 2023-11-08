@@ -5,6 +5,7 @@ namespace touiteur\Action;
 use PDO;
 use touiteur\Database\ConnectionFactory;
 
+use touiteur\Database\ListeIdTouite;
 use touiteur\Renderer\ListeRenderer;
 use touiteur\Renderer\TouiteRenderer;
 
@@ -72,32 +73,12 @@ class ActionAfficherListeTouite extends Action
         $retour = "";
 
         //sql
-        $db = ConnectionFactory::$db;
+
         $query = "SELECT idTouite FROM `TOUITE` order by date desc";
-        $st = $db->prepare($query);
-        $st->execute();
-        $row = $st->fetch();
 
+        $resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
 
-        if ($row) { //test si la requete n'est pas revenue vide
-
-            $listeId = array();     //créer une liste qu'on vas remplir des ids des touites a afficher
-            $listeId[] = $row[0];
-            while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
-
-                foreach ($row as $v) {
-                    $listeId[] = ($v); // on parcour le resultat de la requette pour stocker les ids des touites
-
-                }
-
-            }
-
-            $retour .= ListeRenderer::render($listeId, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
-
-
-        } else {
-            $retour = "Pas de touit";
-        }
+        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
 
 
         return ($retour);

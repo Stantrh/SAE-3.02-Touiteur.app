@@ -3,6 +3,7 @@
 namespace touiteur\Dispatch;
 
 use touiteur\Action\ActionAfficherListeTouite;
+use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
@@ -37,6 +38,10 @@ class Dispatcher
                 break;
             case "afficher-touite-user":
                 $action=new ActionAfficherListeTouiteUser();
+                $this->renderPage($action->execute());
+                break;
+            case "afficher-liste-touite-paginer":
+                $action=new ActionAfficherListeTouitePaginer();
                 $this->renderPage($action->execute());
                 break;
             default:
