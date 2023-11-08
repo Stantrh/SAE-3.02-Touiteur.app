@@ -8,6 +8,7 @@ use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionSignUp;
+use touiteur\Action\ActionSignIn;
 
 class Dispatcher
 {
@@ -25,20 +26,24 @@ class Dispatcher
     public function run():void{
         switch($this->action){
             case 'signup':
-                $signup = new ActionSignUp();
-                self::renderPage($signup->execute());
+                $action = new ActionSignUp();
+                self::renderPage($action->execute());
+                break;
+            case 'signin':
+                $action= new ActionSignIn();
+                self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite":
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             case "afficher-touite-detail":
                 $action=new ActionAfficherTouiteDetail();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             case "afficher-touite-user":
                 $action=new ActionAfficherListeTouiteUser();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite-paginer":
                 $action=new ActionAfficherListeTouitePaginer();
@@ -46,7 +51,7 @@ class Dispatcher
                 break;
             default:
                 $action=new ActionDefault();
-                $this->renderPage($action->execute());
+                self::renderPage($action->execute());
                 break;
         }
 
@@ -105,19 +110,33 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            
+                            /* Touites */
                             .touite-clickable {
                                 text-decoration:none;
+                                color: #fff;
+                                background-color: black;
+                                margin: 10px;
                             }
                             
                             .touiteCourt {
+                                display: flex;
+                                flex-direction: column;
                                 padding: 10px;
                                 margin: 10px;
-                                border: 1px solid green;
+                                border: 1px solid black;
                                 background-color: red;
                                 color: #fff;
                                 border-radius: 5px;
                                 text-decoration: none;
                                 
+                            }
+                            
+                            .lien-auteur {
+                                white-space: nowrap;
+                                width: min-content;
+                                text-decoration: none;
+                                color: black;
                             }
                             
                             .touiteCourt:hover {
@@ -126,11 +145,13 @@ class Dispatcher
                             }
 
                             .corpsTouite {
-                                background-color: black;
+                                /*background-color: black;*/
                                 color: #fff;
-                                padding: 10px;
+                                padding: 5px;
                             }
                             
+                            /* Fin Touites */
+                                
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;

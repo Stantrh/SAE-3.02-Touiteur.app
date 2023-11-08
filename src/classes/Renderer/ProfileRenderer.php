@@ -24,7 +24,7 @@ class ProfileRenderer
         if ($row) {
             $actionCliqueProfile="?action=afficher-touite-user&user=$id";
             $retour =<<<END
-            <a href="$actionCliqueProfile">
+            <a href="$actionCliqueProfile" class="lien-auteur">
                 <div class='user'> {$row["nom"]} {$row["prenom"]}</div>
             </a>
 END;

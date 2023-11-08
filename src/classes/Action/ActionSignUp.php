@@ -15,7 +15,7 @@ class ActionSignUp extends Action
         // Mettre un script js pour que les deux mots de passe soient les mêmes avant de pouvoir envoyer le form
         if ($this->http_method === 'GET') {
             $contenu_html .= <<<FORM
-<form action="?action=signup" method="post">
+<form class="inscription" action="?action=signup" method="post">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required>
 
@@ -32,13 +32,13 @@ class ActionSignUp extends Action
         <input type="password" id="password" name="password" required>
         <br>
         <label for="confirmPassword">Confirmez le mot de passe :</label>
-        <input type="password" id="confirmPassword" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
         <p id="passwordMatchMessage"></p>
         <br>
         <input type="submit" name="submit" value="S'inscrire">
     </form>
-
-    <script>
+    
+     <script>
         const password = document.getElementById("password");
         const confirmPassword = document.getElementById("confirmPassword");
         const passwordMatchMessage = document.getElementById("passwordMatchMessage");
@@ -59,6 +59,7 @@ class ActionSignUp extends Action
         password.addEventListener("change", checkPasswordMatch);
         confirmPassword.addEventListener("input", checkPasswordMatch);
     </script>
+
 FORM;
         }elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             /*
@@ -70,13 +71,13 @@ FORM;
             $prenom = filter_var($_POST['prenom'], FILTER_SANITIZE_STRING);
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
             try {
-                Auth::register($email, $_POST['password']);
+                Auth::register($_POST['username'], $_POST['nom'], $_POST['prenom'], $email, $_POST['password'], $_POST['confirmPassword']);
                 // Redirection vers la page de confirmation si l'inscription fonctionne
                 $contenu_html .= "<h4>Vous êtes bien inscrit sur Toiteur, bienvenue !</h4>";
             }catch (AuthException $e) {
                 $erreur = $e->getMessage();
                 $contenu_html .= <<<FORMULAIRE
-<form action="?action=signup" method="post">
+<form class="inscription" action="?action=signup" method="post">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required>
 
