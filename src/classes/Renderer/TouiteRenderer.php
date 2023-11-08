@@ -82,14 +82,22 @@ Supprimer votre touite
 </a>
 END;
 
+
             }catch (\Exception $e){
 
             }
+
+            $boutonSuivreUser = <<<END
+<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$id">
+Suivre
+</a>
+END;
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
 <div class='touite'>\n
 $profile
+$boutonSuivreUser
 
     <p class ='corpsTouite-long' > {$row["texteTouite"]} </p>
 
