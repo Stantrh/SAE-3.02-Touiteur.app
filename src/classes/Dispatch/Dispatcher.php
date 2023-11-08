@@ -51,6 +51,10 @@ class Dispatcher
                 $action=new ActionAfficherListeTouitePaginer();
                 $this->renderPage($action->execute());
                 break;
+            case "afficher-liste-tag":
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::TAG);
+                self::renderPage($action->execute());
+                break;
             case "publier-touite":
                 $action=new ActionPublierTouite();
                 $this->renderPage($action->execute());
@@ -59,7 +63,7 @@ class Dispatcher
                 $action=new ActionSupprimerTouite();
                 $this->renderPage($action->execute());
                 break;
-                break;
+
             default:
                 $action=new ActionDefault();
                 self::renderPage($action->execute());
