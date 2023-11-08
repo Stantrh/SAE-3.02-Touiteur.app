@@ -7,6 +7,7 @@ use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
+use touiteur\Action\ActionPublierTouite;
 use touiteur\Action\ActionSignUp;
 use touiteur\Action\ActionSignIn;
 
@@ -47,6 +48,10 @@ class Dispatcher
                 break;
             case "afficher-liste-touite-paginer":
                 $action=new ActionAfficherListeTouitePaginer();
+                $this->renderPage($action->execute());
+                break;
+            case "publier-touite":
+                $action=new ActionPublierTouite();
                 $this->renderPage($action->execute());
                 break;
             default:

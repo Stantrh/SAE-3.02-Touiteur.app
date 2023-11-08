@@ -19,7 +19,7 @@ class ActionPublierTouite extends Action
                                 <fieldset>
                                     <legend> Ajouter un nouveau Touite </legend>
                                     <input type="text" name="contenu" placeholder="Contenu de votre Touite" required>
-                                    <input type="file" name="image" accept="image/png, image/jpeg" placeholder="Une image pour illustrer votre Touite ?">
+                                    <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" placeholder="Une image pour illustrer votre Touite ?">
                                     <button type="submit" name="ajouter_playlist" value="ajouter_p1">Ajouter</button>
                                 </fieldset>
                             FINI;
@@ -35,15 +35,33 @@ class ActionPublierTouite extends Action
 
                 // on regarde si l'utilisateur veut ajouter une image
                 $targetFile = null;
+                //le if qui suit sert a insere l'image si elle existe
                 if (isset($_FILES["image"])) {
-                    if ((substr($_FILES['image']['name'], -4) === '.png') || (substr($_FILES['image']['name'], -5) === '.jpeg') || (substr($_FILES['image']['name'], -4) === '.jpg') && ($_FILES["userfile"]["type"] === 'image/png') || ($_FILES["userfile"]["type"] === 'image/jpeg')) {
+                    $ext=explode(".",$_FILES['image']['name']);
+                    $extAdmissible=["jpg","png","jpeg"];
+
+                    //si t'arrive la c'est
+                    if (in_array($ext[1],$extAdmissible)) {
+
+                        //ça c'est les trucs de nathan qui marche pas
                         $image = $_FILES["image"]["tmp_name"];
-                        // on déplace l'image dans un répertoire défini, ici le dossier images à la racine du projet
-                        $targetDir = "../../../images/"; //répertoire de destination pour l'image
+                        $targetDir = "../../../images/";
+                        $targetFile = $targetDir .  $image;
+                        echo $targetFile;
+
+                        //requette pour inserer le chemin de fichier de l'image
+                        $requeteInsertionImage=<<<END
+                        INSERT INTO `IMAGE` (cheminFichier,description) 
+                        VALUES (?,'');
+                        END;
+                        $st = ConnectionFactory::$db->prepare($requeteInsertionImage);
+                        $st->execute([$image]); //$image c'est le chemin de fichier de l'image sur le serveur
+
+
+                        //pour bouger le fichier, ça marche pas 
                         move_uploaded_file($image, $targetFile);
 
-                        //emplacement de l'image
-                        $targetFile = $targetDir . $image;
+
                     }
                 }
 
@@ -57,12 +75,12 @@ class ActionPublierTouite extends Action
                 $st = ConnectionFactory::$db->prepare($requeteInsertion);
 
                 // complétion de la requete
-                $st->execute([$idUser,$contenuNettoye, $targetFile]);
+
 
 
                 // on exécute l'insertion
                 try {
-                    $st->execute();
+                    $st->execute([$idUser,$contenuNettoye, $targetFile]);
                     $contenuHTML .= "Touite publié !";
                 } catch (Exception $e) {
                     $contenuHTML .= $e->getMessage();
