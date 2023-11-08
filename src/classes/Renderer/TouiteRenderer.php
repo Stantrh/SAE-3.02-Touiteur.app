@@ -3,6 +3,7 @@
 namespace touiteur\Renderer;
 
 use PDO;
+use touiteur\Auth\Auth;
 use touiteur\Database\ConnectionFactory;
 
 
@@ -71,6 +72,22 @@ class TouiteRenderer
             }
             $profile = ProfileRenderer::render($row["idUser"]);
 
+            $boutonSupprimer="";
+
+            try {
+                Auth::checkAccountOwner($row["idUser"]);
+                $boutonSupprimer=<<<END
+<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer={$row["id"]}>
+Supprimer votre touite
+</a>
+
+
+END;
+
+            }catch (\Exception $e){
+
+            }
+
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
 <div class='touite'>\n
@@ -106,7 +123,7 @@ END;
 
         if ($row) {
 
-            $texte = substr($row["texteTouite"], 0, self::LONGUEURTOUITECOURT)."..."; //pour l'affichage court on coupe a un certain nombre de charactère
+            $texte = substr($row["texteTouite"], 0, self::LONGUEURTOUITECOURT) . "..."; //pour l'affichage court on coupe a un certain nombre de charactère
 
             //action qui doit s'executer quand on clique sur le texte du touite, ici on affiche le touite en detail
             $actionCliqueTouite = "?action=afficher-touite-detail&id-touite=$id";
