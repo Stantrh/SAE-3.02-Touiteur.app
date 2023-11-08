@@ -2,6 +2,9 @@
 namespace touiteur\Auth;
 
 
+use touiteur\Database\ConnectionFactory;
+use touiteur\Exception\AuthException;
+
 /**
  * Classe regroupant l'ensemble des méthodes liées à l'authentification
  * L'authentification utilise la table User (qui stocke l'id de l'utilisateur = email)
