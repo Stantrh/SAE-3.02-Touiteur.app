@@ -35,9 +35,7 @@ class ActionAfficherListeTouitePaginer extends Action
 
 
         $bouttonSuivant=<<<END
-        <a class="boutton-paginer" href="?action=afficher-liste-touite-paginer&page=$pageSuivante">
-        Page Suivante
-        </a>
+        href="?action=afficher-liste-touite-paginer&page=$pageSuivante"
         END;
 
         //enleve le bouton suivant si il n'y a plus de touite a afficher après, a noter que le bouton suivant sera toujours affiché sur la dernière page si le nombre de touite total est multiple de NBTOUITEMAX
@@ -48,9 +46,7 @@ class ActionAfficherListeTouitePaginer extends Action
 
 
         $bouttonPrecedent = <<<END
-        <a class="boutton-paginer" href="?action=afficher-liste-touite-paginer&page=$pagePrecedente">
-        Page Precedente
-        </a>
+        href="?action=afficher-liste-touite-paginer&page=$pagePrecedente"
         END;
 
         //enleve le bouton suivant si il n'y a pas de page precedente
@@ -61,9 +57,14 @@ class ActionAfficherListeTouitePaginer extends Action
 
         $retour .= <<<END
 <div class="bouton-pagination">
+<a class="boutton-paginer" id="bouton-precedent" $bouttonPrecedent>
+        Page Precedente
+        </a>
+<a class="boutton-paginer" id="bouton-suivant" $bouttonSuivant>
+        Page Suivante
+        </a>
 
-$bouttonPrecedent
-$bouttonSuivant
+
 </div>
 
 

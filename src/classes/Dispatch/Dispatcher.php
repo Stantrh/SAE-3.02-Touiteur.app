@@ -70,9 +70,7 @@ class Dispatcher
                     <head>
                         <title>Projet Web</title>
                         <style>
-                            .error{
-                                color:red;
-                            }
+                            
                             
                             body {
                                 font-family: Arial, sans-serif;
@@ -191,6 +189,12 @@ class Dispatcher
                                 padding: 4px;
                                 border: 5px solid #459496;
                                 border-radius: 5px;
+                            }
+                            #bouton-suivant{
+                            align-self: flex-end;
+                            }
+                            #bouton-precedent{
+                            align-self: flex-start;
                             }
                             
                             /* Fin Boutons pour la pagination */
