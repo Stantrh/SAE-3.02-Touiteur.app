@@ -3,6 +3,7 @@
 namespace touiteur\Dispatch;
 
 use touiteur\Action\ActionAfficherListeTouite;
+use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
@@ -43,6 +44,10 @@ class Dispatcher
             case "afficher-touite-user":
                 $action=new ActionAfficherListeTouiteUser();
                 self::renderPage($action->execute());
+                break;
+            case "afficher-liste-touite-paginer":
+                $action=new ActionAfficherListeTouitePaginer();
+                $this->renderPage($action->execute());
                 break;
             default:
                 $action=new ActionDefault();
@@ -105,19 +110,33 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            
+                            /* Touites */
                             .touite-clickable {
                                 text-decoration:none;
+                                color: #fff;
+                                background-color: black;
+                                margin: 10px;
                             }
                             
                             .touiteCourt {
+                                display: flex;
+                                flex-direction: column;
                                 padding: 10px;
                                 margin: 10px;
-                                border: 1px solid green;
+                                border: 1px solid black;
                                 background-color: red;
                                 color: #fff;
                                 border-radius: 5px;
                                 text-decoration: none;
                                 
+                            }
+                            
+                            .lien-auteur {
+                                white-space: nowrap;
+                                width: min-content;
+                                text-decoration: none;
+                                color: black;
                             }
                             
                             .touiteCourt:hover {
@@ -126,11 +145,13 @@ class Dispatcher
                             }
 
                             .corpsTouite {
-                                background-color: black;
+                                /*background-color: black;*/
                                 color: #fff;
-                                padding: 10px;
+                                padding: 5px;
                             }
                             
+                            /* Fin Touites */
+                                
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;

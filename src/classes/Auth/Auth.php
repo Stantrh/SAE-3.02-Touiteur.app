@@ -3,6 +3,7 @@ namespace touiteur\Auth;
 
 
 use touiteur\Database\ConnectionFactory;
+
 use touiteur\Database\User;
 use touiteur\Exception\AuthException;
 
