@@ -77,11 +77,9 @@ class TouiteRenderer
             try {
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer=<<<END
-<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer={$row["id"]}>
+<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
 Supprimer votre touite
 </a>
-
-
 END;
 
             }catch (\Exception $e){
@@ -104,6 +102,8 @@ $profile
         <button id="dislikeButton">Dislike</button>
     </div>
 </div><br>
+     $boutonSupprimer 
+</div>\n
 END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
