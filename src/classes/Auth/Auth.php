@@ -2,6 +2,9 @@
 namespace touiteur\Auth;
 
 
+use touiteur\Database\ConnectionFactory;
+use touiteur\Exception\AuthException;
+
 /**
  * Classe regroupant l'ensemble des méthodes liées à l'authentification
  * L'authentification utilise la table User (qui stocke l'id de l'utilisateur = email)
@@ -21,7 +24,7 @@ class Auth{
     public static function authenticate(string $email, string $mdpClair){
         // On va déjà vérifier si l'utilisateur est dans la base de données via son email
         $requete = "    SELECT COUNT(email) FROM user where email = ?";
-        ConnectionFactory::setConfig(__DIR__.'/../../../config/.ini');
+        ConnectionFactory::setConfig(__DIR__ . '/../../../config/config.ini');
         ConnectionFactory::makeConnection();
 
         $count = \iutnc\deefy\db\ConnectionFactory::$db->prepare($requete);
@@ -52,12 +55,13 @@ class Auth{
     }
 
     /**
+     * Permet d'enregistrer un utilisateur en Session
      * @param string $email
      * @return void
      */
     public static function loadProfile(string $email) : void{
         $requete = "select * from user where email = ? ";
-        ConnectionFactory::setConfig(__DIR__.'/../../../config/.ini');
+        ConnectionFactory::setConfig(__DIR__ . '/../../../config/config.ini');
         ConnectionFactory::makeConnection();
         $u = \iutnc\deefy\db\ConnectionFactory::$db->prepare($requete);
         $u->bindParam(1, $email);
@@ -71,42 +75,6 @@ class Auth{
     }
 
     /**
-     * @throws AuthException
-     */
-    public static function checkPlaylistOwner(int $idPlaylist) : void{
-        $user = unserialize($_SESSION['user']);
-        $role = $user->__get('role');
-        if(!($role === 100)){ // admin a un role 100
-            // Si l'utilisateur n'est pas admin, on vérifie au moins que la playlist lui appartient
-            $requete = <<<SQL
-select id_pl from user2playlist inner JOIN user on user2playlist.id_user = user.id where user.email = ?
-SQL;
-            ConnectionFactory::setConfig(__DIR__.'/../../../config/.ini');
-            ConnectionFactory::makeConnection();
-            $idsPl = ConnectionFactory::$db->prepare($requete);
-            $email = $user->__get('email');
-            $idsPl->bindParam(1, $email);
-            $idsPl->execute();
-
-            // on parcourt les colonnes (donc les track associées à la playlist
-            $trouve = false;
-            while($row = $idsPl->fetch(\PDO::FETCH_ASSOC)){
-                if($row['id_pl'] === $idPlaylist){
-                    $trouve = true;
-                    break;
-                }
-            }
-            if(!$trouve){
-                throw new AuthException("Vous n'avez pas les droits nécessaires pour accéder à cette playlist");
-            }
-        }
-    }
-
-
-
-
-
-    /**
      * Permet de retourner si un mot de passe est conforme à la norme de sécurité
      * @param string $pass
      * @param int $minimumLength
@@ -115,43 +83,58 @@ SQL;
     public static function checkPasswordStrength(string $pass,
                                                  int $minimumLength): bool {
         $length = (strlen($pass) > $minimumLength); // longueur minimale
-//        $digit = preg_match("#[\d]#", $pass); // au moins un digit
-//        $special = preg_match("#[\W]#", $pass); // au moins un car. spécial
-//        $lower = preg_match("#[a-z]#", $pass); // au moins une minuscule
-//        $upper = preg_match("#[A-Z]#", $pass); // au moins une majuscule
-        if (!$length)return false; // || !$digit || !$special || !$lower || !$upper
+        $digit = preg_match("#[\d]#", $pass); // au moins un digit
+        $special = preg_match("#[\W]#", $pass); // au moins un car. spécial
+        $lower = preg_match("#[a-z]#", $pass); // au moins une minuscule
+        $upper = preg_match("#[A-Z]#", $pass); // au moins une majuscule
+        if (!$length || !$digit || !$special || !$lower || !$upper)return false;
         return true;
     }
 
     /**
      * Méthode qui permet à un utilisateur de s'enregistrer dans la base de données
-     *
+     * Utilisateur test :
+     * nomUser = HelloWorld
+     * nom = Test
+     * prenom = Numero1
+     * email = test@mail.com
+     * mot de passe = CaFait10Carac*
+     * confirmer mot de passe = CaFait10Carac*
      * @throws AuthException
      */
-    public static function register(string $email, string $mdpClair): void {
+    public static function register(string $username, string $nom, string $prenom, string $email, string $mdpClair, string $mdpClair2): void {
         // On vérifie d'abord si l'utilisateur existe dans la BDD
-        $requete = "SELECT COUNT(email) FROM USER WHERE email = ?";
-        ConnectionFactory::setConfig(__DIR__.'/../../../config/.ini');
-        ConnectionFactory::makeConnection();
-        $result = \iutnc\deefy\db\ConnectionFactory::$db->prepare($requete);
-        $result->bindParam(1, $email);
+        $requete = "SELECT COUNT(nomUser) FROM UTILISATEUR WHERE nomUser = ?";
+        $result = ConnectionFactory::$db->prepare($requete);
+        $result->bindParam(1, $username); // l'username est unique, tout comme l'email donc au choix
         $result->execute();
         $res = $result->fetchColumn();
 
         // Si l'utilisateur n'existe pas déjà dans la base
         if ($res == 0) {
-            // On vérifie si le mot de passe est conforme
-            if (self::checkPasswordStrength($mdpClair, 10)) {
-                $mdpHashe = password_hash($mdpClair, PASSWORD_DEFAULT);
+            // On vérifie d'abord si les deux mots de passe sont les mêmes
+            if(strcmp($mdpClair, $mdpClair2) === 0){
+                // On vérifie si le mot de passe est conforme
+                if (self::checkPasswordStrength($mdpClair, 10)) {
+                    // Ensuite on le hash s'il est conforme
+                    $mdpHashe = password_hash($mdpClair, PASSWORD_DEFAULT);
 
-                // On prépare l'insertion
-                $register = "INSERT INTO USER (email, passwd) VALUES (?, ?)";
-                $insert = ConnectionFactory::$db->prepare($register);
-                $insert->bindParam(1, $email);
-                $insert->bindParam(2, $mdpHashe);
-                $insert->execute();
-            } else {
-                throw new AuthException("<h3 id = \"error\">Le mot de passe entré n'est pas assez long</h3>");
+                    // On prépare l'insertion
+                    $register = <<<SQL
+INSERT INTO UTILISATEUR (nom, prenom, email, nomUser, mdp) VALUES (?, ?, ?, ?, ?)
+SQL;
+                    $insert = ConnectionFactory::$db->prepare($register);
+                    $insert->bindParam(1, $nom);
+                    $insert->bindParam(2, $prenom);
+                    $insert->bindParam(3, $email);
+                    $insert->bindParam(4, $username);
+                    $insert->bindParam(5, $mdpHashe);
+                    $insert->execute();
+                } else {
+                    throw new AuthException("<h3 id = \"error\">Le mot de passe entré n'est pas assez long</h3>");
+                }
+            } else{
+                throw new AuthException("<h3 id = \"error\">Les deux mots de passe ne correspondent pas</h3>");
             }
         } else {
             throw new AuthException("<h3 id = \"error\">Un compte avec cet email est déjà enregistré</h3>");

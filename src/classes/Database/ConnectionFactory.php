@@ -36,7 +36,6 @@ class ConnectionFactory
      */
     public static function makeConnection() : PDO{
         // Crée une instance de PDO
-        //"mysql:host=localhost;dbname=td_php_bdd"
 
         if(self::$db == null){
             $dsn = self::$config['driver'].

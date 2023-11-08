@@ -22,8 +22,8 @@ class Dispatcher
     public function run():void{
         switch($this->action){
             case 'signup':
-                $signup = new ActionSignUp();
-                self::renderPage($signup->execute());
+                $action = new ActionSignUp();
+                self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite":
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
