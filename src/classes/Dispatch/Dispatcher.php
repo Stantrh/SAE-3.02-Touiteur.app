@@ -106,47 +106,69 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            #titre{
+                                text-decoration: none;
+                                color: white;
+                            }
+                            
                             p {
                                 text-align: center;
                             }
                             
                             
                             /* Touites */
-                            .touite-clickable {
-                                text-decoration:none;
-                                color: #fff;
-                                background-color: black;
-                                margin: 10px;
-                            }
-                            
                             .touiteCourt {
                                 display: flex;
                                 flex-direction: column;
                                 padding: 10px;
                                 margin: 10px;
                                 border: 1px solid black;
-                                background-color: red;
+                                background-color: #459496;
                                 color: #fff;
                                 border-radius: 5px;
                                 text-decoration: none;
-                                
+                                transition: all 0.3s ease;
                             }
                             
                             .lien-auteur {
                                 white-space: nowrap;
                                 width: min-content;
                                 text-decoration: none;
-                                color: black;
+                                color: white;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .touite-clickable {
+                                text-decoration:none;
+                                background-color: white;
+                                margin: 10px;
+                                border: 1px solid black;
+                                border-radius: 5px;
+                            }
+                            
+                            .touite {
+                                display: flex;
+                                flex-direction: column;
+                                padding: 10px;
+                                margin: 10px;
+                                border: 1px solid black;
+                                background-color: #459496;
+                                color: #fff;
+                                border-radius: 5px;
+                                text-decoration: none;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .lien-auteur:hover {
+                                transform: scale(1.05);
                             }
                             
                             .touiteCourt:hover {
-                                background-color: #fff;
-                                color: red;
+                                transform: scale(1.02);
                             }
-
+                                                        
                             .corpsTouite {
-                                /*background-color: black;*/
-                                color: #fff;
+                                color: black;
                                 padding: 5px;
                             }
                             
@@ -220,7 +242,7 @@ class Dispatcher
                     </head>
                     <body>
                         <header>
-                            <h1>Touiteur</h1>
+                            <h1><a href="?action=default" id="titre">Touiteur</a></h1>
                             <div class="menu-box">
                                 <p><a href="?">Accueil</a></p>
                                 <p><a href="?action=signup">Inscription</a></p>
