@@ -76,7 +76,7 @@ class TouiteRenderer
 <div class='touite'>\n
 $profile
 
-    <p class ='corpsTouite' > {$row["texteTouite"]} </p>
+    <p class ='corpsTouite-long' > {$row["texteTouite"]} </p>
 
     <div class='score'> {$row["score"]}</div>
 
