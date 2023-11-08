@@ -47,6 +47,7 @@ class TouiteRenderer
     {
         $retour = "";
 
+
         //sql
         $db = ConnectionFactory::$db;
         $query = "SELECT * FROM `TOUITE` WHERE idTouite=?";
@@ -56,7 +57,7 @@ class TouiteRenderer
 
         if ($row) {     //verification de l'existance du touite
 
-            $htmlImage="";
+            $htmlImage = "";
             if ($row["idImage"] != null) { //si il y a une image on fait les requetes pour obtenir l'image
                 //sql
                 $query = "SELECT * FROM `IMAGE` WHERE idImage=?";
@@ -66,18 +67,21 @@ class TouiteRenderer
 
                 $image = $row1["cheminFichier"]; //on stock les infos
                 $descriptionimage = $row1["description"];
-                $htmlImage="<img src=$image alt=$descriptionimage>";
+                $htmlImage = "<img src=$image alt=$descriptionimage>";
             }
             $profile = ProfileRenderer::render($row["idUser"]);
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
-            $retour = "<div class='touite'>$profile
+            $retour = <<<END
+<div class='touite'>$profile
 
-<p class ='corpsTouite'> {$row["texteTouite"]} </p>
-<div class='score'> {$row["score"]}</div>
+    <p class ='corpsTouite' > {$row["texteTouite"]} </p>
 
-$htmlImage
-                 </div>";
+    <div class='score'> {$row["score"]}</div>
+
+     $htmlImage
+</div>
+END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
         }
@@ -103,15 +107,19 @@ $htmlImage
 
             $texte = substr($row["texteTouite"], 0, self::LONGUEURTOUITECOURT); //pour l'affichage court on coupe a un certain nombre de charactère
 
-
+            //action qui doit s'executer quand on clique sur le texte du touite, ici on affiche le touite en detail
+            $actionCliqueTouite = "?action=afficher-touite-detail&id-touite=$id";
             $profile = ProfileRenderer::render($row["idUser"]);
 
             // on construit le touite court
-            $retour = "<div class='touiteCourt'>$profile
+            $retour .= <<<END
 
-<p class ='corpsTouite'> $texte </p>
-
-                 </div>";
+<div class='touiteCourt'>$profile
+    <a href=$actionCliqueTouite class='touite-clickable'>
+        <p class ='corpsTouite'> $texte </p>
+    </a>
+</div>
+END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
         }
