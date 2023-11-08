@@ -73,14 +73,15 @@ class TouiteRenderer
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
-<div class='touite'>$profile
+<div class='touite'>\n
+$profile
 
     <p class ='corpsTouite' > {$row["texteTouite"]} </p>
 
     <div class='score'> {$row["score"]}</div>
 
      $htmlImage
-</div>
+</div>\n
 END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
@@ -105,7 +106,7 @@ END;
 
         if ($row) {
 
-            $texte = substr($row["texteTouite"], 0, self::LONGUEURTOUITECOURT); //pour l'affichage court on coupe a un certain nombre de charactère
+            $texte = substr($row["texteTouite"], 0, self::LONGUEURTOUITECOURT)."..."; //pour l'affichage court on coupe a un certain nombre de charactère
 
             //action qui doit s'executer quand on clique sur le texte du touite, ici on affiche le touite en detail
             $actionCliqueTouite = "?action=afficher-touite-detail&id-touite=$id";
@@ -113,12 +114,12 @@ END;
 
             // on construit le touite court
             $retour .= <<<END
-
-    <a href=$actionCliqueTouite class='touite-clickable'>
-        <div class='touiteCourt'>$profile
-            <p class ='corpsTouite'> $texte </p>
-        </div>
-    </a>
+            <div class='touiteCourt'>
+                    $profile
+                    <a href="$actionCliqueTouite" class='touite-clickable'>
+                        <p class ='corpsTouite'> $texte </p>
+                    </a>
+            </div>\n
 END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;
