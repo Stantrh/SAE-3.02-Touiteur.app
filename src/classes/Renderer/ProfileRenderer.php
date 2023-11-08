@@ -22,7 +22,12 @@ class ProfileRenderer
         $st->execute([$id]);
         $row = $st->fetch();
         if ($row) {
-            $retour .= "<div class='user'>" . $row["nom"] . " " . $row["prenom"] . "</div>";
+            $actionCliqueProfile="?action=afficher-touite-user&user=$id";
+            $retour =<<<END
+<a href=$actionCliqueProfile>
+    <div class='user'> {$row["nom"]} {$row["prenom"]}</div>
+</a>
+END;
         } else {
             $retour = "Pas d'utilisateur correspondant a l'id:" . $id;
         }
