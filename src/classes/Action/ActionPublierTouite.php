@@ -45,7 +45,7 @@ class ActionPublierTouite extends Action
                         require __DIR__.'/../../upload.php';
 
 
-                        $image = "../../images/" . $_FILES['image']['name'];
+                        $image = '../images/' . $_FILES['image']['name'];
                         //Requete pour inserer le chemin de fichier de l'image
                         $requeteInsertionImage=<<<END
                         INSERT INTO `IMAGE` (cheminFichier,description) 
@@ -53,8 +53,9 @@ class ActionPublierTouite extends Action
                         END;
                         $st = ConnectionFactory::$db->prepare($requeteInsertionImage);
                         $st->execute([$image]); //$image c'est le chemin de fichier de l'image sur le serveur
-                        //IL FAUT QU'A LA FIN DE CE IF LE CHEMIN DU FICHIER SUR LE SERVEUR SOIT DANS LA VARIABLE $targetFile
 
+                        // Puis dans targetFile, on met l'id de l'image qui vient d(être insérée pour le retrouver après
+                        $targetFile = ConnectionFactory::$db->lastInsertId();
                     }
                 }
 
