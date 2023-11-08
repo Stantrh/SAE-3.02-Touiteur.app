@@ -35,8 +35,9 @@ class ActionPublierTouite extends Action
 
                 // on regarde si l'utilisateur veut ajouter une image
                 $targetFile = null;
+
                 //le if qui suit sert a insere l'image si elle existe
-                if (isset($_FILES["image"])) {
+                if (isset($_FILES["image"])&& strlen($_FILES['image']['name'])>3) {
                     $ext=explode(".",$_FILES['image']['name']);
                     $extAdmissible=["jpg","png","jpeg"];
 
@@ -57,6 +58,9 @@ class ActionPublierTouite extends Action
                         // Puis dans targetFile, on met l'id de l'image qui vient d(être insérée pour le retrouver après
                         $targetFile = ConnectionFactory::$db->lastInsertId();
                     }
+
+                    //on enleve l'image du tableau files pour ne pas avoir de problèmes lors de la prochaine insertion d'image
+                    unset($_FILES["image"]);
                 }
 
                 // On crée un nouveau Touite
@@ -104,8 +108,8 @@ class ActionPublierTouite extends Action
                         //connexion à la base de données
                         $st = ConnectionFactory::$db->prepare($requeteInsererTag);
 
-                        $tabDescriptionTag = explode("#", $contenuNettoye);
-                        $descriptionTag = $tabDescriptionTag[1];
+                        //la description du tag c'est juste le tag sans le #, donc on enleve le premier charactère du tag
+                        $descriptionTag = substr($tagAAjouter,1);
 
                         // on complète la requete SQL
                         $st->bindParam(1, $tagAAjouter);
