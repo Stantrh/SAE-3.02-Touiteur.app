@@ -80,6 +80,43 @@ class ActionPublierTouite extends Action
                 try {
                     $st->execute([$idUser,$contenuNettoye, $targetFile]);
                     $contenuHTML .= "Touite publié !";
+
+                    //on extrait des tags éventuels dans le contenu du touite pour les ajouter dans la base de données
+
+                    //on range chaque mot du contenu dans une case d'un tableau
+                    $tab = explode(" ", $contenuNettoye);
+
+                    // on créé un tableau de résultats qui va contenir les tags éventuels
+                    $resTags = array();
+
+                    // on parcours tout le tableau afin de vérifier si il en contient pas de tag, spécifiés à l'aide de #
+                    foreach ($tab as $value){
+                        //si la case du tableau contient un tag
+                        if(str_contains($value, "#")){
+                            //on met le tag dans le tableau de résultat
+                            $resTags[] = $value;
+                        }
+                    }
+                    
+                    //on insert tous les tags dans la base de données
+                    foreach($resTags as $tagAAjouter){
+                        //on préprare la requete d'insertion des tags dans la base de données
+                        $requeteInsererTag = <<<FIN
+                                        INSERT INTO TAG (libelle, description)
+                                        VALUES (?,?)
+                                    FIN;
+
+                        //connexion à la base de données
+                        $st = ConnectionFactory::$db->prepare($requeteInsererTag);
+
+                        // on complète la requete SQL
+                        $st->bindParam(1, $tagAAjouter);
+                        $st->bindParam(2, $tagAAjouter);
+
+                        // puis on exécute la requête
+                        $st->execute();
+                    }
+
                 } catch (Exception $e) {
                     $contenuHTML .= $e->getMessage();
                 }
