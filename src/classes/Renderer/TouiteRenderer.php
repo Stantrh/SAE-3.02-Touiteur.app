@@ -78,10 +78,15 @@ $profile
 
     <p class ='corpsTouite-long' > {$row["texteTouite"]} </p>
 
-    <div class='score'> {$row["score"]}</div>
 
      $htmlImage
-</div>\n
+     
+         <div class='score'>
+        <span id="score">Score : <span id="scoreValue"></span></span>
+        <button id="likeButton">Like</button>
+        <button id="dislikeButton">Dislike</button>
+    </div>
+</div><br>
 END;
         } else {
             $retour = "pas de touite avec cette id:" . $id;

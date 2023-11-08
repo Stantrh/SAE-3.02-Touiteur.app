@@ -71,7 +71,7 @@ FORM;
             $prenom = filter_var($_POST['prenom'], FILTER_SANITIZE_STRING);
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
             try {
-                Auth::register($_POST['username'], $_POST['nom'], $_POST['prenom'], $email, $_POST['password'], $_POST['confirmPassword']);
+                Auth::register($username, $nom, $prenom, $email, $_POST['password'], $_POST['confirmPassword']);
                 // Redirection vers la page de confirmation si l'inscription fonctionne
                 $contenu_html .= "<h4>Vous êtes bien inscrit sur Toiteur, bienvenue !</h4>";
             }catch (AuthException $e) {
