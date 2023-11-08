@@ -7,6 +7,7 @@ use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
+use touiteur\Action\ActionPublierTouite;
 use touiteur\Action\ActionSignUp;
 use touiteur\Action\ActionSignIn;
 
@@ -47,6 +48,10 @@ class Dispatcher
                 break;
             case "afficher-liste-touite-paginer":
                 $action=new ActionAfficherListeTouitePaginer();
+                $this->renderPage($action->execute());
+                break;
+            case "publier-touite":
+                $action=new ActionPublierTouite();
                 $this->renderPage($action->execute());
                 break;
             default:
@@ -164,6 +169,10 @@ class Dispatcher
                             .touiteCourt:hover {
                                 transform: scale(1.02);
                             }
+                            
+                            .touiteCourt:active {
+                                transform: scale(0.95);
+                            }
                                                         
                             .corpsTouite {
                                 color: black;
@@ -183,20 +192,22 @@ class Dispatcher
                             .boutton-paginer {
                                 text-decoration: none;
                                 color: black;
-                                
                                 background-color: white;
                                 margin: 2px;
                                 padding: 4px;
                                 border: 5px solid #459496;
                                 border-radius: 5px;
-                            }
-                            #bouton-suivant{
-                            align-self: flex-end;
-                            }
-                            #bouton-precedent{
-                            align-self: flex-start;
+                                transition: all 0.3s ease;
                             }
                             
+                            .boutton-paginer:hover {
+                                transform: scale(1.1);
+                            }
+                            
+                            .boutton-paginer:active {
+                                transform: scale(0.9);
+                            }
+                                                        
                             /* Fin Boutons pour la pagination */
                                 
                             button {
@@ -281,6 +292,6 @@ class Dispatcher
                         
                     <!--<link rel="stylesheet" type="text/css" href="../../css/index.css">-->
                 </html>
-        END;
+END;
     }
 }
