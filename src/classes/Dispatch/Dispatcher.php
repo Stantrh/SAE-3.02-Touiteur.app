@@ -70,9 +70,7 @@ class Dispatcher
                     <head>
                         <title>Projet Web</title>
                         <style>
-                            .error{
-                                color:red;
-                            }
+                            
                             
                             body {
                                 font-family: Arial, sans-serif;
@@ -173,6 +171,33 @@ class Dispatcher
                             }
                             
                             /* Fin Touites */
+                            
+                            /* Boutons pour la pagination */
+                            
+                            .bouton-pagination {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                            }
+                            
+                            .boutton-paginer {
+                                text-decoration: none;
+                                color: black;
+                                
+                                background-color: white;
+                                margin: 2px;
+                                padding: 4px;
+                                border: 5px solid #459496;
+                                border-radius: 5px;
+                            }
+                            #bouton-suivant{
+                            align-self: flex-end;
+                            }
+                            #bouton-precedent{
+                            align-self: flex-start;
+                            }
+                            
+                            /* Fin Boutons pour la pagination */
                                 
                             button {
                                 background-color: #f0f0f0;
