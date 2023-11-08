@@ -3,6 +3,7 @@
 namespace touiteur\Dispatch;
 
 use touiteur\Action\ActionAfficherListeTouite;
+use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionSignUp;
 
@@ -27,6 +28,10 @@ class Dispatcher
                 break;
             case "afficher-liste-touite":
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
+                $this->renderPage($action->execute());
+                break;
+            case "afficher-touite-detail":
+                $action=new ActionAfficherTouiteDetail();
                 $this->renderPage($action->execute());
                 break;
             default:

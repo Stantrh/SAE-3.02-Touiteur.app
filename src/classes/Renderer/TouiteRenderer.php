@@ -55,10 +55,8 @@ class TouiteRenderer
         $row = $st->fetch();
 
         if ($row) {     //verification de l'existance du touite
-            $image = "";
-            $descriptionimage = "";
 
-
+            $htmlImage="";
             if ($row["idImage"] != null) { //si il y a une image on fait les requetes pour obtenir l'image
                 //sql
                 $query = "SELECT * FROM `IMAGE` WHERE idImage=?";
@@ -68,6 +66,7 @@ class TouiteRenderer
 
                 $image = $row1["cheminFichier"]; //on stock les infos
                 $descriptionimage = $row1["description"];
+                $htmlImage="<img src=$image alt=$descriptionimage>";
             }
             $profile = ProfileRenderer::render($row["idUser"]);
 
@@ -77,7 +76,7 @@ class TouiteRenderer
 <p class ='corpsTouite'> {$row["texteTouite"]} </p>
 <div class='score'> {$row["score"]}</div>
 
-<img src=$image alt=$descriptionimage>
+$htmlImage
                  </div>";
         } else {
             $retour = "pas de touite avec cette id:" . $id;
