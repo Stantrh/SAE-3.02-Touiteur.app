@@ -77,18 +77,18 @@ HTML;
             }
             $profile = ProfileRenderer::render($row["idUser"]);
 
-            $boutonSupprimer="";
+            $boutonSupprimer = "";
 
             try {
                 Auth::checkAccountOwner($row["idUser"]);
-                $boutonSupprimer=<<<END
+                $boutonSupprimer = <<<END
 <a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
 Supprimer votre touite
 </a>
 END;
 
 
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
 
             }
 
@@ -97,6 +97,8 @@ END;
 Suivre
 </a>
 END;
+            //on transforme les tags dans le texte en lien vers les touite de tags
+            $texteTouite=TouiteRenderer::detecterTransformerTag($row["texteTouite"]);
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
@@ -104,7 +106,7 @@ END;
 $profile
 $boutonSuivreUser
 
-    <p class ='corpsTouite-long' > {$row["texteTouite"]} </p>
+    <p class ='corpsTouite-long' > $texteTouite </p>
 
 
      $htmlImage
@@ -160,6 +162,34 @@ END;
             $retour = "pas de touite avec cette id:" . $id;
         }
         return ($retour);
+    }
+
+    /**
+     * @param string $texte texte d'entré contenant des tags
+     * @return string meme chose que le texte d'entrée les tags sont devenus des liens vers la page affichant tout les touites de ces tags
+     */
+    private static function detecterTransformerTag(string $texte): string
+    {
+        //on coupe le texte au espace pour trouver les #
+        $strExplode = explode(" ", $texte);
+
+        $strFinal = "";
+
+        //on check pour tout les "mots" si c'est un hashtag
+        foreach ($strExplode as $item) {
+
+            //si c'est un hashtag on met un lien, si c'est pas un hashtag on ne fait rien
+            if ($item[0] == "#") {
+                $tag=substr($item,1);
+                $item = <<<END
+<a class="tag-clickable" href="?action=afficher-liste-tag&tag=$tag"> $item </a>
+END;
+            }
+
+            //on ajoute le mot pour constituer petit a petit le touite
+            $strFinal .= $item . " ";
+        }
+        return ($strFinal);
     }
 
 }
