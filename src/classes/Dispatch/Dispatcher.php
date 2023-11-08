@@ -106,6 +106,11 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            #titre{
+                                text-decoration: none;
+                                color: white;
+                            }
+                            
                             p {
                                 text-align: center;
                             }
@@ -237,7 +242,7 @@ class Dispatcher
                     </head>
                     <body>
                         <header>
-                            <h1>Touiteur</h1>
+                            <h1><a href="?action=default" id="titre">Touiteur</a></h1>
                             <div class="menu-box">
                                 <p><a href="?">Accueil</a></p>
                                 <p><a href="?action=signup">Inscription</a></p>
