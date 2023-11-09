@@ -6,6 +6,7 @@ use PDO;
 use touiteur\Database\ConnectionFactory;
 
 use touiteur\Database\ListeIdTouite;
+use touiteur\Database\User;
 use touiteur\Renderer\ListeRenderer;
 use touiteur\Renderer\TouiteRenderer;
 
@@ -69,18 +70,52 @@ class ActionAfficherListeTouite extends Action
      */
     private function default(): string
     {
+            $retour = "";
+            if(isset($_SESSION['user'])){
+                // On fait une immense requête pour traiter chaque sous ensemble par date, puis encore tout l'ensemble
+                $requeteGen = <<<SQL
+SELECT idTouite 
+FROM (
+    SELECT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
+    FROM SUIVREUSER, UTILISATEUR, TOUITE
+    WHERE SUIVREUSER.idUser=UTILISATEUR.idUser 
+        AND TOUITE.idUser=SUIVREUSER.idUserSuivi 
+        AND UTILISATEUR.idUser=? 
+    UNION
+    SELECT DISTINCT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
+    FROM SUIVRETAG, TAG2TOUITE, TOUITE, UTILISATEUR
+    WHERE SUIVRETAG.idUser=UTILISATEUR.idUser 
+        AND TAG2TOUITE.idTag=SUIVRETAG.idTag 
+        AND TOUITE.idTouite=TAG2TOUITE.idTouite 
+        AND UTILISATEUR.idUser=?
+)as listeTouites 
+ORDER BY dateTouite DESC;
+SQL;
+                $res = ConnectionFactory::$db->prepare($requeteGen);
+                $idUserCourant = User::getIdSession();
+                $res->bindParam(1, $idUserCourant);
+                $res->bindParam(2, $idUserCourant);
+                $res->execute();
 
-        $retour = "";
+                $resultat = [];
+                while($row = $res->fetch(PDO::FETCH_ASSOC)){
+                    $resultat[] = $row['idTouite'];
+                }
 
 
-        //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
-        $query = "SELECT idTouite FROM `TOUITE` order by date desc";
-
-        $resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
-
-        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
 
 
+        }else{
+                //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
+                $query = "SELECT idTouite FROM `TOUITE` order by date desc";
+
+                $resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
+
+
+            }
+
+
+        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste
         return ($retour);
 
     }
