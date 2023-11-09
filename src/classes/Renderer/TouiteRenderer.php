@@ -102,7 +102,7 @@ END;
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
-<div class='touite'>\n
+<div class='touite' data-idTouite="$id">\n
 $profile
 $boutonSuivreUser
 
@@ -115,7 +115,9 @@ $boutonSuivreUser
         <span id="score">Score : <span id="scoreValue"></span></span>
         <button id="likeButton">Like</button>
         <button id="dislikeButton">Dislike</button>
-    </div>
+        </div>
+        
+        <script src="../../js/appreciations.js"></script>
 </div><br>
      $boutonSupprimer 
 </div>\n
