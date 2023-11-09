@@ -201,6 +201,9 @@ class Dispatcher
                                 color: black;
                                 padding: 5px;
                             }
+                            .corpsTouite-long{
+                            overflow-wrap: break-word;
+                            }
                             
                             /* Fin Touites */
                             
