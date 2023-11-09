@@ -83,7 +83,7 @@ HTML;
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer = <<<END
 <a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
-Supprimer votre touite
+Supprimer le touite
 </a>
 END;
 
@@ -92,8 +92,9 @@ END;
 
             }
 
+            $userASuivre = $row["idUser"];
             $boutonSuivreUser = <<<END
-<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$id">
+<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$userASuivre">
 Suivre
 </a>
 END;

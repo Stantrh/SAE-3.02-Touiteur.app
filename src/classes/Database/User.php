@@ -2,7 +2,7 @@
 
 namespace touiteur\Database;
 
-use iutnc\deefy\exception\InvalidPropertyNameException;
+use touiteur\Exception\InvalidPropertyNameException;
 
 /**
  * Classe représentant un utilisateur, qui sera évidemment stocké en session

@@ -2,7 +2,7 @@
 namespace touiteur\Exception;
 use Exception;
 
-class   InvalidPropertyNameException extends Exception
+class   InvalidActionException extends Exception
 {
 }
 ;
