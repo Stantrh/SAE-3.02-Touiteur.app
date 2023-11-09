@@ -84,6 +84,7 @@ class Auth{
      * @throws AuthException
      */
     public static function checkAccountOwner(int $id) : void{
+        //regarde si il y a un utilisateur en session pour ne pas faire d'erreur d'accès de tableau inexistant
         if(!isset($_SESSION['user'])){
             throw new AuthException("Pas d'utilisateur connéctée");
         }
