@@ -2,7 +2,8 @@
 
 namespace touiteur\Action;
 
-use iutnc\deefy\exception\InvalidPropertyNameException;
+use touiteur\Exception\InvalidActionException;
+use touiteur\Exception\InvalidPropertyNameException;
 use touiteur\Database\SuivreUser;
 
 class ActionSuivreUtilisateur extends Action
@@ -10,7 +11,9 @@ class ActionSuivreUtilisateur extends Action
 
     public function execute(): string
     {
-        $retour = "Aucune action  ";
+        $retour = "Aucune action ";
+
+        //il faut etre connecté pour pouvoir suivre un utilisateur
         if (isset($_SESSION["user"])){
             if (isset($_GET["id-user-suivre"])) {
                 try {
@@ -21,7 +24,9 @@ class ActionSuivreUtilisateur extends Action
 
                 }catch(InvalidPropertyNameException $e){
                     $retour = $e->getMessage();
-                } catch (\Exception $e) {
+                }catch(InvalidActionException $e1){
+                    $retour = "Vous ne pouvez pas vous suivre vous même ! NARCISSIQUE !";
+                }catch (\Exception $e2) {
                     $retour = "Vous ne pouvez pas suivre cette personne";
                 }
             }
