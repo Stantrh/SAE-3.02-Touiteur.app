@@ -182,7 +182,7 @@ END;
         foreach ($strExplode as $item) {
 
             //si c'est un hashtag on met un lien, si c'est pas un hashtag on ne fait rien
-            if ($item[0] == "#") {
+            if (!empty($item) && $item[0] == "#") {
                 $tag=substr($item,1);
                 $item = <<<END
 <a class="tag-clickable" href="?action=afficher-liste-tag&tag=$tag"> $item </a>

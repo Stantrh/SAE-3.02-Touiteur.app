@@ -10,6 +10,7 @@ use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
 use touiteur\Action\ActionSignUp;
 use touiteur\Action\ActionSignIn;
+use touiteur\Action\ActionSuivreTag;
 use touiteur\Action\ActionSuivreUtilisateur;
 use touiteur\Action\ActionSupprimerTouite;
 
@@ -68,7 +69,10 @@ class Dispatcher
                 $action=new ActionSuivreUtilisateur();
                 $this->renderPage($action->execute());
                 break;
-
+            case "suivre-tag":
+                $action=new ActionSuivreTag();
+                $this->renderPage($action->execute());
+                break;
             default:
                 $action=new ActionDefault();
                 self::renderPage($action->execute());
