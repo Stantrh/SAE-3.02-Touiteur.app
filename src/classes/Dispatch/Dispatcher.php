@@ -47,11 +47,11 @@ class Dispatcher
                 self::renderPage($action->execute());
                 break;
             case "afficher-touite-user":
-                $action=new ActionAfficherListeTouiteUser();
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::UTILISATEUR);
                 self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite-paginer":
-                $action=new ActionAfficherListeTouitePaginer();
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::PAGINER);
                 $this->renderPage($action->execute());
                 break;
             case "afficher-liste-tag":
