@@ -20,7 +20,7 @@ class ActionSignIn extends Action
             
             <label for="password">Mot de passe : </label>
             <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" name="submit" value="Se connecter">
+    <input type="submit" class="post" name="submit" value="Se connecter">
 </form>
 FORM;
         }elseif($this->http_method === 'POST'){

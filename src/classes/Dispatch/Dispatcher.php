@@ -5,6 +5,7 @@ namespace touiteur\Dispatch;
 use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
+use touiteur\Action\ActionAfficherStatistiqueCompte;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
@@ -51,11 +52,11 @@ class Dispatcher
                 self::renderPage($action->execute());
                 break;
             case "afficher-touite-user":
-                $action=new ActionAfficherListeTouiteUser();
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::UTILISATEUR);
                 self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite-paginer":
-                $action=new ActionAfficherListeTouitePaginer();
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::PAGINER);
                 $this->renderPage($action->execute());
                 break;
             case "afficher-liste-tag":
@@ -76,6 +77,10 @@ class Dispatcher
                 break;
             case "suivre-tag":
                 $action=new ActionSuivreTag();
+                $this->renderPage($action->execute());
+                break;
+            case "statistique-compte":
+                $action=new ActionAfficherStatistiqueCompte();
                 $this->renderPage($action->execute());
                 break;
             default:
@@ -100,7 +105,6 @@ class Dispatcher
                         <title>Projet Web</title>
                         <style>
                             
-                            
                             body {
                                 font-family: Arial, sans-serif;
                                 background-color: #f0f0f0;
@@ -119,7 +123,7 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
-                            header h1{
+                            header h1 {
                                 font-size: 3em;
                                 margin-top: 5px;
                                 margin-bottom: 0px;
@@ -137,7 +141,7 @@ class Dispatcher
                                 text-align: center;
                             }
                             
-                            #titre{
+                            #titre {
                                 text-decoration: none;
                                 color: white;
                             }
@@ -146,8 +150,12 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            button{
+                                
+                            }
                             
                             /* Touites */
+                            
                             .touiteCourt {
                                 display: flex;
                                 flex-direction: column;
@@ -170,7 +178,7 @@ class Dispatcher
                             }
                             
                             .touite-clickable {
-                                text-decoration:none;
+                                text-decoration: none;
                                 background-color: white;
                                 margin: 10px;
                                 border: 1px solid black;
@@ -201,23 +209,25 @@ class Dispatcher
                             .touiteCourt:active {
                                 transform: scale(0.95);
                             }
-                                                        
+                            
                             .corpsTouite {
                                 color: black;
                                 padding: 5px;
+                            }
+                            .corpsTouite-long{
+                            overflow-wrap: break-word;
                             }
                             
                             /* Fin Touites */
                             
                             /* Boutons pour la pagination */
-                            
                             .bouton-pagination {
                                 display: flex;
                                 flex-direction: row;
                                 justify-content: space-between;
                             }
                             
-                            .boutton-paginer {
+                            .boutton-paginer, .bouton-publier-touite {
                                 text-decoration: none;
                                 color: black;
                                 background-color: white;
@@ -235,9 +245,22 @@ class Dispatcher
                             .boutton-paginer:active {
                                 transform: scale(0.9);
                             }
-                                                        
-                            /* Fin Boutons pour la pagination */
+                            
+                            .bouton-publier-touite:hover {
+                                background-color: #ffffff;
+                                border: 5px solid #459496;
+                                color: #000;
+                                transform: scale(1.1);
                                 
+                            }
+                            
+                            .bouton-publier-touite:active {
+                                transform: scale(0.9);
+                            }
+                            
+                            /* Fin Boutons pour la pagination */
+                            
+                            /* je sais pas si c'est utilisé dans un autre endroit que dans l'accueil alors je le garde au cas où
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;
@@ -250,9 +273,24 @@ class Dispatcher
                                 margin: 0 auto;
                                 text-decoration: none;
                             }
+                            */
+                            
+                            button {
+                                text-decoration: none;
+                                font-size: 15px;
+                                color: #ffffff;
+                                padding: 10px 20px;
+                                margin-top: 10px;
+                                border: 3px solid #ffffff;
+                                border-radius: 5px;
+                                background-color: #459496;
+                                transition: all 0.3s ease;
+                            }
                             
                             button:hover {
-                                background-color: #b29a00;
+                                background-color: #ffffff;
+                                border: 3px solid #ffffff;
+                                color: #000;
                             }
                             
                             button:active {
@@ -262,6 +300,12 @@ class Dispatcher
                             header p {
                                 margin: 10px;
                             }
+                            
+                            .liste-followers{
+                                background-color: red;
+                            }
+                            
+                            /* MENU HEADER */
                             
                             .menu-box {
                                 display: flex;
@@ -279,6 +323,7 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            
                             .menu-box a {
                                 text-decoration: none;
                                 color: #ffffff;
@@ -294,6 +339,122 @@ class Dispatcher
                                 border: 3px solid #ffffff;
                                 color: #000;
                             }
+                            
+                            /* FIN MENU HEADER */
+                            
+                            /* Menu déroulant */
+                            
+                            .dropbtn{
+                                margin-top: -12px;
+                                margin-left: 10px;
+                            }
+                            
+                            .dropdown-content {
+                                display: none;
+                                position: absolute;
+                                background-color: #459496;
+                                min-width: 160px;
+                                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                                z-index: 1;
+                                border-radius: 5px;
+                            }
+                            
+                            .dropdown:hover .dropdown-content {
+                                display: flex;
+                                flex-direction: column;
+                            }
+                            
+                            .dropdown:hover .dropdown-content p {
+                                display: flex;
+                                flex-direction: column;
+                                margin: 10px;
+                                
+                            }
+                            
+                            /* FIN Menu déroulant */
+                            
+                            /* FORMULAIRES */
+                            
+                            /* avant
+                            form {
+                                display: grid;
+                                flex-direction: column;
+                                padding: 20px;
+                                /*align-items: center;*/
+                            }
+                            
+                            form label {
+                                margin-top: 10px;
+                                
+                            }
+                            
+                            form input {
+                                border: 3px solid #459496;
+                                border-radius: 5px;
+                                background-color: rgba(69, 148, 150, 0.1);
+                            }
+                            
+                            .ligne-formulaire {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                                margin-bottom: 20px;
+                            }
+                            
+                            .sous-ligne-formulaire {
+                                width: 400px;
+                            }
+                            
+                            .sous-ligne-formulaire input {
+                                width: 200px;
+                            }
+                            
+                            form .post {
+                                justify-content: center;
+                                width: 12%;
+                            }
+                            */
+                            
+                            /* apres */
+                            form {
+                                max-width: 400px;
+                                width: 100%;
+                                padding: 20px;
+                                background-color: #fff;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                                border-radius: 5px;
+                            }
+                    
+                            /* Style pour les lignes du formulaire */
+                            .ligne-formulaire {
+                                display: flex;
+                                justify-content: flex-end;
+                                margin-bottom: 15px;
+                            }
+                    
+                            /* Style pour les sous-lignes du formulaire */
+                            .sous-ligne-formulaire {
+                                width: 50%; /* Ajuste la largeur des sous-lignes */
+                            }
+                    
+                            /* Style pour les champs de saisie */
+                            label {
+                                display: block;
+                                margin-bottom: 5px;
+                            }
+                    
+                            input {
+                                width: 100%;
+                                height: 30px;
+                                margin-bottom: 10px;
+                                box-sizing: border-box; /* Pour inclure la bordure dans la largeur du champ */
+                            }
+                    
+                            
+                            
+                            /* FIN FORMULAIRE*/
+
+                            
                         </style>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale =1.0">
@@ -319,7 +480,16 @@ END;
         }
 
         $res .= <<<END
+                                <div class="dropdown">
+                                    <button class="dropbtn">Menu</button>
+                                    <div class="dropdown-content">
+                                        <p><a href="?action=signup">Inscription</a></p>
+                                        <p><a href="?action=publier-touite">Touiter</a></p>
+                                        <p><a href="?action=signin">Se connecter</a></p>
+                                    </div>
+                                </div>
                             </div>
+                            
                         </header>
                         <main>
                             $html
