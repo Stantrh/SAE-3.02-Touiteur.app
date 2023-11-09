@@ -133,8 +133,7 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
-                            h1,
-                            h4 {
+                            h1, h4 {
                                 text-align: center;
                             }
                             
@@ -147,7 +146,12 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            button{
+                                
+                            }
+                            
                             /* Touites */
+                            
                             .touiteCourt {
                                 display: flex;
                                 flex-direction: column;
@@ -219,7 +223,7 @@ class Dispatcher
                                 justify-content: space-between;
                             }
                             
-                            .boutton-paginer {
+                            .boutton-paginer, .bouton-publier-touite {
                                 text-decoration: none;
                                 color: black;
                                 background-color: white;
@@ -238,8 +242,21 @@ class Dispatcher
                                 transform: scale(0.9);
                             }
                             
+                            .bouton-publier-touite:hover {
+                                background-color: #ffffff;
+                                border: 5px solid #459496;
+                                color: #000;
+                                transform: scale(1.1);
+                                
+                            }
+                            
+                            .bouton-publier-touite:active {
+                                transform: scale(0.9);
+                            }
+                            
                             /* Fin Boutons pour la pagination */
                             
+                            /* je sais pas si c'est utilisé dans un autre endroit que dans l'accueil alors je le garde au cas où
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;
@@ -252,9 +269,24 @@ class Dispatcher
                                 margin: 0 auto;
                                 text-decoration: none;
                             }
+                            */
+                            
+                            button {
+                                text-decoration: none;
+                                font-size: 15px;
+                                color: #ffffff;
+                                padding: 10px 20px;
+                                margin-top: 10px;
+                                border: 3px solid #ffffff;
+                                border-radius: 5px;
+                                background-color: #459496;
+                                transition: all 0.3s ease;
+                            }
                             
                             button:hover {
-                                background-color: #b29a00;
+                                background-color: #ffffff;
+                                border: 3px solid #ffffff;
+                                color: #000;
                             }
                             
                             button:active {

@@ -17,10 +17,10 @@ class ActionPublierTouite extends Action
             $contenuHTML .= <<<FINI
                                 <form method="post" action="?action=publier-touite" enctype="multipart/form-data">
                                 <fieldset>
-                                    <legend> Ajouter un nouveau Touite </legend>
+                                    <legend> Publier un nouveau Touite </legend>
                                     <input type="text" name="contenu" placeholder="Contenu de votre Touite" required>
                                     <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" placeholder="Une image pour illustrer votre Touite ?">
-                                    <button type="submit" name="ajouter_playlist" value="ajouter_p1">Ajouter</button>
+                                    <button class="bouton-publier-touite" type="submit" name="ajouter_playlist">Publier</button>
                                 </fieldset>
                             FINI;
 
