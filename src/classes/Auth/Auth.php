@@ -84,6 +84,9 @@ class Auth{
      * @throws AuthException
      */
     public static function checkAccountOwner(int $id) : void{
+        if(!isset($_SESSION['user'])){
+            throw new AuthException("Pas d'utilisateur connéctée");
+        }
         $user = unserialize($_SESSION['user']);
         $role = $user->__get('role');
         if(!($role === 100)){ // admin a un role 100
