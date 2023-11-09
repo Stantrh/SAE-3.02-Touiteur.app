@@ -9,6 +9,7 @@ use touiteur\Action\ActionAfficherStatistiqueCompte;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
+use touiteur\Action\ActionSignOut;
 use touiteur\Action\ActionSignUp;
 use touiteur\Action\ActionSignIn;
 use touiteur\Action\ActionSuivreTag;
@@ -36,6 +37,10 @@ class Dispatcher
                 break;
             case 'signin':
                 $action= new ActionSignIn();
+                self::renderPage($action->execute());
+                break;
+            case 'signout':
+                $action = new ActionSignOut();
                 self::renderPage($action->execute());
                 break;
             case "afficher-liste-touite":
@@ -74,7 +79,6 @@ class Dispatcher
                 $action=new ActionSuivreTag();
                 $this->renderPage($action->execute());
                 break;
-
             case "statistique-compte":
                 $action=new ActionAfficherStatistiqueCompte();
                 $this->renderPage($action->execute());
@@ -93,8 +97,8 @@ class Dispatcher
      */
     private function renderPage(string $html):void{
 
-        $css = __DIR__.'/../../css/index.css';
-        echo <<<END
+//        $css = __DIR__.'/../../css/index.css'; problème d'accès
+        $res = <<<END
                 <!DOCTYPE html>
                 <html lang="fr">
                     <head>
@@ -454,17 +458,28 @@ class Dispatcher
                         </style>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale =1.0">
-                        <!--<link rel="stylesheet" href="$css">-->
                     </head>
                     <body>
                         <header>
                             <h1><a href="?action=default" id="titre">Touiteur</a></h1>
                             <div class="menu-box">
                                 <p><a href="?">Accueil</a></p>
-                                <p><a href="?action=signup">Inscription</a></p>
-                                <p><a href="?action=publier-touite">Touiter</a></p>
-                                <p><a href="?action=signin">Se connecter</a></p>
                                 <p><a href="?action=afficher-liste-touite-paginer">Touites paginés</a></p>
+END;
+    // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
+        if(isset($_SESSION['user'])){
+            $res .= <<<END
+                                <p><a href="?action=publier-touite">Touiter</a></p>
+                                <p><a href="?action=signout">Se deconnecter</a></p>
+END;
+        }else{
+            $res .= <<<END
+                                <p><a href="?action=signin">Se connecter</a></p>
+                                <p><a href="?action=signup">Inscription</a></p>
+END;
+        }
+
+        $res .= <<<END
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
@@ -473,7 +488,6 @@ class Dispatcher
                                         <p><a href="?action=signin">Se connecter</a></p>
                                     </div>
                                 </div>
-                                
                             </div>
                             
                         </header>
@@ -482,8 +496,9 @@ class Dispatcher
                         </main>
                     </body>
                         
-                    <!--<link rel="stylesheet" type="text/css" href="../../css/index.css">-->
                 </html>
 END;
+
+        echo $res;
     }
 }
