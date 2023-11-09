@@ -95,7 +95,6 @@ class Dispatcher
                         <title>Projet Web</title>
                         <style>
                             
-                            
                             body {
                                 font-family: Arial, sans-serif;
                                 background-color: #f0f0f0;
@@ -114,7 +113,7 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
-                            header h1{
+                            header h1 {
                                 font-size: 3em;
                                 margin-top: 5px;
                                 margin-bottom: 0px;
@@ -128,11 +127,12 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
-                            h1, h4 {
+                            h1,
+                            h4 {
                                 text-align: center;
                             }
                             
-                            #titre{
+                            #titre {
                                 text-decoration: none;
                                 color: white;
                             }
@@ -140,7 +140,6 @@ class Dispatcher
                             p {
                                 text-align: center;
                             }
-                            
                             
                             /* Touites */
                             .touiteCourt {
@@ -165,7 +164,7 @@ class Dispatcher
                             }
                             
                             .touite-clickable {
-                                text-decoration:none;
+                                text-decoration: none;
                                 background-color: white;
                                 margin: 10px;
                                 border: 1px solid black;
@@ -196,7 +195,7 @@ class Dispatcher
                             .touiteCourt:active {
                                 transform: scale(0.95);
                             }
-                                                        
+                            
                             .corpsTouite {
                                 color: black;
                                 padding: 5px;
@@ -205,7 +204,6 @@ class Dispatcher
                             /* Fin Touites */
                             
                             /* Boutons pour la pagination */
-                            
                             .bouton-pagination {
                                 display: flex;
                                 flex-direction: row;
@@ -230,9 +228,9 @@ class Dispatcher
                             .boutton-paginer:active {
                                 transform: scale(0.9);
                             }
-                                                        
+                            
                             /* Fin Boutons pour la pagination */
-                                
+                            
                             button {
                                 background-color: #f0f0f0;
                                 color: #000000;
@@ -258,6 +256,12 @@ class Dispatcher
                                 margin: 10px;
                             }
                             
+                            .liste-followers{
+                                background-color: red;
+                            }
+                            
+                            /* MENU HEADER */
+                            
                             .menu-box {
                                 display: flex;
                                 justify-content: center;
@@ -274,6 +278,7 @@ class Dispatcher
                                 text-align: center;
                             }
                             
+                            
                             .menu-box a {
                                 text-decoration: none;
                                 color: #ffffff;
@@ -289,10 +294,45 @@ class Dispatcher
                                 border: 3px solid #ffffff;
                                 color: #000;
                             }
+                            
+                            /* FIN MENU HEADER */
+                            
+                            /* Menu déroulant */
+                            
+                            .dropbtn{
+                                margin-top: -12px;
+                                margin-left: 10px;
+                            }
+                            
+                            .dropdown-content {
+                                display: none;
+                                position: absolute;
+                                background-color: #459496;
+                                min-width: 160px;
+                                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                                z-index: 1;
+                                border-radius: 5px;
+                            }
+                            
+                            .dropdown:hover .dropdown-content {
+                                display: flex;
+                                flex-direction: column;
+                            }
+                            
+                            .dropdown:hover .dropdown-content p {
+                                display: flex;
+                                flex-direction: column;
+                                margin: 10px;
+                                
+                            }
+                            
+                            /* FIN Menu déroulant */
+
+                            
                         </style>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale =1.0">
-                        <link rel="stylesheet" href="$css">
+                        <!--<link rel="stylesheet" href="$css">-->
                     </head>
                     <body>
                         <header>
@@ -303,7 +343,17 @@ class Dispatcher
                                 <p><a href="?action=publier-touite">Touiter</a></p>
                                 <p><a href="?action=signin">Se connecter</a></p>
                                 <p><a href="?action=afficher-liste-touite-paginer">Touites paginés</a></p>
+                                <div class="dropdown">
+                                    <button class="dropbtn">Menu</button>
+                                    <div class="dropdown-content">
+                                        <p><a href="?action=signup">Inscription</a></p>
+                                        <p><a href="?action=publier-touite">Touiter</a></p>
+                                        <p><a href="?action=signin">Se connecter</a></p>
+                                    </div>
+                                </div>
+                                
                             </div>
+                            
                         </header>
                         <main>
                             $html
