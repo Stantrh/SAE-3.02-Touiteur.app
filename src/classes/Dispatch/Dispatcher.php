@@ -5,6 +5,7 @@ namespace touiteur\Dispatch;
 use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
+use touiteur\Action\ActionAfficherStatistiqueCompte;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
@@ -71,6 +72,11 @@ class Dispatcher
                 break;
             case "suivre-tag":
                 $action=new ActionSuivreTag();
+                $this->renderPage($action->execute());
+                break;
+
+            case "statistique-compte":
+                $action=new ActionAfficherStatistiqueCompte();
                 $this->renderPage($action->execute());
                 break;
             default:
@@ -199,6 +205,9 @@ class Dispatcher
                             .corpsTouite {
                                 color: black;
                                 padding: 5px;
+                            }
+                            .corpsTouite-long{
+                            overflow-wrap: break-word;
                             }
                             
                             /* Fin Touites */
