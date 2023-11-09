@@ -45,7 +45,7 @@ END;
                 $st->execute([$idTag,$idUser]);
 
             } catch (\Exception $exception) {
-                throw $exception;
+                throw new \Exception("Tag déjà suivi");
             }
             // on exécute la requete
 
