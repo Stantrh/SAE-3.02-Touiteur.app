@@ -368,6 +368,87 @@ class Dispatcher
                             }
                             
                             /* FIN Menu déroulant */
+                            
+                            /* FORMULAIRES */
+                            
+                            /* avant
+                            form {
+                                display: grid;
+                                flex-direction: column;
+                                padding: 20px;
+                                /*align-items: center;*/
+                            }
+                            
+                            form label {
+                                margin-top: 10px;
+                                
+                            }
+                            
+                            form input {
+                                border: 3px solid #459496;
+                                border-radius: 5px;
+                                background-color: rgba(69, 148, 150, 0.1);
+                            }
+                            
+                            .ligne-formulaire {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: space-between;
+                                margin-bottom: 20px;
+                            }
+                            
+                            .sous-ligne-formulaire {
+                                width: 400px;
+                            }
+                            
+                            .sous-ligne-formulaire input {
+                                width: 200px;
+                            }
+                            
+                            form .post {
+                                justify-content: center;
+                                width: 12%;
+                            }
+                            */
+                            
+                            /* apres */
+                            form {
+                                max-width: 400px;
+                                width: 100%;
+                                padding: 20px;
+                                background-color: #fff;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                                border-radius: 5px;
+                            }
+                    
+                            /* Style pour les lignes du formulaire */
+                            .ligne-formulaire {
+                                display: flex;
+                                justify-content: flex-end;
+                                margin-bottom: 15px;
+                            }
+                    
+                            /* Style pour les sous-lignes du formulaire */
+                            .sous-ligne-formulaire {
+                                width: 50%; /* Ajuste la largeur des sous-lignes */
+                            }
+                    
+                            /* Style pour les champs de saisie */
+                            label {
+                                display: block;
+                                margin-bottom: 5px;
+                            }
+                    
+                            input {
+                                width: 100%;
+                                height: 30px;
+                                margin-bottom: 10px;
+                                box-sizing: border-box; /* Pour inclure la bordure dans la largeur du champ */
+                            }
+                    
+                            
+                            
+                            /* FIN FORMULAIRE*/
 
                             
                         </style>

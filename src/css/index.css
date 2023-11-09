@@ -39,7 +39,7 @@ p {
 }
 
 button {
-    background-color: #f0f0f0;
+    background-color: rgba(69, 148, 150, 0.1);
     color: #000000;
     font-size: 20px;
     border: none;
