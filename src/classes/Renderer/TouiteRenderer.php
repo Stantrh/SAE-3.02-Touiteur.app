@@ -92,8 +92,9 @@ END;
 
             }
 
+            $userASuivre = $row["idUser"];
             $boutonSuivreUser = <<<END
-<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$id">
+<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$userASuivre">
 Suivre
 </a>
 END;
