@@ -83,7 +83,7 @@ HTML;
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer = <<<END
 <a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
-Supprimer votre touite
+Supprimer le touite
 </a>
 END;
 

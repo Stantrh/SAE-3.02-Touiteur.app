@@ -18,6 +18,7 @@ class ActionSupprimerTouite extends Action
 
             } catch (\Exception $e) {
                 $retour = "Vous ne pouvez pas supprimer ce touite";
+                $retour .= $e->getMessage();
             }
         }
 
