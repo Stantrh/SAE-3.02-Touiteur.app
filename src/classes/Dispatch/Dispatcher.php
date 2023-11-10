@@ -105,13 +105,6 @@ class Dispatcher
                         <title>Projet Web</title>
                         <style>
                             
-                            body {
-                                font-family: Arial, sans-serif;
-                                background-color: #f0f0f0;
-                                margin: 0;
-                                padding: 0;
-                            }
-                            
                             header {
                                 background-color: #459496;
                                 color: #fff;
@@ -123,14 +116,22 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                             }
                             
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f0f0f0;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            
                             header h1 {
                                 font-size: 3em;
                                 margin-top: 5px;
                                 margin-bottom: 0px;
                             }
                             
-                            main {
+                            .main {
                                 max-width: 800px;
+                                min-width: 800px;
                                 margin: 20px auto;
                                 padding: 20px;
                                 background-color: #fff;
@@ -479,7 +480,20 @@ class Dispatcher
                             }
                             
                             /* FIN FORMULAIRE*/
-
+                            
+                            .touiter {
+                                border-radius: 50%;
+                                position: fixed;
+                                bottom: 20px;
+                                right: 20px;
+                                width: 100px;
+                                height: 100px;
+                            }
+                            
+                            .touiter img {
+                                max-width: 30px;
+                                max-height: 30px;
+                            }
                             
                         </style>
                         <meta charset="utf-8">
@@ -518,9 +532,25 @@ END;
                             </div>
                             
                         </header>
-                        <main>
-                            $html
-                        </main>
+                        <div class="main">
+                            <div>
+                                $html
+                            </div>
+                        </div>
+                        <a href="?action=publier-touite">
+                            <button class="touiter">
+                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
+                                Touiter
+                            </button>
+                        </a>
+                        
+                        <!--
+                        <div class="touiter">
+                            <a href="?action=publier-touite">
+                                <p>Touiter</p>
+                            </a>
+                        </div>
+                        -->
                     </body>
                         
                 </html>
