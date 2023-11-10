@@ -12,10 +12,10 @@ class ActionAfficherStatistiqueCompte extends Action
 
     public function execute(): string
     {
-        $idUser= User::getIdSession(); //todo remplacer;
-        $scoreMoyenTouite=self::scoreMoyenUser($idUser);
+        $idUser = User::getIdSession(); //todo remplacer;
+        $scoreMoyenTouite = self::scoreMoyenUser($idUser);
 
-        $listeIdAfficher=self::listeFollower($idUser);
+        $listeIdAfficher = self::listeFollower($idUser);
         $retour = <<<END
 <div class="score-moyen-touite-container">
     <p class="texte-score-moyen-touite">Le score moyen de vos touite est: </p> 
@@ -25,11 +25,11 @@ class ActionAfficherStatistiqueCompte extends Action
 END;
 
         foreach ($listeIdAfficher as $item) {
-            $html=ProfileRenderer::render($item);
-            $retour.=$html;
+            $html = ProfileRenderer::render($item);
+            $retour .= $html;
         }
 
-        return ($retour."</div>");
+        return ($retour . "</div>");
     }
 
     /**
@@ -48,11 +48,14 @@ END;
         $st = $db->prepare($requeteFollowers);
         $st->execute([$idUser]);
         $row = $st->fetch();
-        do {
-            $retour[]= $row["id"];
 
-        } while ($row = $st->fetch(PDO::FETCH_ASSOC));
+        if ($row) {
 
+            do {
+                $retour[] = $row["id"];
+
+            } while ($row = $st->fetch(PDO::FETCH_ASSOC));
+        }
 
         return ($retour);
     }
@@ -67,7 +70,7 @@ END;
 
 
         //donne le score par touite de l'utilisateur en parametre
-        $requeteLikeMoyen= "select avg(score) from TOUITE where TOUITE.idUser=? GROUP BY TOUITE.idUser;";
+        $requeteLikeMoyen = "select round(avg(score),1) from TOUITE where TOUITE.idUser=? GROUP BY TOUITE.idUser;";
         $db = ConnectionFactory::$db;
         $st = $db->prepare($requeteLikeMoyen);
         $st->execute([$idUser]);
@@ -76,7 +79,7 @@ END;
 
         if ($row) {
             //on fait la moyenne du score des touites
-            $scoreMoyen=$row[0];
+            $scoreMoyen = $row[0];
         }
 
         return ($scoreMoyen);
