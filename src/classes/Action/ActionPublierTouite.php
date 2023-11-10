@@ -8,7 +8,7 @@ use touiteur\Database\ConnectionFactory;
 class ActionPublierTouite extends Action
 {
 
-    public function execute():  string
+    public function execute(): string
     {
         // String à construire et à renvoyer
         $contenuHTML = "";
@@ -27,8 +27,8 @@ class ActionPublierTouite extends Action
         } else { // POST
 
             if (isset($_SESSION["user"])) {
-                $user=unserialize($_SESSION["user"]);
-                $idUser=$user->__get("id");
+                $user = unserialize($_SESSION["user"]);
+                $idUser = $user->__get("id");
                 // on nettoye le contenu du Touite
                 $contenuNettoye = filter_var($_POST['contenu'], FILTER_SANITIZE_STRING);
 
@@ -37,18 +37,18 @@ class ActionPublierTouite extends Action
                 $targetFile = null;
 
                 //le if qui suit sert a insere l'image si elle existe
-                if (isset($_FILES["image"])&& strlen($_FILES['image']['name'])>3) {
-                    $ext=explode(".",$_FILES['image']['name']);
-                    $extAdmissible=["jpg","png","jpeg"];
+                if (isset($_FILES["image"]) && strlen($_FILES['image']['name']) > 3) {
+                    $ext = explode(".", $_FILES['image']['name']);
+                    $extAdmissible = ["jpg", "png", "jpeg"];
 
                     // L'extension du fichier est validée
-                    if (in_array($ext[1],$extAdmissible)) {
-                        require __DIR__.'/../../upload.php';
+                    if (in_array($ext[1], $extAdmissible)) {
+                        require __DIR__ . '/../../upload.php';
 
 
                         $image = '../images/' . $_FILES['image']['name'];
                         //Requete pour inserer le chemin de fichier de l'image
-                        $requeteInsertionImage=<<<END
+                        $requeteInsertionImage = <<<END
                         INSERT INTO `IMAGE` (cheminFichier,description) 
                         VALUES (?,'Image uploadée par un utilisateur');
                         END;
@@ -74,7 +74,7 @@ class ActionPublierTouite extends Action
 
                 // on exécute l'insertion
                 try {
-                    $st->execute([$idUser,$contenuNettoye, $targetFile]);
+                    $st->execute([$idUser, $contenuNettoye, $targetFile]);
                     $contenuHTML .= "Touite publié !";
 
 
@@ -86,19 +86,19 @@ class ActionPublierTouite extends Action
                     $resTags = array();
 
                     // on parcours tout le tableau afin de vérifier si il en contient pas de tag, spécifiés à l'aide de #
-                    foreach ($tab as $value){
+                    foreach ($tab as $value) {
                         //si la case du tableau contient un tag
-                        if(str_contains($value, "#")){
+                        if (str_contains($value, "#")) {
                             //on vérifie que le # se trouve en première position
-                            if(strpos($value, "#") == 0){
+                            if (strpos($value, "#") == 0) {
                                 //on met le tag dans le tableau de résultat
                                 $resTags[] = $value;
                             }
                         }
                     }
-                    
+
                     //on insert tous les tags dans la base de données
-                    foreach($resTags as $tagAAjouter){
+                    foreach ($resTags as $tagAAjouter) {
                         //on préprare la requete d'insertion des tags dans la base de données
                         $requeteInsererTag = <<<FIN
                                                     INSERT INTO TAG (libelle, description)
@@ -109,15 +109,20 @@ class ActionPublierTouite extends Action
                         $st = ConnectionFactory::$db->prepare($requeteInsererTag);
 
                         //la description du tag c'est juste le tag sans le #, donc on enleve le premier charactère du tag
-                        $descriptionTag = substr($tagAAjouter,1);
+                        $descriptionTag = substr($tagAAjouter, 1);
 
                         // on complète la requete SQL
                         $st->bindParam(1, $tagAAjouter);
                         $st->bindParam(2, $descriptionTag);
 
-                        // puis on exécute la requête
-                        $st->execute();
 
+                        //la requete renvoie une erreur si le touite existe déjà
+                        try {
+                            // puis on exécute la requête
+                            $st->execute();
+                        }catch (Exception $exception){
+
+                        }
                         // on récupère l'id du dernier touite
                         //requete
                         $requeteRecupererIdTouite = <<<FIN
@@ -137,12 +142,12 @@ class ActionPublierTouite extends Action
                         // on récupère l'id du dernier tag
                         //requete
                         $requeteRecupererIdTag = <<<FIN
-                                                    SELECT MAX(idTag) FROM TAG
+                                                    SELECT idTag FROM TAG where libelle=?
                                                 FIN;
 
                         //connexion à la base de données
                         $st = ConnectionFactory::$db->prepare($requeteRecupererIdTag);
-                        $st->execute();
+                        $st->execute([$tagAAjouter]);
 
                         // on récupère le résultat de la requete SQL
                         $row = $st->fetch();
