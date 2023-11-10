@@ -59,7 +59,7 @@ class SupprimerTouite
                         echo("le fichier n'a pa été supprimé du serveur");
                     }
                 }catch (\Exception $e ){
-                    echo("le fichier n'a pa été supprimé du serveur: "+$e->getMessage());
+                    echo("le fichier n'a pa été supprimé du serveur ");
 
                 }
 
