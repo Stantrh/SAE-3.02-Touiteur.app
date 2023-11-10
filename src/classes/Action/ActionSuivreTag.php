@@ -29,7 +29,7 @@ END;
             if (isset($_POST["tag"]) && isset($_SESSION["user"])) {
                 try {
                     $tag = $_POST["tag"];
-
+                    $tag=filter_var($tag, FILTER_SANITIZE_STRING);
                     if (strlen($tag) > 1) {
                         if ($tag[0] == '#') {
                             $tag = explode(' ', $tag)[0];
