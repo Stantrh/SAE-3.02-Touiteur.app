@@ -146,9 +146,6 @@ class Dispatcher
                                 text-align: center;
                             }
                             
-                            button{
-                                
-                            }
                             
                             /* Touites */
                             
@@ -211,7 +208,45 @@ class Dispatcher
                                 padding: 5px;
                             }
                             .corpsTouite-long{
-                            overflow-wrap: break-word;
+                                overflow-wrap: break-word;
+                            }
+                            
+                            .profil {
+                                display: flex;
+                                justify-content: space-between;
+                            }
+                            
+                            .bouton-suivre {
+                                text-decoration: none;
+                                color: white;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .bouton-suivre:hover {
+                                transform: scale(1.1);
+                            }
+                            
+                            .bouton-supprimer {
+                                margin-top: 10px;
+                                text-decoration: none;
+                                color: white;
+                                white-space: nowrap;
+                                width: min-content;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .bouton-supprimer:hover {
+                                transform: scale(1.1);
+                            }
+                            
+                            .tag-clickable {
+                                text-decoration: none;
+                                color: orange   ;
+                            }
+                            
+                            .img {
+                                
+                                border-radius: 10px;
                             }
                             
                             /* Fin Touites */
@@ -256,20 +291,7 @@ class Dispatcher
                             
                             /* Fin Boutons pour la pagination */
                             
-                            /* je sais pas si c'est utilisé dans un autre endroit que dans l'accueil alors je le garde au cas où
-                            button {
-                                background-color: #f0f0f0;
-                                color: #000000;
-                                font-size: 20px;
-                                border: none;
-                                transition: all 0.3s ease;
-                                border-radius: 5px;
-                                padding: 10px 20px;
-                                display: block;
-                                margin: 0 auto;
-                                text-decoration: none;
-                            }
-                            */
+                            
                             
                             button {
                                 text-decoration: none;
@@ -420,20 +442,17 @@ class Dispatcher
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                                 border-radius: 5px;
                             }
-                    
-                            /* Style pour les lignes du formulaire */
+                            
                             .ligne-formulaire {
                                 display: flex;
                                 justify-content: flex-end;
                                 margin-bottom: 15px;
                             }
                     
-                            /* Style pour les sous-lignes du formulaire */
                             .sous-ligne-formulaire {
-                                width: 50%; /* Ajuste la largeur des sous-lignes */
+                                width: 50%;
                             }
-                    
-                            /* Style pour les champs de saisie */
+                            
                             label {
                                 display: block;
                                 margin-bottom: 5px;
@@ -443,10 +462,17 @@ class Dispatcher
                                 width: 100%;
                                 height: 30px;
                                 margin-bottom: 10px;
-                                box-sizing: border-box; /* Pour inclure la bordure dans la largeur du champ */
+                                box-sizing: border-box;
                             }
                     
+                            #bouton-ajouter-image {
+                                padding-top: 2px;
+                                padding-left: 2px;
+                            }
                             
+                            fieldset {
+                                border: 3px solid #459496
+                            }
                             
                             /* FIN FORMULAIRE*/
 

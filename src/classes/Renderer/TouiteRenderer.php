@@ -72,7 +72,7 @@ class TouiteRenderer
                 $descriptionimage = $row1["description"];
                 $htmlImage = <<<HTML
 
-<img src="$image" alt="$descriptionimage">
+<img src="$image" class="img" alt="$descriptionimage">
 HTML;
             }
             $profile = ProfileRenderer::render($row["idUser"]);
@@ -106,8 +106,11 @@ HTML;
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
 <div class='touite' data-idTouite="$id">\n
-$profile
-$boutonSuivreUser
+    <div class="profil">
+        $profile
+        $boutonSuivreUser
+    </div>
+
 
     <p class ='corpsTouite-long' > $texteTouite </p>
 
