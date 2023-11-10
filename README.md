@@ -1,9 +1,9 @@
 # SAE-3.02--
 SAE S3.02  Développer une application web sécurisée. PIERROT-PINOT-TROHA
 
-PIERROT Nathan -- Ratz123323
-PINOT Gaëtan -- gaetanpinot
-TROHA Stanislas  Stantrh
+PIERROT Nathan -- Ratz123323  
+PINOT Gaëtan -- gaetanpinot  
+TROHA Stanislas  Stantrh  
 
 le config.ini doit être configuré comme suit:
 ```
