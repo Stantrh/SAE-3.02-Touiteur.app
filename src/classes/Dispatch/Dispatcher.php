@@ -47,6 +47,10 @@ class Dispatcher
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::DEFAULT);
                 self::renderPage($action->execute());
                 break;
+            case "afficher-liste-touite-en-entier":
+                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::TOUSLESTOUITES);
+                self::renderPage($action->execute());
+                break;
             case "afficher-touite-detail":
                 $action=new ActionAfficherTouiteDetail();
                 self::renderPage($action->execute());
@@ -487,7 +491,7 @@ class Dispatcher
                             <h1><a href="?action=default" id="titre">Touiteur</a></h1>
                             <div class="menu-box">
                                 <p><a href="?">Accueil</a></p>
-                                <p><a href="?action=afficher-liste-touite-paginer">Touites paginés</a></p>
+                                <p><a href="?action=afficher-liste-touite-en-entier">Découvrir</a></p>
 END;
     // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
         if(isset($_SESSION['user'])){

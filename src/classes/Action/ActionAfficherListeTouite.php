@@ -185,23 +185,23 @@ END;
         if (isset($_SESSION['user'])) {
             // On fait une immense requête pour traiter chaque sous ensemble par date, puis encore tout l'ensemble
             $requeteGen = <<<SQL
-SELECT idTouite 
-FROM (
-    SELECT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
-    FROM SUIVREUSER, UTILISATEUR, TOUITE
-    WHERE SUIVREUSER.idUser=UTILISATEUR.idUser 
-        AND TOUITE.idUser=SUIVREUSER.idUserSuivi 
-        AND UTILISATEUR.idUser=? 
-    UNION
-    SELECT DISTINCT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
-    FROM SUIVRETAG, TAG2TOUITE, TOUITE, UTILISATEUR
-    WHERE SUIVRETAG.idUser=UTILISATEUR.idUser 
-        AND TAG2TOUITE.idTag=SUIVRETAG.idTag 
-        AND TOUITE.idTouite=TAG2TOUITE.idTouite 
-        AND UTILISATEUR.idUser=?
-)as listeTouites 
-ORDER BY dateTouite DESC
-SQL;
+                            SELECT idTouite 
+                            FROM (
+                                SELECT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
+                                FROM SUIVREUSER, UTILISATEUR, TOUITE
+                                WHERE SUIVREUSER.idUser=UTILISATEUR.idUser 
+                                    AND TOUITE.idUser=SUIVREUSER.idUserSuivi 
+                                    AND UTILISATEUR.idUser=? 
+                                UNION
+                                SELECT DISTINCT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
+                                FROM SUIVRETAG, TAG2TOUITE, TOUITE, UTILISATEUR
+                                WHERE SUIVRETAG.idUser=UTILISATEUR.idUser 
+                                    AND TAG2TOUITE.idTag=SUIVRETAG.idTag 
+                                    AND TOUITE.idTouite=TAG2TOUITE.idTouite 
+                                    AND UTILISATEUR.idUser=?
+                            )as listeTouites 
+                            ORDER BY dateTouite DESC
+                            SQL;
             //$res = ConnectionFactory::$db->prepare($requeteGen);
             $action = "";
             $idUserCourant = User::getIdSession();
@@ -220,7 +220,7 @@ SQL;
         //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
         $query = "SELECT idTouite FROM `TOUITE` order by date desc";
 
-        $retour = $this->paginer($query, [], "");
+        $retour = $this->paginer($query, [], "afficher-liste-touite-en-entier");
 
         return $retour;
     }
