@@ -26,7 +26,10 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
             $row1 = $st->fetch();
-            $cheminImage = $row1[0];
+            $cheminImage = null;
+            if($row1 != null){
+                $cheminImage = $row1[0];
+            }
 
             $query = "DELETE FROM `TAG2TOUITE` WHERE idTouite = ?;";
             $st = $db->prepare($query);
@@ -48,9 +51,14 @@ class SupprimerTouite
 
             if(!unlink($cheminImage)){
                 echo("le fichier n'a pas été supprimé du serveur");
+
+            if($cheminImage != null){
+                if(!unlink($cheminImage)){
+                    echo("le fichier n'a pa été supprimé du serveur");
+                }
+
             }
-
-
+            }
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

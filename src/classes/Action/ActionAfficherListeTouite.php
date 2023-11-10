@@ -33,7 +33,7 @@ class ActionAfficherListeTouite extends Action
      * affiche tous les touites par ordre chronologique
      */
 
-    public const TOUSLESTOUITES = "default";
+    public const TOUSLESTOUITES = "toutlestouites";
 
     /** @var string $option option d'affichage de l'objet, change l'affichage des listes */
     private string $option;
@@ -64,11 +64,15 @@ class ActionAfficherListeTouite extends Action
             case self::UTILISATEUR:
                 $retour .= $this->utilisateur();
                 break;
+            case self::DEFAULT:
+                $retour.=$this->default();
+                break;
+
             case self::TOUSLESTOUITES:
                 $retour .= $this->afficherTousLesTouites();
                 break;
             default:
-                $retour .= $this->default();
+                $retour .= "default";
                 break;
         }
         return ($retour);
@@ -182,6 +186,7 @@ END;
         $retour = "";
         //si il y a un utilisateur en session on affiche sa page d'acceuil avecs les touites des utilisateurs qu'il suit et des tags qu'il suit
         //sinon on affiche tout les touites
+
         if (isset($_SESSION['user'])) {
             // On fait une immense requête pour traiter chaque sous ensemble par date, puis encore tout l'ensemble
             $requeteGen = <<<SQL

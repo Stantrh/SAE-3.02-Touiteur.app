@@ -345,6 +345,10 @@ class Dispatcher
                             border-radius: 7px;
                             padding:0.2em;
                             margin:0.1em;
+                            font-size:1.2em;
+                            width:50%;
+                            display:flex;
+                            justify-content:center;
                             }
                             .score-moyen-touite-container{
                             display:flex;
@@ -354,9 +358,11 @@ class Dispatcher
                             .score-moyen-touite{
                             width:min-content;
                             border: 2px solid ;
-                            border-radius:7px;
-                            padding:0.1em;
-                            font-size:1.1em;
+                            border-radius:20%;
+                            padding:0.5em;
+                            font-size:2.3em;
+                            
+                            font-weight: bold;
                             }
                             
                             /* MENU HEADER */
@@ -507,8 +513,18 @@ class Dispatcher
                             }
                             
                             fieldset {
-                                border: 3px solid #459496
+                                border: 3px solid #459496;
+                                border-radius: 5px;
                             }
+                            
+                            .text-area {
+                                border: 3px solid #459496;
+                                border-radius: 5px;
+                                max-width: 758px;
+                                max-height: 100px;
+                            }
+                            
+                            
                             
                             /* FIN FORMULAIRE*/
                             
@@ -526,6 +542,8 @@ class Dispatcher
                                 max-height: 30px;
                             }
                             
+                            
+                            
                         </style>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale =1.0">
@@ -539,8 +557,9 @@ END;
     // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
         if(isset($_SESSION['user'])){
             $res .= <<<END
-                            
                                 <p><a href="?">Votre fil d'actualité</a></p>
+                                <p><a href="?action=publier-touite">Touiter</a></p>
+                                <p><a href="?action=suivre-tag">Suivre un tag</a></p>
                                 <p><a href="?action=statistique-compte">Statistiques</a></p>
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
