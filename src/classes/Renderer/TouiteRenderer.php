@@ -152,7 +152,7 @@ function toggleLikeDislike(idTouite, boutonDejaLike) {
         action = 'remove' + action.charAt(0).toUpperCase() + action.slice(1);
     }
 
-   var url = "http://localhost/SAE-3.02-Touiter.app/src/GestionLikesDislikes.php?idTouite=" + idTouite + "&appreciation=" + action;
+    var url = "http://localhost/SAE-3.02-Touiter.app/src/GestionLikesDislikes.php?idTouite=" + idTouite + "&appreciation=" + action;
     console.log(url);
     xhr.open('GET', url, true);
     xhr.send();

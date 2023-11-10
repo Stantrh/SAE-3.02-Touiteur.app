@@ -38,7 +38,7 @@ CREATE TABLE IMAGE(
 
 CREATE TABLE TAG(
                     idTag INT(10) AUTO_INCREMENT NOT NULL,
-                    libelle VARCHAR(256) NOT NULL,
+                    libelle VARCHAR(128) NOT NULL UNIQUE,
                     description varchar(256) NOT NULL,
                     PRIMARY KEY (idTag)
 );
@@ -105,7 +105,7 @@ ALTER TABLE LIKE2TOUITE ADD
 -- Pour la table Utilisateur
 INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('PIERROT', 'Nathan', 'user1@mail.com', 'user1', '$2y$10$bXR7ERBTsXzbpJjdXbxPMee477c87MR5M9YduJlNxaUhImEkdM4ve', 1);
 INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('PINOT', 'Gaetan', 'user2@mail.com', 'user2', '$2y$10$QwtB76gJcZEqSJ/vEHxdIe2fwhrXN9YYG71fKEv/mm3aOI9zXCZMi', 1);
-INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('SASSI-WEBER', 'Joel', 'user3@mail.com', 'user3', '$2y$10$GYZn8tmhLvORWmNBg/GgKutSghinLXgj.ZAqekzhZJBhTMdEoPHOG', 1);
+INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('HOWARD', 'Victoria', 'user3@mail.com', 'user3', '$2y$10$KlIiCDwpbk8QLAR4LfIaKOa1t3uMYlmYB/i9tPQGopGqgJgcDYyBa', 1);
 INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('TROHA', 'Stanislas', 'user4@mail.com', 'user100', '$2y$10$FiQ4SawRg9sdwdXyKhu3wuUYLu46EJxors7kHAbJKuBcDP1SjNrrO', 100);
 INSERT INTO UTILISATEUR(nom, prenom, email, nomUser, mdp, role) VALUES ('CANALS', 'Gérome', 'user5@mail.com', 'user101', '$2y$10$rJzcrXUAXmgEdv6thS6pqeRu7P.Ka0bWKzhDq2lXqYoPZQfszWbvi', 100);
 
@@ -116,21 +116,21 @@ INSERT INTO IMAGE(description, cheminFichier) VALUES ('ekip ekip so le flem', '.
 INSERT INTO IMAGE(description, cheminFichier) VALUES ('ekip ekip so le flem', '../ekip/667tah/667ekipekip.jpeg');
 
 -- Pour la table Touite
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'J aime bien les chats, c est cool, surtout les chats français #chat #france' , NULL, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'il fait super beau aujourdhui ' , NULL, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (2,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'j ai fait un site en php pour voir des images de chat #php #chat' , NULL, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (3,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'nancy c est la plus belle ville du monde' , NULL, 0);
-INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (4,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), ' j ai bien mangé ce midi ' , NULL, 0);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'J aime bien les chats, c est cool, surtout les chats français #chat #france' , NULL, -3);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (1,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'il fait super beau aujourdhui ' , NULL, -1);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (2,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'j ai fait un site en php pour voir des images de chat #php #chat' , NULL, 3);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (3,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'nancy c est la plus belle ville du monde' , NULL, -3);
+INSERT INTO TOUITE (idUser, date, texteTouite, idImage, score) VALUES (4,  STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), ' j ai bien mangé ce midi ' , NULL, 4);
 
 
 -- Pour la table Tag
 INSERT INTO TAG (libelle, description) VALUES ('#chat', 'animal mignon');
-INSERT INTO TAG (libelle, description) VALUES ('"france', 'meilleur pays');
-INSERT INTO TAG (libelle, description) VALUES ('#NancyCentreDuMonde', 'reel selon Annick Thimon');
-INSERT INTO TAG (libelle, description) VALUES ('"php', 'langage adoré');
+INSERT INTO TAG (libelle, description) VALUES ('#france', 'meilleur pays');
+INSERT INTO TAG (libelle, description) VALUES ('#NancyCentreDuMonde', 'reel selon la communication');
+INSERT INTO TAG (libelle, description) VALUES ('#php', 'langage adoré');
 INSERT INTO TAG (libelle, description) VALUES ('#X','réseau social ça a changé');
 INSERT INTO TAG (libelle, description) VALUES ('#Légende', 'Zinedine Zidane');
-INSERT INTO TAG (libelle, description) VALUES ('#IUTCharlemagne', 'IUT de fou');
+INSERT INTO TAG (libelle, description) VALUES ('#IUTCharlemagne', 'super IUT');
 INSERT INTO TAG (libelle, description) VALUES ('#gâteaux','pâtisseries appréciées de tous');
 
 -- Pour la table Tag2Touite
@@ -196,8 +196,3 @@ INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 5, -1); -- t
 -- On ajoute aux autres membres du groupe les permissions d'accéder à ma base de données
 GRANT ALL PRIVILEGES ON * TO 'pinot33u';
 GRANT ALL PRIVILEGES ON * TO 'pierrot67u';
-
-
-
-
-
