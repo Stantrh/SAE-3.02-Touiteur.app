@@ -336,6 +336,10 @@ class Dispatcher
                             border-radius: 7px;
                             padding:0.2em;
                             margin:0.1em;
+                            font-size:1.2em;
+                            width:50%;
+                            display:flex;
+                            justify-content:center;
                             }
                             .score-moyen-touite-container{
                             display:flex;
@@ -345,9 +349,11 @@ class Dispatcher
                             .score-moyen-touite{
                             width:min-content;
                             border: 2px solid ;
-                            border-radius:7px;
-                            padding:0.1em;
-                            font-size:1.1em;
+                            border-radius:20%;
+                            padding:0.5em;
+                            font-size:2.3em;
+                            
+                            font-weight: bold;
                             }
                             
                             /* MENU HEADER */

@@ -14,6 +14,7 @@ class ActionAfficherStatistiqueCompte extends Action
     {
         $idUser= User::getIdSession(); //todo remplacer;
         $scoreMoyenTouite=self::scoreMoyenUser($idUser);
+        
         $listeIdAfficher=self::listeFollower($idUser);
         $retour = <<<END
 <div class="score-moyen-touite-container">
@@ -63,29 +64,22 @@ END;
     private static function scoreMoyenUser(int $idUser): float
     {
         $scoreMoyen = 0;
-        $nbTouite = 0;
+
 
         //donne le score par touite de l'utilisateur en parametre
-        $requeteLikeParTouite = "select TOUITE.idTouite,SUM(LIKE2TOUITE.appreciation) as moyen
-                                from TOUITE,LIKE2TOUITE where 
-                                TOUITE.idTouite=LIKE2TOUITE.idTouite and 
-                                TOUITE.idUser=? GROUP BY TOUITE.idTouite ";
+        $requeteLikeMoyen= "select avg(score) from TOUITE where TOUITE.idUser=? GROUP BY TOUITE.idUser;";
         $db = ConnectionFactory::$db;
-        $st = $db->prepare($requeteLikeParTouite);
+        $st = $db->prepare($requeteLikeMoyen);
         $st->execute([$idUser]);
         $row = $st->fetch();
 
 
         if ($row) {
             //on fait la moyenne du score des touites
-            do {
-                $scoreMoyen += $row["moyen"];
-                $nbTouite++;
-            } while ($row = $st->fetch(PDO::FETCH_ASSOC));
-
-            $scoreMoyen = round($scoreMoyen / $nbTouite, 2);
+            $scoreMoyen=$row[0];
         }
 
         return ($scoreMoyen);
     }
 }
+
