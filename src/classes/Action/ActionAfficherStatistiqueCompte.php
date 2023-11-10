@@ -14,7 +14,7 @@ class ActionAfficherStatistiqueCompte extends Action
     {
         $idUser= User::getIdSession(); //todo remplacer;
         $scoreMoyenTouite=self::scoreMoyenUser($idUser);
-        
+
         $listeIdAfficher=self::listeFollower($idUser);
         $retour = <<<END
 <div class="score-moyen-touite-container">
