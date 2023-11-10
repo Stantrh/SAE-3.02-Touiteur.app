@@ -10,16 +10,23 @@ class SupprimerTouite
      * @param int $id id du touite a supprimer
      * @return void
      */
-    public static function supprimerTouite(int $id){
+    public static function supprimerTouite(int $id)
+    {
         $db = ConnectionFactory::$db;
 
         try {
-            $query="Select idUser from `TOUITE` where idTouite=?";
+            $query = "Select idUser,idImage from `TOUITE` where idTouite=?";
             $st = $db->prepare($query);
             $st->execute([$id]);
-            $row=$st->fetch();
+            $row = $st->fetch();
 
             Auth::checkAccountOwner($row["idUser"]);
+
+            $query = "select IMAGE.cheminFichier from IMAGE,TOUITE where IMAGE.idImage=TOUITE.idImage and TOUITE.idTouite=?";
+            $st = $db->prepare($query);
+            $st->execute([$id]);
+            $row1 = $st->fetch();
+            $cheminImage = $row1[0];
 
             $query = "DELETE FROM `TAG2TOUITE` WHERE idTouite = ?;";
             $st = $db->prepare($query);
@@ -29,11 +36,23 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
 
+
             $query = "DELETE FROM `TOUITE` WHERE idTouite = ?;";
             $st = $db->prepare($query);
             $st->execute([$id]);
-        }catch (\Exception $e){
-             echo $e->getMessage();
+
+            $query = "DELETE FROM IMAGE where idImage=?";
+            $st = $db->prepare($query);
+            $st->execute([$row["idImage"]]);
+
+
+            if(!unlink($cheminImage)){
+                echo("le fichier n'a pa été supprimé du serveur");
+            }
+
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
 
     }
