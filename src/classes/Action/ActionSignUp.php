@@ -48,9 +48,8 @@ class ActionSignUp extends Action
                 <label for="confirmPassword">Confirmez le mot de passe :</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <p id="passwordMatchMessage"></p>
         </div>
-        
+        <p id="passwordMatchMessage"></p>
         <br>
         <input type="submit" class="post" name="submit" value="S'inscrire">
     </form>
@@ -90,7 +89,7 @@ FORM;
             try {
                 Auth::register($username, $nom, $prenom, $email, $_POST['password'], $_POST['confirmPassword']);
                 // Redirection vers la page de confirmation si l'inscription fonctionne
-                $contenu_html .= "<h4>Vous êtes bien inscrit sur Toiteur, bienvenue !</h4>";
+                $contenu_html .= "<h4>Vous êtes bien inscrit sur Touiteur, bienvenue !</h4>";
             }catch (AuthException $e) {
                 $erreur = $e->getMessage();
                 $contenu_html .= <<<FORMULAIRE
@@ -128,7 +127,7 @@ FORM;
 
         function checkPasswordMatch() {
             if (password.value === confirmPassword.value) {
-                passwordMatchMessage.textContent = "Les mots de passent correspondent.";
+                passwordMatchMessage.textContent = "Les mots de passe correspondent.";
                 passwordMatchMessage.style.color = "green";
                 registrationForm.querySelector("button[type='submit']").removeAttribute("disabled");
             } else {
