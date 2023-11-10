@@ -73,9 +73,13 @@ class ActionAfficherListeTouite extends Action
     private const NBTOUITEMAX = 3;  //nombre de touite max par page paginé
 
     /**
-     * @return string liste de touite paginer en fonction de l'option page dans le $_GET
+     * pagine les touites de la requete sql et change les boutons en fonction de l'action passé en parametre
+     * @param string $sql requete sql qui donne l'id des touite à afficher dans l'ordre
+     * @param array $options options de la requette sql sous forme d'un tableau
+     * @param string $action action GET qui redirige ver la page qu'on veut ex: pour les touites de l'user le parametre sera: "afficher-touite-user&user=x"
+     * @return string affichage html
      */
-    private function paginer(): string
+    private function paginer(string $sql, array $options,string $action): string
     {
         $retour = "";
         $page = 0;
@@ -89,14 +93,25 @@ class ActionAfficherListeTouite extends Action
             $pageSuivante = $page + 1;
             $pagePrecedente = $page - 1;
         }
-        //requete et render de la liste de touite
-        $query = "select idTouite from `TOUITE` order by date desc limit ? offset ?";
-        $resultat = ListeIdTouite::listeTouite($query, [self::NBTOUITEMAX, $page * self::NBTOUITEMAX]);
+
+        /*
+        if($sql[-1]=';'){
+            $sql=substr($sql,0,1);
+        }
+*/
+
+        //rajout des options pour paginer les touites
+        $query=$sql." limit ? offset ?";
+        //fusion des options pour la requete de base et des options pour la pagination
+        $parametreRequete=array_merge($options,[self::NBTOUITEMAX, $page * self::NBTOUITEMAX]);
+
+        //render des liste touites
+        $resultat = ListeIdTouite::listeTouite($query, $parametreRequete);
         $retour = ListeRenderer::render($resultat, TouiteRenderer::COURT);
 
 
         $bouttonSuivant = <<<END
-        href="?action=afficher-liste-touite-paginer&page=$pageSuivante"
+        href="?action=$action&page=$pageSuivante"
         END;
 
         //enleve le bouton suivant si il n'y a plus de touite a afficher après, a noter que le bouton suivant sera toujours affiché sur la dernière page si le nombre de touite total est multiple de NBTOUITEMAX
@@ -106,7 +121,7 @@ class ActionAfficherListeTouite extends Action
 
 
         $bouttonPrecedent = <<<END
-        href="?action=afficher-liste-touite-paginer&page=$pagePrecedente"
+        href="?action=$action&page=$pagePrecedente"
         END;
 
         //enleve le bouton suivant si il n'y a pas de page precedente
@@ -144,12 +159,13 @@ END;
         //on verifie si il y a un parametre user dans le GET
         if (isset($_GET["user"])) {
 
+            //select les idTouite de l'user dans le get
             $query = "SELECT idTouite FROM `TOUITE` where idUser= ? order by date desc";
+            $option=[$_GET["user"]];
+            //action qui nous a ammenée sur la page en premier lieu;
+            $action="afficher-touite-user&user=$option[0]";
 
-            $listeId = ListeIdTouite::listeTouite($query, [$_GET["user"]]);
-
-            $retour .= ListeRenderer::render($listeId, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
-
+            $retour.= $this->paginer($query,$option,$action );
 
         } else {
             $retour = "Pas d'user avec cet id:" . $_GET["user"];
@@ -183,11 +199,13 @@ FROM (
         AND TOUITE.idTouite=TAG2TOUITE.idTouite 
         AND UTILISATEUR.idUser=?
 )as listeTouites 
-ORDER BY dateTouite DESC;
+ORDER BY dateTouite DESC
 SQL;
-                $res = ConnectionFactory::$db->prepare($requeteGen);
+                //$res = ConnectionFactory::$db->prepare($requeteGen);
+                $action="";
                 $idUserCourant = User::getIdSession();
-                $res->bindParam(1, $idUserCourant);
+                $retour=$this->paginer($requeteGen,[$idUserCourant,$idUserCourant],$action);
+                /*$res->bindParam(1, $idUserCourant);
                 $res->bindParam(2, $idUserCourant);
                 $res->execute();
 
@@ -195,18 +213,23 @@ SQL;
                 while($row = $res->fetch(PDO::FETCH_ASSOC)){
                     $resultat[] = $row['idTouite'];
                 }
+                */
+
 
         }else{
                 //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
                 $query = "SELECT idTouite FROM `TOUITE` order by date desc";
 
-                $resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
+                $retour=$this->paginer($query,[],"");
+
+
+                //$resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
 
 
             }
 
 
-        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste
+        //$retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste
         return ($retour);
 
     }
@@ -226,10 +249,14 @@ SQL;
 
         $tag = "#" . $_GET["tag"];
 
+        $action="afficher-liste-tag&tag=$tag";
+
+        /*
         $resultat = ListeIdTouite::listeTouite($query, [$tag]); //sous traite la requete a une autre classe
 
         $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
-
+        */
+        $retour=$this->paginer($query,[$tag],$action);
 
         return ($retour);
     }
