@@ -8,6 +8,10 @@ use touiteur\Database\User;
 class ActionAfficherTendances extends Action
 {
 
+    /**
+     * Méthode qui retourne les tags tendances ordonnés par ordre décroissant de leur nombre d'usages
+     * @return string liste des tags tendances et leurs nombre d'usages
+     */
     public function execute(): string
     {
         if(User::isAdmin()){
@@ -42,6 +46,7 @@ HTML;
             $i++;
         }
         return $retour;
+
         }else{
             header('HTTP/1.1 403 Forbidden');
             exit('Accès interdit - ADMINISTRATEURS UNIQUEMENT');

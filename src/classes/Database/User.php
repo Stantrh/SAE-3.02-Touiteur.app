@@ -36,10 +36,17 @@ class User
         $this->id = $id;
     }
 
+    /**
+     * Renvoie l'identifiant de l'utilisateur qui est en session
+     * @return ?int
+     */
     public static function getIdSession() : ?int{
-        // Lorsque l'appel à cette méthode est fait, l'utilisateur est déjà certifié d'être en session
-        $user = unserialize($_SESSION['user']);
-        return $user->__get('id');
+       if(isset($_SESSION['user'])){
+           $user = unserialize($_SESSION['user']);
+           return $user->__get('id');
+       }
+       return null;
+
     }
 
     /**

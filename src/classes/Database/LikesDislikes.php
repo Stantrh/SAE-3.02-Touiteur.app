@@ -11,18 +11,18 @@ class LikesDislikes
 {
 
     /**
-     * @param $postId
+     * @param $idTouite
      * @param $idUser
      * @return void
      */
-    public static function toggleLike($postId, $idUser) : void{
+    public static function toggleLike($idTouite, $idUser) : void{
         // Vérifie d'abord si l'utilisateur est deja dans la table (donc soit a deja liké ou deja dislike)
         $dejaLike = <<<SQL
 SELECT * FROM LIKE2TOUITE WHERE idUser = ? AND idTouite = ?
 SQL;
         $count = ConnectionFactory::$db->prepare($dejaLike);
         $count->bindParam(1, $idUser);
-        $count->bindParam(2, $postId);
+        $count->bindParam(2, $idTouite);
         $count->execute();
 
 
@@ -34,7 +34,7 @@ SQL;
             $val = 1;
             $res = ConnectionFactory::$db->prepare($ajout);
             $res->bindParam(1, $idUser);
-            $res->bindParam(2, $postId);
+            $res->bindParam(2, $idTouite);
             $res->execute();
         } else {
             // On stocke la valeur de l'appreciation
@@ -49,7 +49,7 @@ DELETE FROM LIKE2TOUITE WHERE idUser = ? AND idTouite = ?
 SQL;
             $resExistant = ConnectionFactory::$db->prepare($suppr);
             $resExistant->bindParam(1, $idUser);
-            $resExistant->bindParam(2, $postId);
+            $resExistant->bindParam(2, $idTouite);
             $resExistant->execute();
             $val = -1; // valeur qu'on incrémente au score si l'utilisateur avait déjà liké
 
@@ -61,7 +61,7 @@ SQL;
                 $val = 2; // valeur qu'on incrémente au score si l'utilisateur avait deja disliké, ainsi ça fait +1 +1
                 $res3 = ConnectionFactory::$db->prepare($insertionLike);
                 $res3->bindParam(1, $idUser);
-                $res3->bindParam(2, $postId);
+                $res3->bindParam(2, $idTouite);
                 $res3->execute();
             }
         }
@@ -73,23 +73,25 @@ SQL;
         $res2 = ConnectionFactory::$db->prepare($majScore);
 
         $res2->bindParam(1, $val);
-        $res2->bindParam(2, $postId);
+        $res2->bindParam(2, $idTouite);
         $res2->execute();
     }
 
     /**
-     * @param $postId
+     * Permet de toggle un dislike, selon si le touite a déjà été liké, disliké ou pas encore
+     * Il update évidemment son score
+     * @param $idTouite
      * @param $idUser
      * @return void
      */
-    public static function toggleDislike($postId, $idUser) :void {
+    public static function toggleDislike($idTouite, $idUser) :void {
         // Vérifie d'abord si l'utilisateur est deja dans la table (donc soit a deja liké ou deja dislike)
         $dejaDislike = <<<SQL
 SELECT * FROM LIKE2TOUITE WHERE idUser = ? AND idTouite = ?
 SQL;
         $count = ConnectionFactory::$db->prepare($dejaDislike);
         $count->bindParam(1, $idUser);
-        $count->bindParam(2, $postId);
+        $count->bindParam(2, $idTouite);
         $count->execute();
 
 
@@ -101,7 +103,7 @@ SQL;
             $val = -1;
             $res = ConnectionFactory::$db->prepare($ajout);
             $res->bindParam(1, $idUser);
-            $res->bindParam(2, $postId);
+            $res->bindParam(2, $idTouite);
             $res->execute();
         } else {
             // On stocke la valeur de l'appreciation
@@ -116,7 +118,7 @@ DELETE FROM LIKE2TOUITE WHERE idUser = ? AND idTouite = ?
 SQL;
             $resExistant = ConnectionFactory::$db->prepare($suppr);
             $resExistant->bindParam(1, $idUser);
-            $resExistant->bindParam(2, $postId);
+            $resExistant->bindParam(2, $idTouite);
             $resExistant->execute();
             $val = 1; // valeur qu'on incrémente au score si l'utilisateur avait déjà disliké
 
@@ -128,7 +130,7 @@ SQL;
                 $val = -2; // valeur qu'on incrémente au score si l'utilisateur avait deja disliké, ainsi ça fait +1 +1
                 $res3 = ConnectionFactory::$db->prepare($insertionLike);
                 $res3->bindParam(1, $idUser);
-                $res3->bindParam(2, $postId);
+                $res3->bindParam(2, $idTouite);
                 $res3->execute();
             }
         }
@@ -140,17 +142,23 @@ SQL;
         $res2 = ConnectionFactory::$db->prepare($majScore);
 
         $res2->bindParam(1, $val);
-        $res2->bindParam(2, $postId);
+        $res2->bindParam(2, $idTouite);
         $res2->execute();
     }
 
-// Fonction pour récupérer le score actuel du post
-    public static function getPostScore($postId) : int{
+
+    /**
+     * Renvoie le score actuel du touite
+     * Le script js l'utilise
+     * @param $idTouite
+     * @return int
+     */
+    public static function getPostScore($idTouite) : int{
         $requete = <<<SQL
 select score from TOUITE where idTouite = ?
 SQL;
         $res = ConnectionFactory::$db->prepare($requete);
-        $res->bindParam(1, $postId);
+        $res->bindParam(1, $idTouite);
         $res->execute();
 
         return $res->fetchColumn();

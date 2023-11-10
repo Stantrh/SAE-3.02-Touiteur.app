@@ -196,3 +196,5 @@ INSERT INTO LIKE2TOUITE (idUser, idTouite, appreciation) VALUES (5, 5, -1); -- t
 -- On ajoute aux autres membres du groupe les permissions d'accéder à ma base de données
 GRANT ALL PRIVILEGES ON * TO 'pinot33u';
 GRANT ALL PRIVILEGES ON * TO 'pierrot67u';
+
+commit;

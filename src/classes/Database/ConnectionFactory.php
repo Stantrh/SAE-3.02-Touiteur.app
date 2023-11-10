@@ -33,6 +33,7 @@ class ConnectionFactory
      * Fabrique le dsn
      * Puis instancie un objet PDO
      * "mysql:host=localhost;dbname=td_php_bdd
+     * @return PDO
      */
     public static function makeConnection() : PDO{
         // Crée une instance de PDO
