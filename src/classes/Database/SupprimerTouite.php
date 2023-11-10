@@ -19,7 +19,7 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
             $row = $st->fetch();
-            //check si le row existe
+            //check si le row existe2
             if($row){
             Auth::checkAccountOwner($row["idUser"]);
             }
