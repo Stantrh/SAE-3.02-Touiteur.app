@@ -55,10 +55,6 @@ class Dispatcher
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::UTILISATEUR);
                 self::renderPage($action->execute());
                 break;
-            case "afficher-liste-touite-paginer":
-                $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::PAGINER);
-                $this->renderPage($action->execute());
-                break;
             case "afficher-liste-tag":
                 $action=new ActionAfficherListeTouite(ActionAfficherListeTouite::TAG);
                 self::renderPage($action->execute());

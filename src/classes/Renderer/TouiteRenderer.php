@@ -40,6 +40,7 @@ class TouiteRenderer
 
 
     /**
+     * rend le html du touite en mode long
      * @param int $id id du touite a rendre
      * @return string
      */
@@ -81,10 +82,10 @@ HTML;
             try {
                 Auth::checkAccountOwner($row["idUser"]);
                 $boutonSupprimer = <<<END
-<a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
-Supprimer le touite
-</a>
-END;
+                                    <a class="bouton-supprimer" href="?action=supprimer-touite&id-touite-supprimer=$id">
+                                    Supprimer le touite
+                                    </a>
+                                    END;
 
 
             } catch (\Exception $e) {
@@ -94,10 +95,10 @@ END;
             $userASuivre = $row["idUser"];
             $score = $row['score'];
             $boutonSuivreUser = <<<END
-<a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$userASuivre">
-Suivre
-</a>
-END;
+                                <a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$userASuivre">
+                                Suivre
+                                </a>
+                                END;
             //on transforme les tags dans le texte en lien vers les touite de tags
             $texteTouite=TouiteRenderer::detecterTransformerTag($row["texteTouite"]);
 

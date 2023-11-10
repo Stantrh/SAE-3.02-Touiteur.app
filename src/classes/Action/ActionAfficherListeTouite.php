@@ -32,7 +32,6 @@ class ActionAfficherListeTouite extends Action
     /** @var string $option option d'affichage de l'objet, change l'affichage des listes */
     private string $option;
 
-    public const PAGINER = "paginer";
 
     /**
      * @param string $option option d'affichage de l'objet, definis par les constante de classe
@@ -59,10 +58,6 @@ class ActionAfficherListeTouite extends Action
             case self::UTILISATEUR:
                 $retour .= $this->utilisateur();
                 break;
-            case self::PAGINER:
-                $retour.= $this->paginer();
-                break;
-
             default:
                 $retour .= $this->default();
                 break;
@@ -73,13 +68,13 @@ class ActionAfficherListeTouite extends Action
     private const NBTOUITEMAX = 3;  //nombre de touite max par page paginé
 
     /**
-     * pagine les touites de la requete sql et change les boutons en fonction de l'action passé en parametre
-     * @param string $sql requete sql qui donne l'id des touite à afficher dans l'ordre
+     * Prend les touites donnés par la requete sql et fait en sorte qu'il s'affiche par pages
+     * @param string $sql requete sql NE DOIT SURTOUT PAS SE TERMINER PAR UN point virgule ';' qui donne l'id des touite à afficher dans l'ordre
      * @param array $options options de la requette sql sous forme d'un tableau
-     * @param string $action action GET qui redirige ver la page qu'on veut ex: pour les touites de l'user le parametre sera: "afficher-touite-user&user=x"
+     * @param string $action action GET qui redirige vers la page qu'on veut ex: pour les touites de l'user le parametre sera: "afficher-touite-user&user=x"
      * @return string affichage html
      */
-    private function paginer(string $sql, array $options,string $action): string
+    private function paginer(string $sql, array $options, string $action): string
     {
         $retour = "";
         $page = 0;
@@ -94,16 +89,11 @@ class ActionAfficherListeTouite extends Action
             $pagePrecedente = $page - 1;
         }
 
-        /*
-        if($sql[-1]=';'){
-            $sql=substr($sql,0,1);
-        }
-*/
 
         //rajout des options pour paginer les touites
-        $query=$sql." limit ? offset ?";
+        $query = $sql . " limit ? offset ?";
         //fusion des options pour la requete de base et des options pour la pagination
-        $parametreRequete=array_merge($options,[self::NBTOUITEMAX, $page * self::NBTOUITEMAX]);
+        $parametreRequete = array_merge($options, [self::NBTOUITEMAX, $page * self::NBTOUITEMAX]);
 
         //render des liste touites
         $resultat = ListeIdTouite::listeTouite($query, $parametreRequete);
@@ -161,11 +151,11 @@ END;
 
             //select les idTouite de l'user dans le get
             $query = "SELECT idTouite FROM `TOUITE` where idUser= ? order by date desc";
-            $option=[$_GET["user"]];
+            $option = [$_GET["user"]];
             //action qui nous a ammenée sur la page en premier lieu;
-            $action="afficher-touite-user&user=$option[0]";
+            $action = "afficher-touite-user&user=$option[0]";
 
-            $retour.= $this->paginer($query,$option,$action );
+            $retour .= $this->paginer($query, $option, $action);
 
         } else {
             $retour = "Pas d'user avec cet id:" . $_GET["user"];
@@ -180,10 +170,12 @@ END;
      */
     private function default(): string
     {
-            $retour = "";
-            if(isset($_SESSION['user'])){
-                // On fait une immense requête pour traiter chaque sous ensemble par date, puis encore tout l'ensemble
-                $requeteGen = <<<SQL
+        $retour = "";
+        //si il y a un utilisateur en session on affiche sa page d'acceuil avecs les touites des utilisateurs qu'il suit et des tags qu'il suit
+        //sinon on affiche tout les touites
+        if (isset($_SESSION['user'])) {
+            // On fait une immense requête pour traiter chaque sous ensemble par date, puis encore tout l'ensemble
+            $requeteGen = <<<SQL
 SELECT idTouite 
 FROM (
     SELECT TOUITE.idTouite as idTouite, TOUITE.date as dateTouite
@@ -201,35 +193,21 @@ FROM (
 )as listeTouites 
 ORDER BY dateTouite DESC
 SQL;
-                //$res = ConnectionFactory::$db->prepare($requeteGen);
-                $action="";
-                $idUserCourant = User::getIdSession();
-                $retour=$this->paginer($requeteGen,[$idUserCourant,$idUserCourant],$action);
-                /*$res->bindParam(1, $idUserCourant);
-                $res->bindParam(2, $idUserCourant);
-                $res->execute();
-
-                $resultat = [];
-                while($row = $res->fetch(PDO::FETCH_ASSOC)){
-                    $resultat[] = $row['idTouite'];
-                }
-                */
+            //$res = ConnectionFactory::$db->prepare($requeteGen);
+            $action = "";
+            $idUserCourant = User::getIdSession();
+            $retour = $this->paginer($requeteGen, [$idUserCourant, $idUserCourant], $action);
 
 
-        }else{
-                //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
-                $query = "SELECT idTouite FROM `TOUITE` order by date desc";
+        } else {
+            //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
+            $query = "SELECT idTouite FROM `TOUITE` order by date desc";
 
-                $retour=$this->paginer($query,[],"");
+            $retour = $this->paginer($query, [], "");
 
-
-                //$resultat = ListeIdTouite::listeTouite($query, []); //sous traite la requete a une autre classe
-
-
-            }
+        }
 
 
-        //$retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste
         return ($retour);
 
     }
@@ -249,14 +227,9 @@ SQL;
 
         $tag = "#" . $_GET["tag"];
 
-        $action="afficher-liste-tag&tag=$tag";
+        $action = "afficher-liste-tag&tag=$tag";
 
-        /*
-        $resultat = ListeIdTouite::listeTouite($query, [$tag]); //sous traite la requete a une autre classe
-
-        $retour .= ListeRenderer::render($resultat, TouiteRenderer::COURT); //on fait le rendu html de la liste de touite correspondant au ids données
-        */
-        $retour=$this->paginer($query,[$tag],$action);
+        $retour = $this->paginer($query, [$tag], $action);
 
         return ($retour);
     }

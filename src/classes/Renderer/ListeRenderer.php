@@ -5,6 +5,7 @@ namespace touiteur\Renderer;
 class ListeRenderer
 {
     /**
+     * prend une liste d'id en parametre et renvoie une div de listeTouite
      * @param array $listeId liste des ids des touites a afficher
      * @param string $option option d'affichage des touites, const de TouiteRenderer
      * @return string   liste des touites en html
