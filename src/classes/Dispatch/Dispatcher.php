@@ -324,9 +324,30 @@ class Dispatcher
                             }
                             
                             .liste-followers{
-                                
+                                display:flex;
+                                flex-direction:column;
+                                justify-content:space-between;
+                                align-items:center;
                             }
-                            .user .liste-followers{
+                             .liste-followers .lien-auteur{
+                            color:white;
+                            background-color: #459496;
+                            border: 1px solid black;
+                            border-radius: 7px;
+                            padding:0.2em;
+                            margin:0.1em;
+                            }
+                            .score-moyen-touite-container{
+                            display:flex;
+                            flex-direction:column;
+                            align-items:center;
+                            }
+                            .score-moyen-touite{
+                            width:min-content;
+                            border: 2px solid ;
+                            border-radius:7px;
+                            padding:0.1em;
+                            font-size:1.1em;
                             }
                             
                             /* MENU HEADER */
