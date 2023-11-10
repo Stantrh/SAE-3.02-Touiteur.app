@@ -12,9 +12,9 @@ le config.ini doit être configuré comme suit:
 
 hostWeb doit être l'url du serveur web où vous déployez le projet  
 
-Attention les images uploadé avec les touites sont uploadés sur dans le dossier images de hostWeb dans le fichier de config  
-Donc toutes les images uploadé avec l'applie local ne seront pas disponible sur les applie des autres utilisateurs  
-Par contre les images uploadé avec l'application sur le webetu sont stocké sur le webetu et peuvent être consulté de partout.
+Attention les images uploadées avec les touites sont uploadées dans le dossier images de hostWeb dans le fichier de config  
+Donc toutes les images uploadées avec l'appli locale ne seront pas disponibles sur les applis des autres utilisateurs  
+Par contre les images uploadées avec l'application sur le webetu sont stockées sur le webetu et peuvent être consultées de partout.
 
 
 ```
@@ -29,4 +29,4 @@ il doit être placé dans le src
 
 https://webetu.iutnc.univ-lorraine.fr/www/pinot33u/SaeTouiteurPinotPierrotTroha  
 
-le site sur le webetu ne differe que par quelque détail de compatibilité, la structure reste absolument la meme, seul des chemins de fichiers sont changé pour la compatibilité
+le site sur le webetu ne differe que par quelques détails de compatibilité, la structure reste absolument la même, seuls des chemins de fichiers sont changés pour la compatibilité
