@@ -19,9 +19,11 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
             $row = $st->fetch();
+            //check si le row existe
             if($row){
             Auth::checkAccountOwner($row["idUser"]);
             }
+
             $query = "select IMAGE.cheminFichier from IMAGE,TOUITE where IMAGE.idImage=TOUITE.idImage and TOUITE.idTouite=?";
             $st = $db->prepare($query);
             $st->execute([$id]);
