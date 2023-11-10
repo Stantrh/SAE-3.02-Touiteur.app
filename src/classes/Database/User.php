@@ -36,7 +36,7 @@ class User
         $this->id = $id;
     }
 
-    public static function getIdSession() : int{
+    public static function getIdSession() : ?int{
         // Lorsque l'appel à cette méthode est fait, l'utilisateur est déjà certifié d'être en session
         $user = unserialize($_SESSION['user']);
         return $user->__get('id');

@@ -29,7 +29,6 @@ class TouiteRenderer
             case self::COURT:
                 $retour = self::renderCourt($id);
                 break;
-
             default:
                 $retour = self::renderCourt($id);
                 break;
@@ -93,6 +92,7 @@ END;
             }
 
             $userASuivre = $row["idUser"];
+            $score = $row['score'];
             $boutonSuivreUser = <<<END
 <a class="bouton-suivre" href="?action=suivre-user&id-user-suivre=$userASuivre">
 Suivre
@@ -100,6 +100,7 @@ Suivre
 END;
             //on transforme les tags dans le texte en lien vers les touite de tags
             $texteTouite=TouiteRenderer::detecterTransformerTag($row["texteTouite"]);
+
 
             // on construit le html du touite avec les differents éléments qu'on a récupéré
             $retour = <<<END
@@ -109,18 +110,52 @@ $boutonSuivreUser
 
     <p class ='corpsTouite-long' > $texteTouite </p>
 
-
      $htmlImage
      
-         <div class='score'>
-        <span id="score">Score : <span id="scoreValue"></span></span>
-        <button id="likeButton">Like</button>
-        <button id="dislikeButton">Dislike</button>
-        </div>
-        
-        <script src="../../js/appreciations.js"></script>
-</div><br>
-     $boutonSupprimer 
+<div class='score'>
+    <span id="score">Score : <span id="valeurScore_$id">$score</span></span>
+    <button class="voteButton likeButton" data-idTouite="$id">Like</button>
+    <button class="voteButton dislikeButton" data-idTouite="$id">Dislike</button>
+</div>
+
+<script>
+
+
+document.querySelectorAll('.voteButton').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        var idTouite = this.getAttribute('data-idTouite'); // on récupère l'id du poste à partir du bouton
+        var boutonDejaLike = this.classList.contains('likeButton');
+        toggleLikeDislike.bind(this)(idTouite, boutonDejaLike);
+    });
+});
+
+function toggleLikeDislike(idTouite, boutonDejaLike) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var score = document.getElementById('valeurScore_' + idTouite);
+            score.innerHTML = xhr.responseText;
+        }
+    };
+
+    var action = boutonDejaLike ? 'like' : 'dislike';
+
+    // Utilise la méthode bind pour lier le contexte de "this"
+    var dejaLike = boutonDejaLike && this.classList.contains('liked');
+    var dejaDislike = !boutonDejaLike && this.classList.contains('disliked');
+
+    if (dejaLike || dejaDislike) {
+        action = 'remove' + action.charAt(0).toUpperCase() + action.slice(1);
+    }
+
+   var url = "http://localhost/SAE-3.02-Touiter.app/src/GestionLikesDislikes.php?idTouite=" + idTouite + "&appreciation=" + action;
+    console.log(url);
+    xhr.open('GET', url, true);
+    xhr.send();
+}
+</script>
+
+$boutonSupprimer 
 </div>\n
 END;
         } else {
