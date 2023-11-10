@@ -19,7 +19,7 @@ class ActionPublierTouite extends Action
                                 <fieldset>
                                     <legend> Publier un nouveau Touite </legend>
                                     <!--<input type="text" name="contenu" placeholder="Contenu de votre Touite" required>-->
-                                    <textarea class="text-area" name="contenu" rows="5" cols="112" maxlength="256"> Contenu de votre Touite...</textarea>
+                                    <textarea class="text-area" name="contenu" rows="5" cols="112" maxlength="256" placeholder="Contenu de votre Touite..."></textarea>
                                     <input type="file" id="bouton-ajouter-image" name="image" accept="image/png, image/jpeg, image/jpg" placeholder="Une image pour illustrer votre Touite ?">
                                     <button class="bouton-publier-touite" type="submit">Publier</button>
                                 </fieldset>

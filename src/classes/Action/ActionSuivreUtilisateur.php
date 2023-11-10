@@ -21,8 +21,13 @@ class ActionSuivreUtilisateur extends Action
                     $idUser=$user->__get("id");
                     //on vérifie que l'utilisateur ne veut pas se suivre lui même
                     if($_GET["id-user-suivre"] != $idUser){
-                        SuivreUser::suivreUser((int)($_GET["id-user-suivre"]), $idUser);
-                        $retour = "Vous suivez maintenant une nouvelle personne !";
+                        try{
+                            SuivreUser::suivreUser((int)($_GET["id-user-suivre"]), $idUser);
+                            $retour = "Vous suivez maintenant une nouvelle personne !";
+                        }catch(InvalidActionException $e){
+                            $retour = "Vous suivez déjà cette personne";
+                        }
+
                     }else{
                         $retour = "Vous ne pouvez pas vous suivre vous même ! NARCISSIQUE !";
                     }
