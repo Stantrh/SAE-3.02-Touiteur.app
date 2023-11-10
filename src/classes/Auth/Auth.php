@@ -145,7 +145,7 @@ class Auth{
 
                     // On prépare l'insertion
                     $register = <<<SQL
-INSERT INTO UTILISATEUR (nom, prenom, email, nomUser, mdp) VALUES (?, ?, ?, ?, ?)
+INSERT INTO UTILISATEUR (nom, prenom, email, nomUser, mdp, role) VALUES (?, ?, ?, ?, ?, ?)
 SQL;
                     $insert = ConnectionFactory::$db->prepare($register);
                     $insert->bindParam(1, $nom);
@@ -153,6 +153,8 @@ SQL;
                     $insert->bindParam(3, $email);
                     $insert->bindParam(4, $username);
                     $insert->bindParam(5, $mdpHashe);
+                    $role = "1";
+                    $insert->bindParam(6, $role);
                     $insert->execute();
 
                     // Puis on enregistre l'utilisateur dans la session

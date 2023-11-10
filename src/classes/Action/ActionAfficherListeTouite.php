@@ -13,21 +13,27 @@ use touiteur\Renderer\TouiteRenderer;
 class ActionAfficherListeTouite extends Action
 {
     /** @var string $TAG constante pour l'option d'affichage,
-     * affiche tout les touites contenant un tag dans le tableau $_GET
+     * affiche tous les touites contenant un tag dans le tableau $_GET
      */
     public const TAG = "tag";
 
     /** @var string $UTILISATEUR constante pour l'option d'affichage
-     * affiche tout les touites d'un utilisateur dans le tableau $_GET
+     * affiche tous les touites d'un utilisateur dans le tableau $_GET
      */
 
     public const UTILISATEUR = "utilisateur";
 
     /** @var string $DEFAULT constante pour l'option d'affichage,
-     * affiche tout les touites par ordre chronologique
+     * affiche tous les touites par ordre chronologique
      */
 
     public const DEFAULT = "default";
+
+    /** @var string $TOUSLESTOUITES constante pour l'option d'affichage,
+     * affiche tous les touites par ordre chronologique
+     */
+
+    public const TOUSLESTOUITES = "default";
 
     /** @var string $option option d'affichage de l'objet, change l'affichage des listes */
     private string $option;
@@ -57,6 +63,9 @@ class ActionAfficherListeTouite extends Action
                 break;
             case self::UTILISATEUR:
                 $retour .= $this->utilisateur();
+                break;
+            case self::TOUSLESTOUITES:
+                $retour .= $this->afficherTousLesTouites();
                 break;
             default:
                 $retour .= $this->default();
@@ -200,16 +209,20 @@ SQL;
 
 
         } else {
-            //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
-            $query = "SELECT idTouite FROM `TOUITE` order by date desc";
-
-            $retour = $this->paginer($query, [], "");
-
+            $retour = $this->afficherTousLesTouites();
         }
-
 
         return ($retour);
 
+    }
+
+    private function afficherTousLesTouites(): string{
+        //requete sql qui vas selectionner les idTouite par ordre decroissant sur la date
+        $query = "SELECT idTouite FROM `TOUITE` order by date desc";
+
+        $retour = $this->paginer($query, [], "");
+
+        return $retour;
     }
 
     /**

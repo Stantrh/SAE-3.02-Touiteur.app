@@ -34,7 +34,7 @@ if(isset($_SESSION)){
     }
 }else{
 //    throw new \touiteur\Exception\AuthException("Vous devez être connecté");
-    echo "vous devez etre connecté";
+    echo "vous devez être connecté";
 }
 
 
