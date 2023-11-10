@@ -2,6 +2,8 @@
 
 namespace touiteur\Database;
 
+use PDO;
+
 /**
  * Permet de gérer au niveau base de donnée l'insertion des likes/dislikes et update du score
  */
@@ -36,7 +38,7 @@ SQL;
             $res->execute();
         } else {
             // On stocke la valeur de l'appreciation
-            $appreciation = (int) $count->fetch(\PDO::FETCH_ASSOC)['appreciation'];
+            $appreciation = (int) $count->fetch(PDO::FETCH_ASSOC)['appreciation'];
 
 
             // Ici on vérifie s'il a déjà like/dislike, alors on supprime le like/dislike
@@ -103,7 +105,7 @@ SQL;
             $res->execute();
         } else {
             // On stocke la valeur de l'appreciation
-            $appreciation = (int) $count->fetch(\PDO::FETCH_ASSOC)['appreciation'];
+            $appreciation = (int) $count->fetch(PDO::FETCH_ASSOC)['appreciation'];
 
 
             // Ici on vérifie s'il a déjà like/dislike, alors on supprime le like/dislike

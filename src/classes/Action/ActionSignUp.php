@@ -94,29 +94,45 @@ FORM;
                 $erreur = $e->getMessage();
                 $contenu_html .= <<<FORMULAIRE
 <form class="inscription" action="?action=signup" method="post">
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required>
-
-        <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" required>
-
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required>
         
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <label for="confirmPassword">Confirmez le mot de passe :</label>
-        <input type="password" id="confirmPassword" required>
+        <div class="ligne-formulaire" id="nomPrenom">
+            <div class="sous-ligne-formulaire" id="nom">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="sous-ligne-formulaire" id="prenom">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+        </div>
+        
+        <div class="ligne-formulaire" id="usernameEmail">
+            <div class="sous-ligne-formulaire">
+                <label for="username">Nom d'utilisateur :</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="sous-ligne-formulaire">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </div>
+        
+        <div class="ligne-formulaire" id="passwordConfirmPasswd">
+            <div class="sous-ligne-formulaire">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="sous-ligne-formulaire">       
+                <label for="confirmPassword">Confirmez le mot de passe :</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+        </div>
         <p id="passwordMatchMessage"></p>
         <br>
         
         $erreur
         
-        <input type="submit" name="submit" value="S'inscrire">
+        <input type="submit" class="post" name="submit" value="S'inscrire">
     </form>
 
     <script>

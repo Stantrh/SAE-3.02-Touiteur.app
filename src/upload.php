@@ -18,7 +18,7 @@ $file->addValidations([
 // Essayez d'uploader le fichier
 try {
     $file->upload();
-    echo 'Le fichier a été téléchargé avec succès!';
+
 } catch (Exception $e) {
-    echo $e;
+
 }

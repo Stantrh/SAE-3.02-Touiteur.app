@@ -48,13 +48,17 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$row["idImage"]]);
 
+
+            if(!unlink($cheminImage)){
+                echo("le fichier n'a pas été supprimé du serveur");
+
             if($cheminImage != null){
                 if(!unlink($cheminImage)){
                     echo("le fichier n'a pa été supprimé du serveur");
                 }
+
             }
-
-
+            }
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
