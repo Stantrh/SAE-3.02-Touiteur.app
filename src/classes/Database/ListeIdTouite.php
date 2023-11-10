@@ -27,10 +27,12 @@ class ListeIdTouite
         if ($row) { //test si la requete n'est pas revenue vide
             //on met le premier element dans la liste
 
-            do {
-                $listeId[] = ($row[0]); // on parcour le resultat de la requette pour stocker les ids des touites
-            } while ($row = $st->fetch(PDO::FETCH_ASSOC));
-
+            $listeId[] = $row[0];
+            while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
+                foreach ($row as $v) {
+                    $listeId[] = ($v); // on parcour le resultat de la requette pour stocker les ids des touites
+                }
+            }
         }
         return $listeId;
     }
