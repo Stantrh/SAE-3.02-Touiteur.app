@@ -551,6 +551,7 @@ END;
         if(isset($_SESSION['user'])){
             $res .= <<<END
                                 <p><a href="?action=publier-touite">Touiter</a></p>
+                                <p><a href="?action=suivre-tag">Suivre un tag</a></p>
                                 <p><a href="?action=statistique-compte">Statistiques</a></p>
                                 <p><a href="?action=signout">Se deconnecter</a></p>
 END;
