@@ -7,9 +7,14 @@ TROHA Stanislas -- Stantrh
 
 
 
+
 le config.ini doit être configuré comme suit:  
 
-hostWeb doit être l'url du serveur web où vous déployez le projet
+hostWeb doit être l'url du serveur web où vous déployez le projet  
+
+Attention les images uploadé avec les touites sont uploadés sur dans le dossier images de hostWeb dans le fichier de config  
+Donc toutes les images uploadé avec l'applie local ne seront pas disponible sur les applie des autres utilisateurs  
+Par contre les images uploadé avec l'application sur le webetu sont stocké sur le webetu et peuvent être consulté de partout.
 
 
 ```

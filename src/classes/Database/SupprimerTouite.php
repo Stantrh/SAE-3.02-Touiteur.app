@@ -19,9 +19,9 @@ class SupprimerTouite
             $st = $db->prepare($query);
             $st->execute([$id]);
             $row = $st->fetch();
-
+            if($row){
             Auth::checkAccountOwner($row["idUser"]);
-
+            }
             $query = "select IMAGE.cheminFichier from IMAGE,TOUITE where IMAGE.idImage=TOUITE.idImage and TOUITE.idTouite=?";
             $st = $db->prepare($query);
             $st->execute([$id]);
@@ -46,19 +46,24 @@ class SupprimerTouite
 
             $query = "DELETE FROM IMAGE where idImage=?";
             $st = $db->prepare($query);
+            if($row){
             $st->execute([$row["idImage"]]);
+            }
 
-
-            if(!unlink($cheminImage)){
-                echo("le fichier n'a pas été supprimé du serveur");
 
             if($cheminImage != null){
-                if(!unlink($cheminImage)){
-                    echo("le fichier n'a pa été supprimé du serveur");
+                try {
+                    if(!unlink($cheminImage)){
+                        echo("le fichier n'a pa été supprimé du serveur");
+                    }
+                }catch (\Exception $e ){
+                    echo("le fichier n'a pa été supprimé du serveur: "+$e->getMessage());
+
                 }
 
+
             }
-            }
+
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

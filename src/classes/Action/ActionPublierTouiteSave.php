@@ -48,15 +48,12 @@ class ActionPublierTouite extends Action
 
                         //uniqid() pour eviter les conflit de fichier avec le meme nom
                         $idUnique=uniqid();
-                        
-                        $dir=parse_ini_file(__DIR__."/../../../config/config.ini");
-                        $dir=$dir["hostWeb"];
-                        $image =$dir.'/images/' .$idUnique. $_FILES['image']['name'];
+                        $image = '../images/' .$idUnique. $_FILES['image']['name'];
 
                         $_FILES['image']['name']=$image;
 
                         //upload l'image avec le chemin $_FILES["image"]["name"]
-                        require __DIR__.'/../../upload.php';
+                        require __DIR__ . '/../../upload.php';
 
                         //Requete pour inserer le chemin de fichier de l'image
                         $requeteInsertionImage = <<<END
