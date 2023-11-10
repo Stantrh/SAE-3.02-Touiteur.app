@@ -8,6 +8,7 @@ class ListeIdTouite
 {
 
     /**
+     * prend une requette sql et renvoie une liste d'id, a utiliser de pair avec ListeRenderer
      * @param string $query requette sql à executer, DOIT OBLIGATOIREMENT RENDRE UNE LISTE D'idTouite
      * @param array $prepare options pour la préparation de requette DOIT ETRE UN TABLEAU
      * @return array array d'id de touite correspondant a la requette
@@ -25,12 +26,10 @@ class ListeIdTouite
 
         if ($row) { //test si la requete n'est pas revenue vide
             //on met le premier element dans la liste
-            $listeId[] = $row[0];
-            while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
-                foreach ($row as $v) {
-                    $listeId[] = ($v); // on parcour le resultat de la requette pour stocker les ids des touites
-                }
-            }
+
+            do {
+                $listeId[] = ($row[0]); // on parcour le resultat de la requette pour stocker les ids des touites
+            } while ($row = $st->fetch(PDO::FETCH_ASSOC));
 
         }
         return $listeId;
