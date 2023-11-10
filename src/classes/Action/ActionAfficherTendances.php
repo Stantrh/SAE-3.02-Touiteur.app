@@ -3,12 +3,14 @@
 namespace touiteur\Action;
 
 use touiteur\Database\ConnectionFactory;
+use touiteur\Database\User;
 
 class ActionAfficherTendances extends Action
 {
 
     public function execute(): string
     {
+        if(User::isAdmin()){
         $dt = time();
         $retour = "<h4>Voici les tags les plus utilisés (condition : au moins 1 utilisation) au : " . date( "d/m/Y", $dt ) . ' à ' . date("H:i:s", $dt) . "</h4><br>";
         // On selectionnera la liste des utilisateurs qui sont suivis par le plus de personnes par ordre décroissant. (avoir les + influents en premier)
@@ -40,6 +42,10 @@ HTML;
             $i++;
         }
         return $retour;
+        }else{
+            header('HTTP/1.1 403 Forbidden');
+            exit('Accès interdit - ADMINISTRATEURS UNIQUEMENT');
+        }
 
     }
 }

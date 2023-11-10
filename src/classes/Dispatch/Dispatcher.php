@@ -17,6 +17,7 @@ use touiteur\Action\ActionSignIn;
 use touiteur\Action\ActionSuivreTag;
 use touiteur\Action\ActionSuivreUtilisateur;
 use touiteur\Action\ActionSupprimerTouite;
+use touiteur\Database\User;
 
 class Dispatcher
 {
@@ -142,7 +143,7 @@ END;
 END;
             $user = unserialize($_SESSION['user']);
             $role = (int) $user->__get('role');
-            if($role === 100){ // si l'utilisateur est admin, il possède des fonctionnaités en plus
+            if(User::isAdmin()){ // si l'utilisateur est admin, il possède des fonctionnaités en plus
                 $res .= <<<HTML
 <p><a href="?action=afficher-influents">Influenceurs</a></p>
 <p><a href="?action=afficher-tendances">Tendances</a></p>

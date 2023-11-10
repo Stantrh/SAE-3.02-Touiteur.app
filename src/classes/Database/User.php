@@ -42,6 +42,21 @@ class User
         return $user->__get('id');
     }
 
+    /**
+     * Fonction qui retourne un booléen selon si l'utilisateur qui est en session est admin
+     * @return bool
+     */
+    public static function isAdmin(): bool
+    {
+        if (!isset($_SESSION['user']))
+            return false;
+        if (unserialize($_SESSION['user'])->__get('role') == 100) {
+            return true;
+
+        }
+        return false;
+    }
+
 
     /**
      * @throws InvalidPropertyNameException
