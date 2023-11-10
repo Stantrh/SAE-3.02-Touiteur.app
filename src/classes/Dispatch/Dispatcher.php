@@ -499,8 +499,18 @@ class Dispatcher
                             }
                             
                             fieldset {
-                                border: 3px solid #459496
+                                border: 3px solid #459496;
+                                border-radius: 5px;
                             }
+                            
+                            .text-area {
+                                border: 3px solid #459496;
+                                border-radius: 5px;
+                                max-width: 758px;
+                                max-height: 100px;
+                            }
+                            
+                            
                             
                             /* FIN FORMULAIRE*/
                             
@@ -517,6 +527,8 @@ class Dispatcher
                                 max-width: 30px;
                                 max-height: 30px;
                             }
+                            
+                            
                             
                         </style>
                         <meta charset="utf-8">
