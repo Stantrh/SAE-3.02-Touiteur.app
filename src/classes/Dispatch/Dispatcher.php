@@ -2,10 +2,12 @@
 
 namespace touiteur\Dispatch;
 
+use touiteur\Action\ActionAfficherInfluents;
 use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionAfficherListeTouitePaginer;
 use touiteur\Action\ActionAfficherListeTouiteUser;
 use touiteur\Action\ActionAfficherStatistiqueCompte;
+use touiteur\Action\ActionAfficherTendances;
 use touiteur\Action\ActionAfficherTouiteDetail;
 use touiteur\Action\ActionDefault;
 use touiteur\Action\ActionPublierTouite;
@@ -83,12 +85,19 @@ class Dispatcher
                 $action=new ActionAfficherStatistiqueCompte();
                 $this->renderPage($action->execute());
                 break;
+            case 'afficher-influents':
+                $action = new ActionAfficherInfluents();
+                self::renderPage($action->execute());
+                break;
+            case 'afficher-tendances':
+                $action = new ActionAfficherTendances();
+                self::renderPage($action->execute());
+                break;
             default:
                 $action=new ActionDefault();
                 self::renderPage($action->execute());
                 break;
         }
-
     }
 
 
@@ -97,7 +106,6 @@ class Dispatcher
      */
     private function renderPage(string $html):void{
 
-//        $css = __DIR__.'/../../css/index.css'; problème d'accès
         $res = <<<END
                 <!DOCTYPE html>
                 <html lang="fr">
@@ -526,30 +534,42 @@ class Dispatcher
                         <header>
                             <h1><a href="?action=default" id="titre">Touiteur</a></h1>
                             <div class="menu-box">
-                                <p><a href="?">Accueil</a></p>
                                 <p><a href="?action=afficher-liste-touite-en-entier">Découvrir</a></p>
 END;
     // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
         if(isset($_SESSION['user'])){
             $res .= <<<END
-                                <p><a href="?action=publier-touite">Touiter</a></p>
+                            
+                                <p><a href="?">Votre fil d'actualité</a></p>
                                 <p><a href="?action=statistique-compte">Statistiques</a></p>
-                                <p><a href="?action=signout">Se deconnecter</a></p>
+                                <div class="dropdown">
+                                    <button class="dropbtn">Menu</button>
+                                    <div class="dropdown-content">
+                                        <p><a href="?action=signout">Se déconnecter</a></p>
+
 END;
+            $user = unserialize($_SESSION['user']);
+            $role = (int) $user->__get('role');
+            if($role === 100){ // si l'utilisateur est admin, il possède des fonctionnaités en plus
+                $res .= <<<HTML
+<p><a href="?action=afficher-influents">Influenceurs</a></p>
+<p><a href="?action=afficher-tendances">Tendances</a></p>
+HTML;
+
+            }
         }else{
             $res .= <<<END
-                                <p><a href="?action=signin">Se connecter</a></p>
-                                <p><a href="?action=signup">Inscription</a></p>
-END;
-        }
-
-        $res .= <<<END
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
                                         <p><a href="?action=signup">Inscription</a></p>
-                                        <p><a href="?action=publier-touite">Touiter</a></p>
                                         <p><a href="?action=signin">Se connecter</a></p>
+
+END;
+        }
+
+
+        $res .= <<<END
                                     </div>
                                 </div>
                             </div>

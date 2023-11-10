@@ -47,7 +47,7 @@ class SupprimerTouite
 
 
             if(!unlink($cheminImage)){
-                echo("le fichier n'a pa été supprimé du serveur");
+                echo("le fichier n'a pas été supprimé du serveur");
             }
 
 
