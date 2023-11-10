@@ -25,4 +25,8 @@ host=webetu.iutnc.univ-lorraine.fr
 database=troha2u
 hostWeb=http://localhost:63342/SAE-3.02-Touiteur.app
 ```
-il doit être placé dans le src
+il doit être placé dans le src  
+
+https://webetu.iutnc.univ-lorraine.fr/www/pinot33u/SaeTouiteurPinotPierrotTroha  
+
+le site sur le webetu ne differe que par quelque détail de compatibilité, la structure reste absolument la meme, seul des chemins de fichiers sont changé pour la compatibilité
