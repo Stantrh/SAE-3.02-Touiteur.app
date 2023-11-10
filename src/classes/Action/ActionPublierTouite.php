@@ -19,8 +19,8 @@ class ActionPublierTouite extends Action
                                 <fieldset>
                                     <legend> Publier un nouveau Touite </legend>
                                     <input type="text" name="contenu" placeholder="Contenu de votre Touite" required>
-                                    <input type="file" name="image" accept="image/png, image/jpeg, image/jpg" placeholder="Une image pour illustrer votre Touite ?">
-                                    <button class="bouton-publier-touite" type="submit" name="ajouter_playlist">Publier</button>
+                                    <input type="file" id="bouton-ajouter-image" name="image" accept="image/png, image/jpeg, image/jpg" placeholder="Une image pour illustrer votre Touite ?">
+                                    <button class="bouton-publier-touite" type="submit">Publier</button>
                                 </fieldset>
                             FINI;
 
