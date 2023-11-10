@@ -49,7 +49,9 @@ class TouiteRenderer
         $retour = "";
 
 
+        $urlHost=parse_ini_file(__DIR__."/../../../config/config.ini","hostWeb");
         //sql
+        $urlHost=$urlHost["hostWeb"];
         $db = ConnectionFactory::$db;
         $query = "SELECT * FROM `TOUITE` WHERE idTouite=?";
         $st = $db->prepare($query);
@@ -152,7 +154,9 @@ function toggleLikeDislike(idTouite, boutonDejaLike) {
         action = 'remove' + action.charAt(0).toUpperCase() + action.slice(1);
     }
 
-    var url = "http://localhost/SAE-3.02-Touiter.app/src/GestionLikesDislikes.php?idTouite=" + idTouite + "&appreciation=" + action;
+
+    var url = "$urlHost/src/GestionLikesDislikes.php?idTouite=" + idTouite + "&appreciation=" + action;
+
     console.log(url);
     xhr.open('GET', url, true);
     xhr.send();

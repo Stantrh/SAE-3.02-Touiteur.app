@@ -2,4 +2,3 @@ driver=mysql
 username=pinot33u // changez ça
 password=1234 // changez aussi ça
 host=webetu.iutnc.univ-lorraine.fr
-database=troha2u
