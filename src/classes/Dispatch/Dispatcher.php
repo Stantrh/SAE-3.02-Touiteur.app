@@ -131,13 +131,13 @@ END;
         if(isset($_SESSION['user'])){
             $res .= <<<END
                                 <p><a href="?">Votre fil d'actualité</a></p>
-                                <p><a href="?action=publier-touite">Touiter</a></p>
                                 <p><a href="?action=suivre-tag">Suivre un tag</a></p>
                                 <p><a href="?action=statistique-compte">Statistiques</a></p>
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
                                         <p><a href="?action=signout">Se déconnecter</a></p>
+
 
 END;
             $user = unserialize($_SESSION['user']);
@@ -146,7 +146,19 @@ END;
                 $res .= <<<HTML
 <p><a href="?action=afficher-influents">Influenceurs</a></p>
 <p><a href="?action=afficher-tendances">Tendances</a></p>
+                                    </div>
+                                </div>
+                            </div>
 HTML;
+                $res .= <<<HTML
+                        <a href="?action=publier-touite">
+                            <button class="touiter">
+                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
+                                Touiter
+                            </button>
+                        </a>
+HTML;
+
 
             }
         }else{
@@ -156,15 +168,15 @@ HTML;
                                     <div class="dropdown-content">
                                         <p><a href="?action=signup">Inscription</a></p>
                                         <p><a href="?action=signin">Se connecter</a></p>
-
+                                    </div>
+                                </div>
+                            </div>
 END;
         }
 
 
         $res .= <<<END
-                                    </div>
-                                </div>
-                            </div>
+
                             
                         </header>
                         <div class="main">
@@ -172,12 +184,6 @@ END;
                                 $html
                             </div>
                         </div>
-                        <a href="?action=publier-touite">
-                            <button class="touiter">
-                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
-                                Touiter
-                            </button>
-                        </a>
                         
                         <!--
                         <div class="touiter">

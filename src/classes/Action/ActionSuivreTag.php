@@ -45,7 +45,7 @@ END;
                     Auth::checkAccountOwner($idUser);
 
                     SuivreTag::suivreTag($tag, $idUser);
-                    $retour .= "Le tag ".$tag." est suivie";
+                    $retour .= "Le tag ".$tag." est suivi";
                 } catch (\Exception $e) {
                     $retour .= $e->getMessage();
                 }
