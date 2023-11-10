@@ -20,4 +20,5 @@ try {
     $file->upload();
     echo 'Le fichier a été téléchargé avec succès!';
 } catch (Exception $e) {
+    echo $e;
 }

@@ -12,7 +12,7 @@ class ActionAfficherStatistiqueCompte extends Action
 
     public function execute(): string
     {
-        $idUser= User::getIdSession();//todo remplacer;
+        $idUser= User::getIdSession(); //todo remplacer;
         $scoreMoyenTouite=self::scoreMoyenUser($idUser);
         $listeIdAfficher=self::listeFollower($idUser);
         $retour = <<<END
@@ -20,7 +20,7 @@ class ActionAfficherStatistiqueCompte extends Action
     <p class="texte-score-moyen-touite">Le score moyen de vos touite est: </p> 
     <p class="score-moyen-touite">$scoreMoyenTouite</p>
 </div>
-<div class="liste-followers">
+<div class="liste-followers"><p class="titre-liste-followers">Liste des followers:</p>
 END;
 
         foreach ($listeIdAfficher as $item) {

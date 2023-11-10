@@ -325,7 +325,30 @@ class Dispatcher
                             }
                             
                             .liste-followers{
-                                background-color: red;
+                                display:flex;
+                                flex-direction:column;
+                                justify-content:space-between;
+                                align-items:center;
+                            }
+                             .liste-followers .lien-auteur{
+                            color:white;
+                            background-color: #459496;
+                            border: 1px solid black;
+                            border-radius: 7px;
+                            padding:0.2em;
+                            margin:0.1em;
+                            }
+                            .score-moyen-touite-container{
+                            display:flex;
+                            flex-direction:column;
+                            align-items:center;
+                            }
+                            .score-moyen-touite{
+                            width:min-content;
+                            border: 2px solid ;
+                            border-radius:7px;
+                            padding:0.1em;
+                            font-size:1.1em;
                             }
                             
                             /* MENU HEADER */
@@ -498,7 +521,6 @@ class Dispatcher
                         </style>
                         <meta charset="utf-8">
                         <meta name="viewport" content="width=device-width, initial-scale =1.0">
-                        <link rel="stylesheet" href="index.css" type="text/css">
                     </head>
                     <body>
                         <header>
@@ -511,6 +533,7 @@ END;
         if(isset($_SESSION['user'])){
             $res .= <<<END
                                 <p><a href="?action=publier-touite">Touiter</a></p>
+                                <p><a href="?action=statistique-compte">Statistiques</a></p>
                                 <p><a href="?action=signout">Se deconnecter</a></p>
 END;
         }else{

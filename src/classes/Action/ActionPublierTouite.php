@@ -43,10 +43,17 @@ class ActionPublierTouite extends Action
 
                     // L'extension du fichier est validée
                     if (in_array($ext[1], $extAdmissible)) {
+
+
+                        //uniqid() pour eviter les conflit de fichier avec le meme nom
+                        $idUnique=uniqid();
+                        $image = '../images/' .$idUnique. $_FILES['image']['name'];
+
+                        $_FILES['image']['name']=$image;
+
+                        //upload l'image avec le chemin $_FILES["image"]["name"]
                         require __DIR__ . '/../../upload.php';
 
-
-                        $image = '../images/' . $_FILES['image']['name'];
                         //Requete pour inserer le chemin de fichier de l'image
                         $requeteInsertionImage = <<<END
                         INSERT INTO `IMAGE` (cheminFichier,description) 
