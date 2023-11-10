@@ -120,18 +120,19 @@ class ActionPublierTouite extends Action
                         try {
                             // puis on exécute la requête
                             $st->execute();
-                        }catch (Exception $exception){
+                        } catch (Exception $exception) {
 
                         }
                         // on récupère l'id du dernier touite
                         //requete
                         $requeteRecupererIdTouite = <<<FIN
                                                     SELECT MAX(idTouite) FROM TOUITE
+                                                    WHERE idUser = ?
                                                 FIN;
 
                         //connexion à la base de données
                         $st = ConnectionFactory::$db->prepare($requeteRecupererIdTouite);
-                        $st->execute();
+                        $st->execute([$idUser]);
 
                         // on récupère le résultat de la requete SQL
                         $row = $st->fetch();
