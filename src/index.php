@@ -1,7 +1,7 @@
 <?php
 session_start(); // On aura besoin d'une session
 
-require_once "../vendor/autoload.php";
+require_once __DIR__."/../vendor/autoload.php";
 use \touiteur\Dispatch\Dispatcher;
 use \touiteur\Database\ConnectionFactory;
 

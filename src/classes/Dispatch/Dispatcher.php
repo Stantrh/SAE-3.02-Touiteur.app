@@ -1,7 +1,5 @@
 <?php
-
 namespace touiteur\Dispatch;
-
 use touiteur\Action\ActionAfficherInfluents;
 use touiteur\Action\ActionAfficherListeTouite;
 use touiteur\Action\ActionAfficherListeTouitePaginer;
@@ -17,21 +15,14 @@ use touiteur\Action\ActionSignIn;
 use touiteur\Action\ActionSuivreTag;
 use touiteur\Action\ActionSuivreUtilisateur;
 use touiteur\Action\ActionSupprimerTouite;
-use touiteur\Database\User;
-
 class Dispatcher
 {
-
     private string $action;
-
     public function __construct(){
         if(!isset($_GET['action']))
             $_GET['action'] = 'default';
         $this->action = $_GET['action'];
-
     }
-
-
     public function run():void{
         switch($this->action){
             case 'signup':
@@ -100,14 +91,10 @@ class Dispatcher
                 break;
         }
     }
-
-
     /*
      * renderPage render html page
      */
     private function renderPage(string $html):void{
-
-
         $res = <<<END
                 <!DOCTYPE html>
                 <html lang="fr">
@@ -128,56 +115,53 @@ class Dispatcher
                             <div class="menu-box">
                                 <p><a href="?action=afficher-liste-touite-en-entier">Découvrir</a></p>
 END;
-    // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
+        // On vérifie si l'utilisateur est connecté pour savoir quoi afficher
         if(isset($_SESSION['user'])){
             $res .= <<<END
                                 <p><a href="?">Votre fil d'actualité</a></p>
+                                <p><a href="?action=publier-touite">Touiter</a></p>
                                 <p><a href="?action=suivre-tag">Suivre un tag</a></p>
                                 <p><a href="?action=statistique-compte">Statistiques</a></p>
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
                                         <p><a href="?action=signout">Se déconnecter</a></p>
-
-
 END;
             $user = unserialize($_SESSION['user']);
             $role = (int) $user->__get('role');
-            if(User::isAdmin()){ // si l'utilisateur est admin, il possède des fonctionnaités en plus
+            if($role === 100){ // si l'utilisateur est admin, il possède des fonctionnaités en plus
                 $res .= <<<HTML
 <p><a href="?action=afficher-influents">Influenceurs</a></p>
 <p><a href="?action=afficher-tendances">Tendances</a></p>
-                                    </div>
-                                </div>
-                            </div>
 HTML;
-                $res .= <<<HTML
-                        <a href="?action=publier-touite">
-                            <button class="touiter">
-                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
-                                Touiter
-                            </button>
-                        </a>
-HTML;
-
 
             }
         }else{
             $res .= <<<END
+
+    
+        
+          
+    
+
+        
+        Expand All
+    
+    @@ -156,28 +168,22 @@ private function renderPage(string $html):void{
+  
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
                                         <p><a href="?action=signup">Inscription</a></p>
                                         <p><a href="?action=signin">Se connecter</a></p>
-                                    </div>
-                                </div>
-                            </div>
 END;
         }
 
 
         $res .= <<<END
-
+                                    </div>
+                                </div>
+                            </div>
                             
                         </header>
                         <div class="main">
@@ -185,9 +169,26 @@ END;
                                 $html
                             </div>
                         </div>
+                        <a href="?action=publier-touite">
+                            <button class="touiter">
+                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
+                                Touiter
+                            </button>
+                        </a>
                         
                         <!--
                         <div class="touiter">
+
+    
+          
+            
+    
+
+          
+          Expand Down
+    
+    
+  
                             <a href="?action=publier-touite">
                                 <p>Touiter</p>
                             </a>
@@ -197,7 +198,6 @@ END;
                         
                 </html>
 END;
-
         echo $res;
     }
 }
