@@ -115,6 +115,8 @@ class ActionPublierTouite extends Action
                         $st->bindParam(1, $tagAAjouter);
                         $st->bindParam(2, $descriptionTag);
 
+
+                        //la requete renvoie une erreur si le touite existe déjà
                         try {
                             // puis on exécute la requête
                             $st->execute();
