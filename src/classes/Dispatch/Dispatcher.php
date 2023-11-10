@@ -95,6 +95,7 @@ class Dispatcher
      * renderPage render html page
      */
     private function renderPage(string $html):void{
+        $boutonTouiter="";
         $res = <<<END
                 <!DOCTYPE html>
                 <html lang="fr">
@@ -134,34 +135,35 @@ END;
 <p><a href="?action=afficher-influents">Influenceurs</a></p>
 <p><a href="?action=afficher-tendances">Tendances</a></p>
 HTML;
+                $boutonTouiter=<<<END
+<a href="?action=publier-touite">
+                            <button class="touiter">
+                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
+                                Touiter
+                            </button>
+                        </a>
+END;
+
+
 
             }
         }else{
             $res .= <<<END
 
-    
-        
-          
-    
 
-        
-        Expand All
-    
-    @@ -156,28 +168,22 @@ private function renderPage(string $html):void{
-  
                                 <div class="dropdown">
                                     <button class="dropbtn">Menu</button>
                                     <div class="dropdown-content">
                                         <p><a href="?action=signup">Inscription</a></p>
                                         <p><a href="?action=signin">Se connecter</a></p>
+</div>
+                                </div>
+                            </div>
 END;
         }
 
-
         $res .= <<<END
-                                    </div>
-                                </div>
-                            </div>
+                                    
                             
                         </header>
                         <div class="main">
@@ -169,26 +171,12 @@ END;
                                 $html
                             </div>
                         </div>
-                        <a href="?action=publier-touite">
-                            <button class="touiter">
-                                <img src="classes/Dispatch/touiter-stylo2.png" alt="icone de stylo">
-                                Touiter
-                            </button>
-                        </a>
-                        
+                        $boutonTouiter
                         <!--
                         <div class="touiter">
 
     
-          
-            
-    
-
-          
-          Expand Down
-    
-    
-  
+ 
                             <a href="?action=publier-touite">
                                 <p>Touiter</p>
                             </a>
@@ -198,6 +186,7 @@ END;
                         
                 </html>
 END;
+
         echo $res;
     }
 }
